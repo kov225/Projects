@@ -43,10 +43,7 @@ capstone-project-ansc25/
    ```
 2. Install Python dependencies:
 (flask, beautifulsoup4, rapidfuzz, numpy, pandas, scipy, bokeh, graphviz)
-   ```bash
-   pip install -r requirements.txt
-   ```
-
+   
 ---
 
 ### Option A: Run from Existing Data (Quick Start)
