@@ -1,0 +1,7 @@
+rapidfuzz==3.9.4
+networkx==3.4.2
+matplotlib==3.9.2
+scipy==1.14.1
+requests==2.32.3
+beautifulsoup4==4.12.3
+pytest==8.3.3
