@@ -28,7 +28,7 @@ capstone-project-ansc25/
 ├── versatile_digraph.py            # Helper class for graph visualization
 └── requirements.txt                # Python dependencies
 ```
-> ### **Note**: The final results (along with the accuracy metrics) are present in **`FINAL_ACCURACY.json`**
+>
 
 ## 🚀 Setup & Running Instructions
 
@@ -39,7 +39,7 @@ capstone-project-ansc25/
 ### Installation
 1. Navigate to the project root directory:
    ```bash
-   cd capstone-project-ansc25
+   cd capstone 2nd aproach
    ```
 2. Install Python dependencies:
 (flask, beautifulsoup4, rapidfuzz, numpy, pandas, scipy, bokeh, graphviz)
