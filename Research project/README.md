@@ -117,7 +117,7 @@ The final notebooks consolidate these components into a **coherent evaluation fr
 
 ## 📖 Research Context
 
-This project was conducted as an **independent research initiative**,  
+This project was conducted as a ** research initiative** under Professor Bilal Khan.  
 designed to deepen understanding of **market microstructure, price action, and systematic strategy development**.
 
 The repository intentionally preserves intermediate experiments to reflect the **true research process**, not just polished results.
