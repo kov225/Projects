@@ -1,102 +1,159 @@
-# Koushik Vennalakanti — Data Science & AI Portfolio
+# Koushik Vennalakanti  
+### Data Science • AI • Statistics • Research
 
-Hi, I’m Koushik, a Data Science graduate student at Lehigh University (CGPA 4.0).  
-This repository serves as my **central academic and project portfolio**, containing a mix of **research work, applied projects, coursework, and certifications**.
+I am a **Data Science graduate student at Lehigh University (GPA: 3.94)** with a strong focus on **applied statistics, interpretable machine learning, optimization, and research-driven analysis**.
 
-The repository is intentionally structured to distinguish between:
-- Portfolio-grade projects
-- Academic coursework
-- Research and capstone work
-- Skill-building exercises
+This repository is my **academic and technical portfolio**.  
+It is intentionally structured to distinguish between:
+- research projects  
+- major coursework projects  
+- assignments  
+- skill-building practice  
+- ongoing learning  
 
-Each major folder contains its own README explaining context and outcomes.
-
----
-
-## 🔧 Core Technical Areas
-- Machine Learning & Deep Learning  
-- Statistics & Data Analysis  
-- Optimization & Heuristic Algorithms  
-- Natural Language Processing  
-- Computer Vision  
-- R & Python for Data Science  
+Each folder includes a README explaining **scope, intent, and outcomes**.
 
 ---
 
-## ⭐ Portfolio & Major Projects
+## 🔎 How to Read This Repository
 
-### 🔹 Global Trade Inequality — Statistics Coursework Project
-**Focus:** Statistical analysis of global trade patterns and inequality  
-**Highlights:**  
-- Exploratory data analysis on international trade data  
-- Statistical comparisons across regions and sectors  
-- Interpretation of global economic disparities  
+Not everything here is a “project” — and that is by design.
 
-📁 Folder: `global-trade-statistics-project`
+This repo reflects **how real technical work progresses**:
+- exploration → refinement → documentation
+- projects alongside assignments
+- clean separation of scope and intent
 
----
-
-### 🔹 Capstone / Research Project
-**Focus:** Applied data science research  
-**Highlights:**  
-- End-to-end problem formulation  
-- Data processing, modeling, and evaluation  
-- Research-driven experimentation  
-
-📁 Folder: `capstone-project`
-There is a second approach as well, but as it uses some methods which were not supposed to be disclosed(from research), the information on it was omitted.
----
-
-### 🔹 Research Project (Ongoing)
-**Focus:** Academic research and exploratory analysis  
-**Highlights:**  
-- Analytical experimentation  
-- Prototype development  
-- Emphasis on reproducibility and clarity  
-
-📁 Folder: `research-project`
+If you are reviewing this repo, start with:
+- **Research Project**
+- **Statistics → Global Trade Inequality**
+- **Capstone**
 
 ---
 
+## 📁 Repository Overview
 
+### 🧠 Research Project
+**Folder:** `research-project`
 
----
+An independent research project on **Apple (AAPL) market data**, covering:
+- raw data ingestion → cleaning → feature engineering  
+- structural analysis (support/resistance)  
+- rule-based scoring frameworks  
+- iterative experimentation preserved via notebooks  
 
-### 🔹 Heat Exchanger Design using Genetic Algorithms
-- Engineering optimization via GA  
-- Simulation-based validation  
-
-📁 Folder: `heat-exchanger-genetic-algorithm`
-
----
-
-## 📊 Coursework & Assignments
-
-### 🔹 R Coursework
-**Focus:** Statistical computing and data analysis in R  
-- Data manipulation  
-- Visualization  
-- Applied statistical methods  
-
-📁 Folder: `r-coursework`
+Emphasis is on **reasoning, interpretability, and structure**, not black-box prediction.
 
 ---
 
-### 🔹 Weekly Coding Assignments
-**Focus:** Skill reinforcement and problem solving  
-- Python programming  
-- Data structures and algorithms  
-- Statistical exercises  
+### 📊 Statistics Coursework
+**Folder:** `stats`
 
-📁 Folder: `weekly-coding-assignments`
+- **Global Trade Inequality (Major Project)**  
+  A multi-milestone statistics project using a **very large global trade dataset**  
+  (countries × products × time).  
+  Focus on inequality, distributional analysis, and large-scale aggregation.
 
----
-
-## 📜 Certificates
-This section contains verified certificates from completed courses and training programs relevant to data science and analytics.
-
-📁 Folder: `certificates`
+- **Software Pricing (Assignment)**  
+  A smaller, standalone statistics assignment demonstrating foundational analysis.
 
 ---
 
+### 🤖 AI Coursework
+**Folder:** `AI Coursework`
 
+Coursework from **CSF 407 – Artificial Intelligence**, applying **Genetic Algorithms** to:
+- optimize shell-and-tube heat exchanger design  
+- minimize total discounted lifecycle cost  
+
+Includes Python implementation, presentation, and literature grounding.
+
+---
+
+### 📐 R Coursework
+**Folder:** `R Coursework`
+
+Weekly R assignments focused on:
+- statistical computing  
+- data wrangling  
+- visualization  
+- exploratory analysis  
+
+🏆 **Top-performing student in the class**.  
+(Some datasets are missing due to data loss; all analytical logic is preserved.)
+
+---
+
+### 💻 Coding Weekly
+**Folder:** `Coding Weekly`
+
+Weekly Python problem-solving exercises emphasizing:
+- core programming fundamentals  
+- logical reasoning  
+- clean, correct implementations  
+
+This folder demonstrates **consistency and foundations**, not polish.
+
+---
+
+### 🧭 Ethics Coursework
+**Folder:** `ethics`
+
+Assignments focused on **responsible data science and ethical reasoning**.
+
+- **Project 1** (with its own README):  
+  Combines data analysis, academic literature review, and ethical evaluation.
+- Additional assignments included in notebook and HTML form.
+
+---
+
+### 🎓 Capstone Work
+**Folders:**  
+- `capstone`  
+- `capstone 2nd approach`
+
+Two capstone tracks are maintained:
+- **`capstone`** → primary capstone project  
+- **`capstone 2nd approach`** → alternative, research-driven approach  
+
+The second approach intentionally omits components as it reflects **ongoing exploratory research**, not incompleteness.
+
+---
+
+### 📜 Certificates
+**Folder:** `certificates`
+
+Certificates from completed courses in:
+- data science  
+- statistics  
+- machine learning  
+- applied analytics  
+
+This section is **actively growing** as learning continues.
+
+---
+
+## 🛠 Technical Stack
+
+- **Languages:** Python, R  
+- **Analysis:** Pandas, NumPy, statistical methods  
+- **ML / AI:** scikit-learn, Genetic Algorithms, optimization  
+- **Workflow:** Jupyter, exploratory → structured pipelines  
+- **Philosophy:** interpretable models, scale-aware analysis, honest documentation  
+
+---
+
+## 🎯 Guiding Principles
+
+- Depth over flash  
+- Reasoning over blind optimization  
+- Transparency over over-polish  
+
+This is a **living repository** and will continue evolving with new research, coursework, and experiments.
+
+---
+
+## 📬 Contact
+
+- **Email:** kov225@lehigh.edu  
+- **GitHub:** https://github.com/kov225
