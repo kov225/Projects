@@ -133,7 +133,7 @@ This section is **actively growing** as learning continues.
 
 ---
 
-## 🛠 Technical Stack
+## 🛠 Technical Stack(Only the ne used in these projects displayed)
 
 - **Languages:** Python, R  
 - **Analysis:** Pandas, NumPy, statistical methods  
