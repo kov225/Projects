@@ -75,7 +75,7 @@ It complements larger projects by demonstrating **core competence**, not just fi
 
 - File naming reflects submission-based coursework and weekly iterations
 - Some problems are intentionally simple; others are more logic-heavy
-- The emphasis is on correctness, clarity, and learning—not optimization
+- The emphasis is on correctness, clarity, and learning, not optimization
 
 ---
 
