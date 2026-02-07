@@ -1,126 +1,161 @@
 # Koushik Vennalakanti  
-### Data Science • AI • Statistics • Research
+### Data Science, Machine Learning, AI Systems, Research
 
-I am a **Data Science graduate student at Lehigh University (GPA: 3.94)** with a strong focus on **applied statistics, interpretable machine learning, optimization, and research-driven analysis**.
+![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white)
+![R](https://img.shields.io/badge/R-276DC3?logo=r&logoColor=white)
+![GPA](https://img.shields.io/badge/GPA-3.94-success)
 
-This repository is my **academic and technical portfolio**.  
-It is intentionally structured to distinguish between:
+I am a **Data Science graduate student at Lehigh University (GPA: 3.94)** with a strong interest in **applied statistics, interpretable machine learning, and ML systems engineering**.
+
+This repository is my **academic and technical portfolio**, intentionally structured to distinguish between:
 - research projects  
 - major coursework projects  
 - assignments  
 - skill-building practice  
 - ongoing learning  
 
-Each folder includes a README explaining **scope, intent, and outcomes**.
+Each folder contains its own README that clearly explains scope, intent, and outcomes.
 
 ---
 
-## 🔎 How to Read This Repository
+## Featured Work (Start Here)
 
-Not everything here is a “project” — and that is by design.
+If you are a recruiter or reviewer, these best represent my work:
 
-This repo reflects **how real technical work progresses**:
-- exploration → refinement → documentation
-- projects alongside assignments
-- clean separation of scope and intent
+- **Optimized Inference Pipeline for Mistral LLMs**  
+  High-performance inference and benchmarking on a single NVIDIA T4 GPU  
+  Focus on quantization, batching, warmup, LoRA support, and throughput of 200+ tokens/sec  
+  Folder: `mistral-llm-optimised-inference`
 
-If you are reviewing this repo, start with:
-- **Research Project**
-- **Statistics → Global Trade Inequality**
-- **Capstone**
+- **Research Project: Apple Market Analysis**  
+  Interpretable, rule-based analysis of AAPL price and volume data with iterative research notebooks  
+  Folder: `research-project`
+
+- **Global Trade Inequality (Statistics)**  
+  Large-scale statistical analysis using a very large global trade dataset  
+  Folder: `stats`
 
 ---
 
-## 📁 Repository Overview
+## How to Read This Repository
 
-### 🧠 Research Project
+Not everything here is a project, and that is intentional.
+
+This repository reflects how real technical work actually happens:
+- exploration to refinement to documentation  
+- research alongside coursework  
+- polished projects alongside practice work  
+
+Each section is clearly labeled so reviewers can quickly distinguish research, coursework, and assignments.
+
+---
+
+## Repository Overview
+
+### ML Systems and LLM Engineering
+**Folder:** `mistral-llm-optimised-inference`
+
+An optimized inference pipeline for Mistral-based large language models, designed for resource-constrained environments.
+
+Key aspects:
+- Single GPU deployment on NVIDIA T4
+- 4-bit and 8-bit quantization via bitsandbytes
+- Batch concurrency for throughput scaling
+- CUDA warmup for stable benchmarking
+- Optional LoRA adapter loading
+- End-to-end tokens per second benchmarking
+
+This project emphasizes deployment efficiency, hardware-aware optimization, and engineering trade-offs.
+
+---
+
+### Research Project
 **Folder:** `research-project`
 
-An independent research project on **Apple (AAPL) market data**, covering:
-- raw data ingestion → cleaning → feature engineering  
-- structural analysis (support/resistance)  
+An independent research project analyzing Apple (AAPL) market data, covering:
+- raw data ingestion, cleaning, and feature engineering  
+- structural market analysis such as support and resistance  
 - rule-based scoring frameworks  
-- iterative experimentation preserved via notebooks  
+- iterative experimentation preserved across notebooks  
 
-Emphasis is on **reasoning, interpretability, and structure**, not black-box prediction.
+Focus is on interpretability, reasoning, and research workflow rather than black-box prediction.
 
 ---
 
-### 📊 Statistics Coursework
+### Statistics Coursework
 **Folder:** `stats`
 
 - **Global Trade Inequality (Major Project)**  
-  A multi-milestone statistics project using a **very large global trade dataset**  
-  (countries × products × time).  
-  Focus on inequality, distributional analysis, and large-scale aggregation.
+  A multi-milestone statistics project using a very large international trade dataset  
+  The data spans many countries, product categories, and years, and focuses on inequality and distributional analysis.
 
 - **Software Pricing (Assignment)**  
-  A smaller, standalone statistics assignment demonstrating foundational analysis.
+  A smaller, standalone statistics assignment demonstrating foundational analysis and interpretation.
 
 ---
 
-### 🤖 AI Coursework
-**Folder:** `AI Coursework`
+### AI Coursework
+**Folder:** `AI-Coursework`
 
-Coursework from **CSF 407 – Artificial Intelligence**, applying **Genetic Algorithms** to:
+Coursework from CSF 407 (Artificial Intelligence), applying Genetic Algorithms to:
 - optimize shell-and-tube heat exchanger design  
 - minimize total discounted lifecycle cost  
 
-Includes Python implementation, presentation, and literature grounding.
+Includes Python implementation, academic presentation, and literature grounding.
 
 ---
 
-### 📐 R Coursework
-**Folder:** `R Coursework`
+### R Coursework
+**Folder:** `R-Coursework`
 
 Weekly R assignments focused on:
 - statistical computing  
 - data wrangling  
 - visualization  
-- exploratory analysis  
+- exploratory data analysis  
 
-🏆 **Top-performing student in the class**.  
-(Some datasets are missing due to data loss; all analytical logic is preserved.)
+Top-performing student in the class.  
+(Some datasets were lost after course completion, but all analytical logic is preserved.)
 
 ---
 
-### 💻 Coding Weekly
+### Coding Weekly
 **Folder:** `Coding Weekly`
 
 Weekly Python problem-solving exercises emphasizing:
 - core programming fundamentals  
 - logical reasoning  
-- clean, correct implementations  
+- clean and correct implementations  
 
-This folder demonstrates **consistency and foundations**, not polish.
+This folder demonstrates consistency and strong foundations rather than polish.
 
 ---
 
-### 🧭 Ethics Coursework
+### Ethics Coursework
 **Folder:** `ethics`
 
-Assignments focused on **responsible data science and ethical reasoning**.
+Assignments focused on responsible data science and ethical reasoning.
 
-- **Project 1** (with its own README):  
-  Combines data analysis, academic literature review, and ethical evaluation.
-- Additional assignments included in notebook and HTML form.
+- **Project 1 (with its own README)**  
+  Integrates data analysis, academic literature review, and ethical evaluation.
+- Additional assignments included in notebook and HTML formats.
 
 ---
 
-### 🎓 Capstone Work
+### Capstone Work
 **Folders:**  
 - `capstone`  
-- `capstone 2nd approach`
+- `capstone-alternative-approach`
 
 Two capstone tracks are maintained:
-- **`capstone`** → primary capstone project  
-- **`capstone 2nd approach`** → alternative, research-driven approach  
+- Primary capstone with full end-to-end implementation  
+- Alternative approach that is research-driven and exploratory  
 
-The second approach intentionally omits components as it reflects **ongoing exploratory research**, not incompleteness.
+The alternative approach intentionally omits components because it reflects ongoing research rather than incompleteness.
 
 ---
 
-### 📜 Certificates
+### Certificates
 **Folder:** `certificates`
 
 Certificates from completed courses in:
@@ -129,31 +164,31 @@ Certificates from completed courses in:
 - machine learning  
 - applied analytics  
 
-This section is **actively growing** as learning continues.
+This section is actively growing as I continue structured learning.
 
 ---
 
-## 🛠 Technical Stack(Only the ones used in these projects displayed)
+## Technical Stack
 
 - **Languages:** Python, R  
-- **Analysis:** Pandas, NumPy, statistical methods  
-- **ML / AI:** scikit-learn, Genetic Algorithms, optimization  
-- **Workflow:** Jupyter, exploratory → structured pipelines  
-- **Philosophy:** interpretable models, scale-aware analysis, honest documentation  
+- **Data and Statistics:** Pandas, NumPy, statistical methods  
+- **ML and AI:** scikit-learn, Genetic Algorithms, LLM inference optimization  
+- **Systems:** quantization, batching, benchmarking, GPU-aware deployment  
+- **Workflow:** Jupyter notebooks, exploratory to structured pipelines  
 
 ---
 
-## 🎯 Guiding Principles
+## Guiding Principles
 
 - Depth over flash  
 - Reasoning over blind optimization  
 - Transparency over over-polish  
 
-This is a **living repository** and will continue evolving with new research, coursework, and experiments.
+This is a living repository and will continue evolving with new research, coursework, and systems experiments.
 
 ---
 
-## 📬 Contact
+## Contact
 
 - **Email:** kov225@lehigh.edu  
 - **GitHub:** https://github.com/kov225
