@@ -53,12 +53,12 @@ def get_dtype(dtype_str: str):
 
 
 def load_model_and_tokenizer(model_id, dtype_str, quantization, lora_path):
-    # Show what device we’re using
+    # Show what device is being used
     device = "cuda" if torch.cuda.is_available() else "cpu"
-    print(f"\n[INFO]  Using device: {device}")
+    print(f"\nUsing device: {device}")
 
     # Load tokenizer
-    print("[INFO]  Loading tokenizer…")
+    print("Loading tokenizer...")
     tokenizer = AutoTokenizer.from_pretrained(model_id)
 
     if tokenizer.pad_token is None:
@@ -71,7 +71,7 @@ def load_model_and_tokenizer(model_id, dtype_str, quantization, lora_path):
     # Setup quantization
     quant_config = None
     if quantization:
-        print(f"[INFO] ⚡ Applying {quantization} quantization…")
+        print(f"Applying {quantization} quantization to save VRAM and improve speed...")
         if quantization == "8bit":
             quant_config = BitsAndBytesConfig(load_in_8bit=True)
         elif quantization == "4bit":
@@ -82,8 +82,8 @@ def load_model_and_tokenizer(model_id, dtype_str, quantization, lora_path):
                 bnb_4bit_quant_type="nf4",
             )
 
-    # Load main model
-    print("[INFO] 🧠 Loading model… (this may take a minute)")
+    # Load the model
+    print("Loading the model (this usually takes a minute)...")
     if quant_config:
         model = AutoModelForCausalLM.from_pretrained(
             model_id,
@@ -102,10 +102,10 @@ def load_model_and_tokenizer(model_id, dtype_str, quantization, lora_path):
     if lora_path:
         if not PEFT_AVAILABLE:
             raise RuntimeError("PEFT is not installed but a LoRA path was provided.")
-        print(f"[INFO] 🪄 Loading LoRA adapter from: {lora_path}")
+        print(f"Loading LoRA adapter from: {lora_path}")
         model = PeftModel.from_pretrained(model, lora_path)
 
-    print("[INFO]  Model + tokenizer loaded successfully!")
+    print("Model and tokenizer loaded successfully.")
 
     model.eval()
     return model, tokenizer, device
@@ -113,13 +113,13 @@ def load_model_and_tokenizer(model_id, dtype_str, quantization, lora_path):
 
 def maybe_compile_model(model, use_compile):
     if use_compile and hasattr(torch, "compile"):
-        print("\n[INFO] Compiling model for extra speed…")
+        print("\nCompiling the model for some extra speed...")
         return torch.compile(model)
     return model
 
 
 def prepare_batch_inputs(tokenizer, prompt, batch_size, target_length, device):
-    print("\n[INFO]  Preparing your prompt…")
+    print("\nPreparing your prompt...")
     encoded = tokenizer(
         prompt,
         return_tensors="pt",
@@ -131,7 +131,7 @@ def prepare_batch_inputs(tokenizer, prompt, batch_size, target_length, device):
     input_ids = encoded["input_ids"]
     attention_mask = encoded["attention_mask"]
 
-    # Pad or truncate to exact length for fair benchmarking
+    # Ensure input is exactly target_length
     if input_ids.shape[-1] < target_length:
         pad_len = target_length - input_ids.shape[-1]
         pad = torch.full((1, pad_len), tokenizer.pad_token_id)
@@ -142,8 +142,7 @@ def prepare_batch_inputs(tokenizer, prompt, batch_size, target_length, device):
         input_ids = input_ids[:, -target_length:]
         attention_mask = attention_mask[:, -target_length:]
 
-    # Duplicate input for concurrency batch
-    print(f"[INFO] 📦 Replicating prompt {batch_size} times for concurrency test…")
+    print(f"Creating a batch of {batch_size} copies of your prompt for the test...")
     input_ids = input_ids.expand(batch_size, -1).to(device)
     attention_mask = attention_mask.expand(batch_size, -1).to(device)
 
@@ -170,19 +169,16 @@ def generate_with_timing(model, tokenizer, inputs,
             top_p=top_p,
         ))
 
-    # Sync and start timing
+    # Time measurement
     torch.cuda.synchronize()
     start = time.time()
 
-    # Actual generation
     with torch.no_grad():
         output_ids = model.generate(**inputs, **gen_kwargs)
 
-    # Stop timing
     torch.cuda.synchronize()
     elapsed = time.time() - start
 
-    # Count tokens generated
     new_tokens_each = min(output_ids.shape[-1] - input_len, max_new_tokens)
     total_new_tokens = new_tokens_each * batch_size
     total_tokens = total_input_tokens + total_new_tokens
@@ -194,7 +190,7 @@ def main():
     args = parse_args()
 
     print("\n==============================")
-    print("Mistral Optimized Inference")
+    print("Mistral Optimized Inference Test")
     print("==============================\n")
 
     model, tokenizer, device = load_model_and_tokenizer(
@@ -203,17 +199,14 @@ def main():
 
     model = maybe_compile_model(model, args.compile)
 
-    # Ask for user prompt
-    print("\n🗣️  Enter a prompt for the model:")
+    print("\nEnter a prompt for the model:")
     prompt = input("> ")
 
-    # Prepare batched inputs
     batch_inputs = prepare_batch_inputs(
         tokenizer, prompt, args.concurrency, args.input_length, device
     )
 
-    # Warmup runs
-    print(f"\n[INFO]  Running {args.warmup_steps} warmup step(s) to stabilize speed…")
+    print(f"\nRunning {args.warmup_steps} warmup step(s) to warm up the model...")
     for _ in range(args.warmup_steps):
         generate_with_timing(
             model, tokenizer, batch_inputs,
@@ -223,10 +216,9 @@ def main():
             top_k=args.top_k,
             top_p=args.top_p,
         )
-    print("[INFO] Warmup done! 👍")
+    print("Warmup complete.")
 
-    # Main benchmark
-    print("\n[INFO] ⚡ Running the main benchmark…")
+    print("\nRunning the main benchmark now...")
     output_ids, elapsed, total_input_tokens, total_new_tokens, total_tokens = generate_with_timing(
         model, tokenizer, batch_inputs,
         args.max_new_tokens,
@@ -236,34 +228,31 @@ def main():
         args.top_p,
     )
 
-    # Show output
     print("\n==============================")
-    print("📤 MODEL OUTPUT (example from batch)")
+    print("Model Output (showing the first sample)")
     print("==============================\n")
     print(tokenizer.decode(output_ids[0], skip_special_tokens=True))
 
-    # Metrics
     tps = total_tokens / elapsed
 
     print("\n==============================")
-    print(" PERFORMANCE METRICS")
+    print("Performance Metrics")
     print("==============================")
     print(f"• Total input tokens:     {total_input_tokens}")
     print(f"• Total generated tokens: {total_new_tokens}")
     print(f"• Tokens/sec (overall):   {tps:.2f}")
     print(f"• Time taken:             {elapsed:.3f} sec")
 
-    # Benchmark requirement
     print("\n==============================")
-    print("BENCHMARK RESULT")
+    print("Benchmark Result")
     print("==============================")
+
     if tps >= 200:
-        print(" PASS! You hit the target speed (≥200 tokens/sec)")
+        print("Success! You reached the target speed (200 tokens/sec or more).")
     else:
-        print(" Did not reach 200 tokens/sec.")
-        print("   Try enabling 4bit quantization or reducing output length.")
+        print("The speed didn't reach 200 tokens/sec.")
+        print("Try 4-bit quantization or reducing the output length to improve performance.")
 
 
 if __name__ == "__main__":
     main()
-
