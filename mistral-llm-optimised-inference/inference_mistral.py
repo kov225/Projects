@@ -1,23 +1,16 @@
-"""
-Simple and optimized inference benchmark for Mistral-style LLMs.
-
-This script focuses on understanding inference-time performance:
-batching, warmup runs, quantization, and GPU memory usage.
-"""
 
 import argparse
-import json
 import time
+from typing import Optional
 
 import torch
-import numpy as np
 from transformers import (
     AutoTokenizer,
     AutoModelForCausalLM,
     BitsAndBytesConfig,
 )
 
-# LoRA support is optional
+# LoRA support (optional)
 try:
     from peft import PeftModel
     PEFT_AVAILABLE = True
@@ -26,86 +19,62 @@ except ImportError:
 
 
 def parse_args():
-    """Read command-line arguments so the script is easy to experiment with."""
     parser = argparse.ArgumentParser(
-        description="Inference benchmark for Mistral LLMs"
+        description="Optimized inference script for Mistral-style LLMs"
     )
 
     parser.add_argument("--model_id", type=str, required=True)
     parser.add_argument("--lora_path", type=str, default=None)
-
-    parser.add_argument(
-        "--mode",
-        type=str,
-        default="optimized",
-        choices=["baseline", "optimized"],
-        help="baseline = simple run, optimized = batching + warmup + quantization"
-    )
-
-    parser.add_argument(
-        "--dtype",
-        type=str,
-        default="float16",
-        choices=["float16", "bfloat16", "float32"]
-    )
-
-    parser.add_argument(
-        "--quantization",
-        type=str,
-        default=None,
-        choices=[None, "8bit", "4bit"]
-    )
-
-    parser.add_argument("--input_length", type=int, default=128)
+    parser.add_argument("--dtype", type=str, default="float16",
+                        choices=["float16", "bfloat16", "float32"])
+    parser.add_argument("--quantization", type=str, default=None,
+                        choices=[None, "8bit", "4bit"])
     parser.add_argument("--max_new_tokens", type=int, default=128)
+    parser.add_argument("--input_length", type=int, default=128)
     parser.add_argument("--concurrency", type=int, default=32)
-
     parser.add_argument("--do_sample", action="store_true")
     parser.add_argument("--temperature", type=float, default=0.7)
     parser.add_argument("--top_k", type=int, default=50)
     parser.add_argument("--top_p", type=float, default=0.95)
-
     parser.add_argument("--warmup_steps", type=int, default=2)
-    parser.add_argument("--benchmark_runs", type=int, default=5)
+    parser.add_argument("--compile", action="store_true")
 
     return parser.parse_args()
 
 
-def get_dtype(dtype_str):
-    """Convert dtype string to torch dtype."""
+def get_dtype(dtype_str: str):
     if dtype_str == "float16":
         return torch.float16
     if dtype_str == "bfloat16":
         return torch.bfloat16
-    return torch.float32
+    if dtype_str == "float32":
+        return torch.float32
+    raise ValueError(f"Unsupported dtype: {dtype_str}")
 
 
-def get_gpu_memory():
-    """Return current GPU memory usage in MB."""
-    allocated = torch.cuda.memory_allocated() / 1024**2
-    reserved = torch.cuda.memory_reserved() / 1024**2
-    return allocated, reserved
-
-
-def load_model_and_tokenizer(args):
-    """Load tokenizer and model, optionally applying quantization and LoRA."""
+def load_model_and_tokenizer(model_id, dtype_str, quantization, lora_path):
+    # Show what device is being used
     device = "cuda" if torch.cuda.is_available() else "cpu"
     print(f"\nUsing device: {device}")
 
-    tokenizer = AutoTokenizer.from_pretrained(args.model_id)
+    # Load tokenizer
+    print("Loading tokenizer...")
+    tokenizer = AutoTokenizer.from_pretrained(model_id)
 
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
 
     tokenizer.padding_side = "left"
-    dtype = get_dtype(args.dtype)
 
+    dtype = get_dtype(dtype_str)
+
+    # Setup quantization
     quant_config = None
-    if args.mode == "optimized" and args.quantization:
-        print(f"Applying {args.quantization} quantization")
-        if args.quantization == "8bit":
+    if quantization:
+        print(f"Applying {quantization} quantization to save VRAM and improve speed...")
+        if quantization == "8bit":
             quant_config = BitsAndBytesConfig(load_in_8bit=True)
-        elif args.quantization == "4bit":
+        elif quantization == "4bit":
             quant_config = BitsAndBytesConfig(
                 load_in_4bit=True,
                 bnb_4bit_compute_dtype=dtype,
@@ -113,159 +82,179 @@ def load_model_and_tokenizer(args):
                 bnb_4bit_quant_type="nf4",
             )
 
+    # Load the model
+    print("Loading the model (this usually takes a minute)...")
     if quant_config:
         model = AutoModelForCausalLM.from_pretrained(
-            args.model_id,
+            model_id,
             device_map="auto",
-            torch_dtype=dtype,
             quantization_config=quant_config,
+            torch_dtype=dtype,
         )
     else:
         model = AutoModelForCausalLM.from_pretrained(
-            args.model_id,
+            model_id,
             torch_dtype=dtype,
+            device_map="auto" if device == "cuda" else None,
         ).to(device)
 
-    if args.lora_path:
+    # Load LoRA if provided
+    if lora_path:
         if not PEFT_AVAILABLE:
             raise RuntimeError("PEFT is not installed but a LoRA path was provided.")
-        print(f"Loading LoRA adapter from {args.lora_path}")
-        model = PeftModel.from_pretrained(model, args.lora_path)
+        print(f"Loading LoRA adapter from: {lora_path}")
+        model = PeftModel.from_pretrained(model, lora_path)
+
+    print("Model and tokenizer loaded successfully.")
 
     model.eval()
     return model, tokenizer, device
 
 
-def prepare_inputs(tokenizer, prompt, batch_size, target_len, device):
-    """Tokenize the prompt and duplicate it to simulate concurrent requests."""
+def maybe_compile_model(model, use_compile):
+    if use_compile and hasattr(torch, "compile"):
+        print("\nCompiling the model for some extra speed...")
+        return torch.compile(model)
+    return model
+
+
+def prepare_batch_inputs(tokenizer, prompt, batch_size, target_length, device):
+    print("\nPreparing your prompt...")
     encoded = tokenizer(
         prompt,
         return_tensors="pt",
         truncation=True,
-        max_length=target_len,
+        max_length=target_length,
+        add_special_tokens=True,
     )
 
     input_ids = encoded["input_ids"]
     attention_mask = encoded["attention_mask"]
 
-    if input_ids.shape[-1] < target_len:
-        pad_len = target_len - input_ids.shape[-1]
-        pad_ids = torch.full((1, pad_len), tokenizer.pad_token_id)
+    # Ensure input is exactly target_length
+    if input_ids.shape[-1] < target_length:
+        pad_len = target_length - input_ids.shape[-1]
+        pad = torch.full((1, pad_len), tokenizer.pad_token_id)
         pad_mask = torch.zeros((1, pad_len))
-        input_ids = torch.cat([pad_ids, input_ids], dim=1)
+        input_ids = torch.cat([pad, input_ids], dim=1)
         attention_mask = torch.cat([pad_mask, attention_mask], dim=1)
+    elif input_ids.shape[-1] > target_length:
+        input_ids = input_ids[:, -target_length:]
+        attention_mask = attention_mask[:, -target_length:]
 
+    print(f"Creating a batch of {batch_size} copies of your prompt for the test...")
     input_ids = input_ids.expand(batch_size, -1).to(device)
     attention_mask = attention_mask.expand(batch_size, -1).to(device)
 
-    return {
-        "input_ids": input_ids,
-        "attention_mask": attention_mask
-    }
+    return {"input_ids": input_ids, "attention_mask": attention_mask}
 
 
-def generate_once(model, tokenizer, inputs, args):
-    """Run one generation pass and return elapsed time."""
+def generate_with_timing(model, tokenizer, inputs,
+                         max_new_tokens, do_sample, temperature, top_k, top_p):
+
+    batch_size, input_len = inputs["input_ids"].shape
+    total_input_tokens = batch_size * input_len
+
     gen_kwargs = {
-        "max_new_tokens": args.max_new_tokens,
+        "max_new_tokens": max_new_tokens,
         "use_cache": True,
         "pad_token_id": tokenizer.pad_token_id,
     }
 
-    if args.do_sample:
-        gen_kwargs.update({
-            "do_sample": True,
-            "temperature": args.temperature,
-            "top_k": args.top_k,
-            "top_p": args.top_p,
-        })
+    if do_sample:
+        gen_kwargs.update(dict(
+            do_sample=True,
+            temperature=temperature,
+            top_k=top_k,
+            top_p=top_p,
+        ))
 
+    # Time measurement
     torch.cuda.synchronize()
     start = time.time()
 
     with torch.no_grad():
-        model.generate(**inputs, **gen_kwargs)
+        output_ids = model.generate(**inputs, **gen_kwargs)
 
     torch.cuda.synchronize()
-    return time.time() - start
+    elapsed = time.time() - start
 
+    new_tokens_each = min(output_ids.shape[-1] - input_len, max_new_tokens)
+    total_new_tokens = new_tokens_each * batch_size
+    total_tokens = total_input_tokens + total_new_tokens
 
-def benchmark(model, tokenizer, inputs, args):
-    """Run multiple generations and compute latency and throughput."""
-    latencies = []
-
-    for _ in range(args.benchmark_runs):
-        t = generate_once(model, tokenizer, inputs, args)
-        latencies.append(t)
-
-    latencies = np.array(latencies)
-
-    batch_size, input_len = inputs["input_ids"].shape
-    total_tokens = batch_size * (input_len + args.max_new_tokens)
-
-    mean_latency = latencies.mean()
-    tokens_per_sec = total_tokens / mean_latency
-
-    return {
-        "mean_latency_sec": mean_latency,
-        "p50_latency_sec": float(np.percentile(latencies, 50)),
-        "p95_latency_sec": float(np.percentile(latencies, 95)),
-        "tokens_per_sec": tokens_per_sec,
-    }
+    return output_ids, elapsed, total_input_tokens, total_new_tokens, total_tokens
 
 
 def main():
     args = parse_args()
 
-    print("\nLLM Inference Benchmark\n")
+    print("\n==============================")
+    print("Mistral Optimized Inference Test")
+    print("==============================\n")
 
-    model, tokenizer, device = load_model_and_tokenizer(args)
-
-    prompt = input("Enter a prompt: ")
-
-    batch_size = 1 if args.mode == "baseline" else args.concurrency
-
-    inputs = prepare_inputs(
-        tokenizer,
-        prompt,
-        batch_size,
-        args.input_length,
-        device
+    model, tokenizer, device = load_model_and_tokenizer(
+        args.model_id, args.dtype, args.quantization, args.lora_path
     )
 
-    if args.mode == "optimized":
-        print("Running warmup...")
-        for _ in range(args.warmup_steps):
-            generate_once(model, tokenizer, inputs, args)
-        print("Warmup complete.\n")
+    model = maybe_compile_model(model, args.compile)
 
-    alloc_before, _ = get_gpu_memory()
+    print("\nEnter a prompt for the model:")
+    prompt = input("> ")
 
-    metrics = benchmark(model, tokenizer, inputs, args)
+    batch_inputs = prepare_batch_inputs(
+        tokenizer, prompt, args.concurrency, args.input_length, device
+    )
 
-    alloc_after, reserved = get_gpu_memory()
+    print(f"\nRunning {args.warmup_steps} warmup step(s) to warm up the model...")
+    for _ in range(args.warmup_steps):
+        generate_with_timing(
+            model, tokenizer, batch_inputs,
+            max_new_tokens=16,
+            do_sample=args.do_sample,
+            temperature=args.temperature,
+            top_k=args.top_k,
+            top_p=args.top_p,
+        )
+    print("Warmup complete.")
 
-    results = {
-        "model": args.model_id,
-        "mode": args.mode,
-        "quantization": args.quantization,
-        "batch_size": batch_size,
-        "metrics": metrics,
-        "vram_mb": {
-            "allocated_before": alloc_before,
-            "allocated_after": alloc_after,
-            "reserved": reserved,
-        },
-    }
+    print("\nRunning the main benchmark now...")
+    output_ids, elapsed, total_input_tokens, total_new_tokens, total_tokens = generate_with_timing(
+        model, tokenizer, batch_inputs,
+        args.max_new_tokens,
+        args.do_sample,
+        args.temperature,
+        args.top_k,
+        args.top_p,
+    )
 
-    print("\nResults:")
-    print(json.dumps(results, indent=2))
+    print("\n==============================")
+    print("Model Output (showing the first sample)")
+    print("==============================\n")
+    print(tokenizer.decode(output_ids[0], skip_special_tokens=True))
 
-    with open("benchmark_results.json", "w") as f:
-        json.dump(results, f, indent=2)
+    tps = total_tokens / elapsed
 
-    print("\nSaved results to benchmark_results.json")
+    print("\n==============================")
+    print("Performance Metrics")
+    print("==============================")
+    print(f"• Total input tokens:     {total_input_tokens}")
+    print(f"• Total generated tokens: {total_new_tokens}")
+    print(f"• Tokens/sec (overall):   {tps:.2f}")
+    print(f"• Time taken:             {elapsed:.3f} sec")
+
+    print("\n==============================")
+    print("Benchmark Result")
+    print("==============================")
+
+    if tps >= 200:
+        print("Success! You reached the target speed (200 tokens/sec or more).")
+    else:
+        print("The speed didn't reach 200 tokens/sec.")
+        print("Try 4-bit quantization or reducing the output length to improve performance.")
 
 
 if __name__ == "__main__":
     main()
+
+
