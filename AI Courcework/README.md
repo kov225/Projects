@@ -20,7 +20,7 @@ The project integrates:
 | File | Description |
 |----|----|
 | `aicode final.py` | Python implementation of the Genetic Algorithm for heat exchanger optimization |
-| `CSF 407 – ARTIFICIAL INTELLIGENCE.pptx` | Course presentation describing problem formulation, GA approach, and results |
+| `AI_presentation.pdf` | Course presentation describing problem formulation, GA approach, and results |
 | `1-s2.0-S1359431107002839-main.pdf` | Reference research paper forming the theoretical basis of the project |
 
 ---
