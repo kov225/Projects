@@ -57,10 +57,7 @@ pip install -r requirements.txt
 python reconciliation.py
 ```
 
-## 🔮 Future Work
-- Package the LLM engine into a Dockerized FastAPI endpoint for scale.
-- Implement formal Backtrader backtesting for the equity scoring models to calculate Sharpe ratios and max drawdowns.
 
 ## 📫 Let's Connect
 - **Email:** [kov225@lehigh.edu](mailto:kov225@lehigh.edu)
-- **GitHub:** https://github.com/kov225
+- **Mobile:** 484-935-7840
