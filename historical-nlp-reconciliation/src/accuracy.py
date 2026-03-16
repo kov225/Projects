@@ -1,7 +1,7 @@
 import json
 import os
 
-def calculate_final_accuracy(input_path="datasets/master_reconciliation.json", output_path="datasets/FINAL_ACCURACY.json"):
+def calculate_final_accuracy(input_path="data/master_reconciliation.json", output_path="data/FINAL_ACCURACY.json"):
     """
     Reads master_reconciliation.json and generates a summarized accuracy report.
     """

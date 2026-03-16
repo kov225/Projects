@@ -1,0 +1,59 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="animate-in">
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3rem;">
+        <div>
+            <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;">Reconciliation Feed</h1>
+            <p style="color: var(--text-secondary); font-size: 1.1rem;">Full audit trail of all 1,200+ digitized records.</p>
+        </div>
+        <div style="display: flex; gap: 0.75rem; align-items: center;">
+            <span style="color: var(--text-muted); font-size: 0.875rem; margin-right: 1rem;">Page {{ page }} of {{ total_pages }}</span>
+            {% if page > 1 %}
+            <a href="?page={{ page - 1 }}" class="btn" style="background: var(--bg-surface-alt);">Previous</a>
+            {% endif %}
+            {% if page < total_pages %}
+            <a href="?page={{ page + 1 }}" class="btn">Next</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="table-container card" style="padding: 0;">
+        <table style="width: 100%;">
+            <thead>
+                <tr>
+                    <th>Ref ID</th>
+                    <th>Region</th>
+                    <th>Plea Summary</th>
+                    <th>Entities</th>
+                    <th>Confidence</th>
+                    <th style="text-align: right;">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for case in cases %}
+                <tr>
+                    <td><span style="font-weight: 700; color: var(--accent);">#{{ case.human_CaseId }}</span></td>
+                    <td>{{ case.human_data.county }}</td>
+                    <td><span style="color: var(--text-secondary); font-size: 0.875rem;">{{ case.human_data.plea[:50] }}{{ '...' if case.human_data.plea|length > 50 }}</span></td>
+                    <td>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <span class="badge" style="background: rgba(255,255,255,0.05); color: var(--text-secondary);">{{ case.human_data.plaintiffs|length }}P</span>
+                            <span class="badge" style="background: rgba(255,255,255,0.05); color: var(--text-secondary);">{{ case.human_data.defendants|length }}D</span>
+                        </div>
+                    </td>
+                    <td>
+                        <span style="font-weight: 700; color: {{ 'var(--success)' if case.accuracy_metrics_v1.name_f1 > 0.7 else 'var(--warning)' if case.accuracy_metrics_v1.name_f1 > 0.4 else 'var(--danger)' }}">
+                            {{ (case.accuracy_metrics_v1.name_f1 * 100) | round(1) }}%
+                        </span>
+                    </td>
+                    <td style="text-align: right;">
+                        <a href="/case/{{ case.human_CaseId }}" class="btn" style="padding: 0.4rem 0.75rem; font-size: 0.75rem; background: var(--bg-surface-alt);">Audit &rarr;</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

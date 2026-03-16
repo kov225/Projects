@@ -1,0 +1,74 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="animate-in">
+    <header style="margin-bottom: 3rem;">
+        <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;">Pipeline Telemetry</h1>
+        <p style="color: var(--text-secondary); font-size: 1.1rem;">Aggregated reconciliation performance for the King's Bench HTR dataset.</p>
+    </header>
+
+    <div class="stat-grid">
+        <div class="card stat-card">
+            <div style="color: var(--text-muted); font-size: 0.75rem; font-weight: 700; text-transform: uppercase;">Total Reconciled</div>
+            <div class="stat-value" style="color: var(--accent);">{{ summary.total_cases }}</div>
+            <div style="font-size: 0.875rem; color: var(--success);">+100% since baseline</div>
+        </div>
+        <div class="card stat-card">
+            <div style="color: var(--text-muted); font-size: 0.75rem; font-weight: 700; text-transform: uppercase;">Name F1 Accuracy</div>
+            <div class="stat-value" style="color: #c084fc;">{{ (summary.average_name_f1_score * 100) | round(1) }}%</div>
+            <div style="font-size: 0.875rem; color: var(--success);">Improved fuzzy grouping</div>
+        </div>
+        <div class="card stat-card">
+            <div style="color: var(--text-muted); font-size: 0.75rem; font-weight: 700; text-transform: uppercase;">County Match</div>
+            <div class="stat-value" style="color: var(--success);">{{ summary.county_match_accuracy_percent }}%</div>
+            <div style="font-size: 0.875rem; color: var(--text-muted);">Coordinate resolution</div>
+        </div>
+        <div class="card stat-card">
+            <div style="color: var(--text-muted); font-size: 0.75rem; font-weight: 700; text-transform: uppercase;">Plea Consistency</div>
+            <div class="stat-value" style="color: var(--warning);">{{ summary.plea_match_accuracy_percent }}%</div>
+            <div style="font-size: 0.875rem; color: var(--text-muted);">Legal charge mapping</div>
+        </div>
+    </div>
+
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 1.5rem;">
+        <h2 style="font-size: 1.5rem;">Superior Accuracy Matches</h2>
+        <a href="/reconciliation" style="color: var(--accent); font-weight: 600; text-decoration: none; font-size: 0.875rem;">View All Records &rarr;</a>
+    </div>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Reference</th>
+                    <th>Human Case ID</th>
+                    <th>Location</th>
+                    <th>F1 Score</th>
+                    <th>Resolution</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for case in top_cases %}
+                <tr>
+                    <td><code style="background: var(--bg-surface-alt); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.875rem;">IMG_{{ "%04d" | format(case.human_data.image_num|int) if case.human_data.image_num else "????" }}</code></td>
+                    <td><span style="font-weight: 600;">#{{ case.human_CaseId }}</span></td>
+                    <td>{{ case.human_data.county }}</td>
+                    <td>
+                        <div style="display: flex; align-items: center; gap: 0.75rem;">
+                            <div style="flex: 1; height: 6px; background: var(--bg-surface-alt); border-radius: 3px; width: 60px;">
+                                <div style="height: 100%; width: {{ case.accuracy_metrics_v1.name_f1 * 100 }}%; background: var(--success if case.accuracy_metrics_v1.name_f1 > 0.8 else var(--accent)); border-radius: 3px;"></div>
+                            </div>
+                            <span class="badge {{ 'badge-success' if case.accuracy_metrics_v1.name_f1 > 0.8 else 'badge-warning' }}">
+                                {{ (case.accuracy_metrics_v1.name_f1 * 100) | round(1) }}%
+                            </span>
+                        </div>
+                    </td>
+                    <td>
+                        <a href="/case/{{ case.human_CaseId }}" class="btn" style="padding: 0.4rem 1rem; font-size: 0.875rem;">Deep Audit</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

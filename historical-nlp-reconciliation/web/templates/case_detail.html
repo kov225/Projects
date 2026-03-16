@@ -1,0 +1,110 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="animate-in">
+    <div style="margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center;">
+        <div style="display: flex; align-items: center; gap: 1.5rem;">
+            <a href="/reconciliation" style="color: var(--text-muted); text-decoration: none; font-size: 1.25rem;">&larr;</a>
+            <h1 style="font-size: 2.5rem;">Case Audit #{{ case.human_CaseId }}</h1>
+        </div>
+        <div class="badge {{ 'badge-success' if case.accuracy_metrics_v1.name_f1 > 0.7 else 'badge-warning' }}" style="padding: 0.5rem 1rem; font-size: 1rem;">
+            {{ (case.accuracy_metrics_v1.name_f1 * 100) | round(1) }}% Confidence
+        </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
+        <!-- Ground Truth -->
+        <div class="card" style="border-top: 4px solid var(--accent);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                <h3 style="color: var(--text-secondary); text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.05em;">Source: Ground Truth</h3>
+                <span style="font-size: 0.75rem; color: var(--text-muted);">KB_Table_Parsed.json</span>
+            </div>
+
+            <div style="margin-bottom: 2rem;">
+                <label style="display: block; color: var(--text-muted); font-size: 0.75rem; font-weight: 700; margin-bottom: 0.5rem; text-transform: uppercase;">Jurisdiction</label>
+                <p style="font-size: 1.25rem; font-weight: 600;">{{ case.human_data.county }}</p>
+            </div>
+
+            <div style="margin-bottom: 2rem;">
+                <label style="display: block; color: var(--text-muted); font-size: 0.75rem; font-weight: 700; margin-bottom: 0.5rem; text-transform: uppercase;">Legal Charge (HTR-Ref)</label>
+                <div style="background: rgba(255,255,255,0.03); padding: 1rem; border-radius: var(--radius-md); border: 1px solid var(--border);">
+                    {{ case.human_data.plea }}
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                <div>
+                    <label style="display: block; color: var(--text-muted); font-size: 0.75rem; font-weight: 700; margin-bottom: 0.5rem; text-transform: uppercase;">Plaintiffs</label>
+                    <ul style="list-style: none; margin-top: 0.5rem;">
+                        {% for p in case.human_data.plaintiffs %}
+                        <li style="padding: 0.5rem 0; color: var(--text-secondary); border-top: 1px solid var(--border);">{{ p }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div>
+                    <label style="display: block; color: var(--text-muted); font-size: 0.75rem; font-weight: 700; margin-bottom: 0.5rem; text-transform: uppercase;">Defendants</label>
+                    <ul style="list-style: none; margin-top: 0.5rem;">
+                        {% for d in case.human_data.defendants %}
+                        <li style="padding: 0.5rem 0; color: var(--text-secondary); border-top: 1px solid var(--border);">{{ d }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI Reconstruction -->
+        <div class="card" style="border-top: 4px solid #c084fc;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                <h3 style="color: var(--text-secondary); text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.05em;">Source: AI Reconstruction</h3>
+                <span style="font-size: 0.75rem; color: var(--text-muted);">IMG_{{ "%04d" | format(case.reconciled_ai_data.image_num|int) if case.reconciled_ai_data.image_num else "????" }}</span>
+            </div>
+
+            <div style="margin-bottom: 2rem;">
+                <label style="display: block; color: var(--text-muted); font-size: 0.75rem; font-weight: 700; margin-bottom: 0.5rem; text-transform: uppercase;">Detected Jurisdiction</label>
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <p style="font-size: 1.25rem; font-weight: 600;">{{ case.reconciled_ai_data.county }}</p>
+                    {% if case.accuracy_metrics_v1.county_match %}
+                    <span style="color: var(--success);">&#10003;</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div style="margin-bottom: 2rem;">
+                <label style="display: block; color: var(--text-muted); font-size: 0.75rem; font-weight: 700; margin-bottom: 0.5rem; text-transform: uppercase;">Detected Plea</label>
+                <div style="background: rgba(255,255,255,0.03); padding: 1rem; border-radius: var(--radius-md); border: 1px solid var(--border);">
+                    {{ case.reconciled_ai_data.plea }}
+                    {% if case.accuracy_metrics_v1.plea_match %}
+                    <span style="color: var(--success); float: right;">Match</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                <div>
+                    <label style="display: block; color: var(--text-muted); font-size: 0.75rem; font-weight: 700; margin-bottom: 0.5rem; text-transform: uppercase;">Identified Plaintiffs</label>
+                    <ul style="list-style: none; margin-top: 0.5rem;">
+                        {% for p in case.reconciled_ai_data.plaintiffs %}
+                        <li style="padding: 0.5rem 0; color: var(--text-secondary); border-top: 1px solid var(--border);">{{ p }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div>
+                    <label style="display: block; color: var(--text-muted); font-size: 0.75rem; font-weight: 700; margin-bottom: 0.5rem; text-transform: uppercase;">Identified Defendants</label>
+                    <ul style="list-style: none; margin-top: 0.5rem;">
+                        {% for d in case.reconciled_ai_data.defendants %}
+                        <li style="padding: 0.5rem 0; color: var(--text-secondary); border-top: 1px solid var(--border);">{{ d }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h3 style="margin-bottom: 1rem; font-size: 1rem;">Raw Transcription Fragment</h3>
+        <div style="background: rgba(0,0,0,0.2); padding: 2rem; border-radius: var(--radius-md); font-family: 'Inter', monospace; line-height: 1.8; color: var(--text-secondary); font-size: 0.9375rem;">
+            {{ case.reconciled_ai_data.full_text }}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,3902 @@
+{
+  "summary": {
+    "total_cases": 389,
+    "county_match_accuracy_percent": 0.0,
+    "plea_match_accuracy_percent": 0.0,
+    "average_name_precision": 0.8716,
+    "average_name_recall": 0.5334,
+    "average_name_f1_score": 0.6532
+  },
+  "case_accuracy_details": [
+    {
+      "case_id": 16,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.5,
+        "name_recall": 0.3333,
+        "name_f1": 0.4
+      }
+    },
+    {
+      "case_id": 27,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.5,
+        "name_recall": 0.3333,
+        "name_f1": 0.4
+      }
+    },
+    {
+      "case_id": 43,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.75,
+        "name_recall": 0.5,
+        "name_f1": 0.6
+      }
+    },
+    {
+      "case_id": 66,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6667,
+        "name_recall": 0.3333,
+        "name_f1": 0.4444
+      }
+    },
+    {
+      "case_id": 77,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.5,
+        "name_recall": 0.5,
+        "name_f1": 0.5
+      }
+    },
+    {
+      "case_id": 100,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6667,
+        "name_recall": 0.5714,
+        "name_f1": 0.6154
+      }
+    },
+    {
+      "case_id": 119,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 122,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.75,
+        "name_recall": 0.4286,
+        "name_f1": 0.5455
+      }
+    },
+    {
+      "case_id": 135,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.3333,
+        "name_recall": 0.1429,
+        "name_f1": 0.2
+      }
+    },
+    {
+      "case_id": 153,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 185,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.5,
+        "name_recall": 0.2857,
+        "name_f1": 0.3636
+      }
+    },
+    {
+      "case_id": 198,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.4286,
+        "name_f1": 0.6
+      }
+    },
+    {
+      "case_id": 200,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.7143,
+        "name_recall": 0.4545,
+        "name_f1": 0.5556
+      }
+    },
+    {
+      "case_id": 211,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.8,
+        "name_recall": 0.4286,
+        "name_f1": 0.5581
+      }
+    },
+    {
+      "case_id": 212,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 237,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 242,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6,
+        "name_recall": 0.5,
+        "name_f1": 0.5455
+      }
+    },
+    {
+      "case_id": 268,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.75,
+        "name_recall": 0.6,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 271,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 286,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.75,
+        "name_recall": 0.5,
+        "name_f1": 0.6
+      }
+    },
+    {
+      "case_id": 289,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 292,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 302,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.8571,
+        "name_recall": 0.5,
+        "name_f1": 0.6316
+      }
+    },
+    {
+      "case_id": 304,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 306,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5556,
+        "name_f1": 0.7143
+      }
+    },
+    {
+      "case_id": 320,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6,
+        "name_recall": 0.75,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 321,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 1.0,
+        "name_f1": 1.0
+      }
+    },
+    {
+      "case_id": 323,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.4,
+        "name_recall": 0.5,
+        "name_f1": 0.4444
+      }
+    },
+    {
+      "case_id": 324,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 325,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5556,
+        "name_f1": 0.7143
+      }
+    },
+    {
+      "case_id": 328,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.75,
+        "name_f1": 0.8571
+      }
+    },
+    {
+      "case_id": 330,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 331,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 332,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 333,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.75,
+        "name_recall": 0.6,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 335,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6364,
+        "name_f1": 0.7778
+      }
+    },
+    {
+      "case_id": 345,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.8889,
+        "name_recall": 0.4706,
+        "name_f1": 0.6154
+      }
+    },
+    {
+      "case_id": 349,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 358,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.75,
+        "name_f1": 0.8571
+      }
+    },
+    {
+      "case_id": 359,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 360,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 361,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6667,
+        "name_recall": 0.4,
+        "name_f1": 0.5
+      }
+    },
+    {
+      "case_id": 364,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6667,
+        "name_recall": 0.4,
+        "name_f1": 0.5
+      }
+    },
+    {
+      "case_id": 368,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.5,
+        "name_recall": 0.4,
+        "name_f1": 0.4444
+      }
+    },
+    {
+      "case_id": 374,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 376,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 377,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.75,
+        "name_f1": 0.8571
+      }
+    },
+    {
+      "case_id": 378,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 379,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.8667,
+        "name_recall": 0.8667,
+        "name_f1": 0.8667
+      }
+    },
+    {
+      "case_id": 380,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6667,
+        "name_recall": 0.5,
+        "name_f1": 0.5714
+      }
+    },
+    {
+      "case_id": 383,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 391,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6667,
+        "name_recall": 0.4444,
+        "name_f1": 0.5333
+      }
+    },
+    {
+      "case_id": 395,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.5,
+        "name_recall": 0.3333,
+        "name_f1": 0.4
+      }
+    },
+    {
+      "case_id": 396,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.75,
+        "name_recall": 0.6,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 404,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 405,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 406,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.5,
+        "name_recall": 0.6,
+        "name_f1": 0.5455
+      }
+    },
+    {
+      "case_id": 408,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.75,
+        "name_recall": 0.6,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 409,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.75,
+        "name_recall": 0.6,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 411,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 412,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6,
+        "name_recall": 0.6,
+        "name_f1": 0.6
+      }
+    },
+    {
+      "case_id": 418,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.8333,
+        "name_recall": 0.5556,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 423,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5556,
+        "name_f1": 0.7143
+      }
+    },
+    {
+      "case_id": 426,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.7143,
+        "name_recall": 0.3636,
+        "name_f1": 0.4819
+      }
+    },
+    {
+      "case_id": 428,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 429,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5556,
+        "name_f1": 0.7143
+      }
+    },
+    {
+      "case_id": 430,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 431,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.5,
+        "name_recall": 0.3333,
+        "name_f1": 0.4
+      }
+    },
+    {
+      "case_id": 444,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 455,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6667,
+        "name_recall": 0.4,
+        "name_f1": 0.5
+      }
+    },
+    {
+      "case_id": 456,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.75,
+        "name_recall": 0.5,
+        "name_f1": 0.6
+      }
+    },
+    {
+      "case_id": 463,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 464,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 465,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 466,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5556,
+        "name_f1": 0.7143
+      }
+    },
+    {
+      "case_id": 467,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 468,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 471,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.9429,
+        "name_recall": 0.9429,
+        "name_f1": 0.9429
+      }
+    },
+    {
+      "case_id": 472,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6667,
+        "name_recall": 0.4,
+        "name_f1": 0.5
+      }
+    },
+    {
+      "case_id": 473,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.7143,
+        "name_recall": 0.7143,
+        "name_f1": 0.7143
+      }
+    },
+    {
+      "case_id": 476,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 477,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 478,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 479,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 481,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6667,
+        "name_recall": 0.3333,
+        "name_f1": 0.4444
+      }
+    },
+    {
+      "case_id": 483,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 484,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 486,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.7778,
+        "name_recall": 0.4118,
+        "name_f1": 0.5385
+      }
+    },
+    {
+      "case_id": 487,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 488,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6667,
+        "name_recall": 0.3333,
+        "name_f1": 0.4444
+      }
+    },
+    {
+      "case_id": 489,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 490,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 491,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6667,
+        "name_recall": 0.4,
+        "name_f1": 0.5
+      }
+    },
+    {
+      "case_id": 502,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6667,
+        "name_recall": 0.4,
+        "name_f1": 0.5
+      }
+    },
+    {
+      "case_id": 509,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.8,
+        "name_recall": 0.4444,
+        "name_f1": 0.5714
+      }
+    },
+    {
+      "case_id": 510,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.9,
+        "name_f1": 0.9474
+      }
+    },
+    {
+      "case_id": 512,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 513,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.7778,
+        "name_recall": 0.4667,
+        "name_f1": 0.5833
+      }
+    },
+    {
+      "case_id": 516,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 517,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6667,
+        "name_recall": 0.4,
+        "name_f1": 0.5
+      }
+    },
+    {
+      "case_id": 518,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5556,
+        "name_f1": 0.7143
+      }
+    },
+    {
+      "case_id": 519,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6,
+        "name_recall": 1.0,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 520,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 521,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 525,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6667,
+        "name_recall": 0.4,
+        "name_f1": 0.5
+      }
+    },
+    {
+      "case_id": 530,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 533,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.8,
+        "name_recall": 0.5,
+        "name_f1": 0.6154
+      }
+    },
+    {
+      "case_id": 534,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 554,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 559,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 565,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.8571,
+        "name_recall": 0.5,
+        "name_f1": 0.6316
+      }
+    },
+    {
+      "case_id": 567,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 570,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.8,
+        "name_recall": 0.4444,
+        "name_f1": 0.5714
+      }
+    },
+    {
+      "case_id": 571,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.5,
+        "name_recall": 0.6667,
+        "name_f1": 0.5714
+      }
+    },
+    {
+      "case_id": 572,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 581,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.75,
+        "name_recall": 0.5,
+        "name_f1": 0.6
+      }
+    },
+    {
+      "case_id": 598,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.75,
+        "name_recall": 0.6,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 603,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 604,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 605,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6667,
+        "name_recall": 0.4,
+        "name_f1": 0.5
+      }
+    },
+    {
+      "case_id": 606,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.8,
+        "name_recall": 0.4444,
+        "name_f1": 0.5714
+      }
+    },
+    {
+      "case_id": 607,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.75,
+        "name_f1": 0.8571
+      }
+    },
+    {
+      "case_id": 609,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 620,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 622,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6667,
+        "name_recall": 0.4,
+        "name_f1": 0.5
+      }
+    },
+    {
+      "case_id": 623,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6667,
+        "name_recall": 0.4,
+        "name_f1": 0.5
+      }
+    },
+    {
+      "case_id": 626,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 632,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5294,
+        "name_f1": 0.6923
+      }
+    },
+    {
+      "case_id": 635,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 637,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 646,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6667,
+        "name_recall": 0.4,
+        "name_f1": 0.5
+      }
+    },
+    {
+      "case_id": 647,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 648,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6667,
+        "name_recall": 0.6667,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 649,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.8889,
+        "name_recall": 0.8889,
+        "name_f1": 0.8889
+      }
+    },
+    {
+      "case_id": 650,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 651,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.75,
+        "name_f1": 0.8571
+      }
+    },
+    {
+      "case_id": 652,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.8333,
+        "name_recall": 0.8333,
+        "name_f1": 0.8333
+      }
+    },
+    {
+      "case_id": 653,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.75,
+        "name_recall": 0.6,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 655,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.8,
+        "name_recall": 0.4444,
+        "name_f1": 0.5714
+      }
+    },
+    {
+      "case_id": 657,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 658,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 1.0,
+        "name_f1": 1.0
+      }
+    },
+    {
+      "case_id": 659,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 660,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.75,
+        "name_recall": 0.6,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 664,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.75,
+        "name_recall": 0.6,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 666,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 667,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.3333,
+        "name_recall": 0.2,
+        "name_f1": 0.25
+      }
+    },
+    {
+      "case_id": 670,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 671,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.75,
+        "name_recall": 0.4444,
+        "name_f1": 0.5581
+      }
+    },
+    {
+      "case_id": 674,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6667,
+        "name_recall": 0.4,
+        "name_f1": 0.5
+      }
+    },
+    {
+      "case_id": 675,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.8,
+        "name_recall": 0.4444,
+        "name_f1": 0.5714
+      }
+    },
+    {
+      "case_id": 679,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 680,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.75,
+        "name_recall": 0.6,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 683,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.4286,
+        "name_f1": 0.6
+      }
+    },
+    {
+      "case_id": 684,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.75,
+        "name_recall": 0.6,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 687,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 688,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.8182,
+        "name_recall": 0.5238,
+        "name_f1": 0.6387
+      }
+    },
+    {
+      "case_id": 692,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.8,
+        "name_recall": 0.4444,
+        "name_f1": 0.5714
+      }
+    },
+    {
+      "case_id": 693,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6667,
+        "name_recall": 0.4,
+        "name_f1": 0.5
+      }
+    },
+    {
+      "case_id": 695,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.4286,
+        "name_f1": 0.6
+      }
+    },
+    {
+      "case_id": 698,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6667,
+        "name_recall": 0.4444,
+        "name_f1": 0.5333
+      }
+    },
+    {
+      "case_id": 708,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5238,
+        "name_f1": 0.6875
+      }
+    },
+    {
+      "case_id": 711,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 713,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.8,
+        "name_recall": 0.4444,
+        "name_f1": 0.5714
+      }
+    },
+    {
+      "case_id": 715,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6667,
+        "name_recall": 0.4,
+        "name_f1": 0.5
+      }
+    },
+    {
+      "case_id": 716,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.4839,
+        "name_f1": 0.6522
+      }
+    },
+    {
+      "case_id": 718,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6,
+        "name_recall": 1.0,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 724,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.75,
+        "name_f1": 0.8571
+      }
+    },
+    {
+      "case_id": 726,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.48,
+        "name_f1": 0.6486
+      }
+    },
+    {
+      "case_id": 728,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 729,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 731,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6667,
+        "name_recall": 0.4,
+        "name_f1": 0.5
+      }
+    },
+    {
+      "case_id": 733,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 734,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.2,
+        "name_recall": 0.25,
+        "name_f1": 0.2222
+      }
+    },
+    {
+      "case_id": 736,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.75,
+        "name_recall": 1.0,
+        "name_f1": 0.8571
+      }
+    },
+    {
+      "case_id": 737,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 743,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.9524,
+        "name_recall": 0.4878,
+        "name_f1": 0.6452
+      }
+    },
+    {
+      "case_id": 744,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 746,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 747,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6667,
+        "name_recall": 0.4,
+        "name_f1": 0.5
+      }
+    },
+    {
+      "case_id": 748,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.75,
+        "name_recall": 0.75,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 749,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.8,
+        "name_recall": 0.4444,
+        "name_f1": 0.5714
+      }
+    },
+    {
+      "case_id": 750,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5556,
+        "name_f1": 0.7143
+      }
+    },
+    {
+      "case_id": 755,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 756,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5556,
+        "name_f1": 0.7143
+      }
+    },
+    {
+      "case_id": 759,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 760,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6667,
+        "name_recall": 0.4,
+        "name_f1": 0.5
+      }
+    },
+    {
+      "case_id": 762,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 1.0,
+        "name_f1": 1.0
+      }
+    },
+    {
+      "case_id": 763,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5556,
+        "name_f1": 0.7143
+      }
+    },
+    {
+      "case_id": 764,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5556,
+        "name_f1": 0.7143
+      }
+    },
+    {
+      "case_id": 765,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6667,
+        "name_recall": 0.3333,
+        "name_f1": 0.4444
+      }
+    },
+    {
+      "case_id": 768,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 769,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.7143,
+        "name_f1": 0.8333
+      }
+    },
+    {
+      "case_id": 771,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.75,
+        "name_recall": 0.6,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 772,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.3636,
+        "name_f1": 0.5333
+      }
+    },
+    {
+      "case_id": 773,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 775,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 776,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6667,
+        "name_recall": 0.4,
+        "name_f1": 0.5
+      }
+    },
+    {
+      "case_id": 777,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 778,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 779,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 780,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6,
+        "name_recall": 0.3333,
+        "name_f1": 0.4286
+      }
+    },
+    {
+      "case_id": 782,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6667,
+        "name_recall": 0.4,
+        "name_f1": 0.5
+      }
+    },
+    {
+      "case_id": 783,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6667,
+        "name_recall": 0.4444,
+        "name_f1": 0.5333
+      }
+    },
+    {
+      "case_id": 786,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 787,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6667,
+        "name_recall": 0.4,
+        "name_f1": 0.5
+      }
+    },
+    {
+      "case_id": 788,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 789,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.5,
+        "name_recall": 1.0,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 790,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6667,
+        "name_recall": 0.4,
+        "name_f1": 0.5
+      }
+    },
+    {
+      "case_id": 791,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.75,
+        "name_f1": 0.8571
+      }
+    },
+    {
+      "case_id": 793,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.8,
+        "name_recall": 0.5,
+        "name_f1": 0.6154
+      }
+    },
+    {
+      "case_id": 798,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 800,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6,
+        "name_recall": 0.6,
+        "name_f1": 0.6
+      }
+    },
+    {
+      "case_id": 801,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.75,
+        "name_recall": 0.6,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 803,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5385,
+        "name_f1": 0.7
+      }
+    },
+    {
+      "case_id": 804,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5556,
+        "name_f1": 0.7143
+      }
+    },
+    {
+      "case_id": 805,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6667,
+        "name_recall": 0.5,
+        "name_f1": 0.5714
+      }
+    },
+    {
+      "case_id": 806,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5556,
+        "name_f1": 0.7143
+      }
+    },
+    {
+      "case_id": 807,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 808,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6,
+        "name_recall": 0.6,
+        "name_f1": 0.6
+      }
+    },
+    {
+      "case_id": 809,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 810,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.4,
+        "name_f1": 0.5714
+      }
+    },
+    {
+      "case_id": 834,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.8,
+        "name_recall": 0.5714,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 836,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.75,
+        "name_recall": 0.375,
+        "name_f1": 0.5
+      }
+    },
+    {
+      "case_id": 839,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 846,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.4286,
+        "name_f1": 0.6
+      }
+    },
+    {
+      "case_id": 850,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6667,
+        "name_recall": 0.3333,
+        "name_f1": 0.4444
+      }
+    },
+    {
+      "case_id": 858,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.4286,
+        "name_f1": 0.6
+      }
+    },
+    {
+      "case_id": 860,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 866,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6667,
+        "name_recall": 0.3333,
+        "name_f1": 0.4444
+      }
+    },
+    {
+      "case_id": 869,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 871,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 1.0,
+        "name_f1": 1.0
+      }
+    },
+    {
+      "case_id": 873,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.75,
+        "name_recall": 0.5,
+        "name_f1": 0.6
+      }
+    },
+    {
+      "case_id": 874,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.3333,
+        "name_recall": 0.1667,
+        "name_f1": 0.2222
+      }
+    },
+    {
+      "case_id": 877,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.75,
+        "name_recall": 0.5,
+        "name_f1": 0.6
+      }
+    },
+    {
+      "case_id": 881,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6667,
+        "name_recall": 0.3333,
+        "name_f1": 0.4444
+      }
+    },
+    {
+      "case_id": 887,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 888,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6667,
+        "name_f1": 0.8
+      }
+    },
+    {
+      "case_id": 889,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6667,
+        "name_f1": 0.8
+      }
+    },
+    {
+      "case_id": 891,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6667,
+        "name_recall": 0.3333,
+        "name_f1": 0.4444
+      }
+    },
+    {
+      "case_id": 900,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6667,
+        "name_recall": 0.3333,
+        "name_f1": 0.4444
+      }
+    },
+    {
+      "case_id": 902,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.4286,
+        "name_f1": 0.6
+      }
+    },
+    {
+      "case_id": 903,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 905,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.75,
+        "name_recall": 0.6667,
+        "name_f1": 0.7059
+      }
+    },
+    {
+      "case_id": 3,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.4286,
+        "name_f1": 0.6
+      }
+    },
+    {
+      "case_id": 13,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 20,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6667,
+        "name_f1": 0.8
+      }
+    },
+    {
+      "case_id": 21,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6667,
+        "name_f1": 0.8
+      }
+    },
+    {
+      "case_id": 23,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.4444,
+        "name_recall": 0.4,
+        "name_f1": 0.4211
+      }
+    },
+    {
+      "case_id": 28,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.8571,
+        "name_recall": 0.4667,
+        "name_f1": 0.6043
+      }
+    },
+    {
+      "case_id": 40,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6667,
+        "name_recall": 0.3333,
+        "name_f1": 0.4444
+      }
+    },
+    {
+      "case_id": 41,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.3333,
+        "name_recall": 0.1429,
+        "name_f1": 0.2
+      }
+    },
+    {
+      "case_id": 52,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 54,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.8,
+        "name_recall": 0.375,
+        "name_f1": 0.5106
+      }
+    },
+    {
+      "case_id": 69,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.4286,
+        "name_f1": 0.6
+      }
+    },
+    {
+      "case_id": 75,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.4783,
+        "name_f1": 0.6471
+      }
+    },
+    {
+      "case_id": 79,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6667,
+        "name_f1": 0.8
+      }
+    },
+    {
+      "case_id": 80,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5714,
+        "name_f1": 0.7273
+      }
+    },
+    {
+      "case_id": 81,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.4286,
+        "name_f1": 0.6
+      }
+    },
+    {
+      "case_id": 83,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6667,
+        "name_recall": 0.3333,
+        "name_f1": 0.4444
+      }
+    },
+    {
+      "case_id": 90,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5714,
+        "name_f1": 0.7273
+      }
+    },
+    {
+      "case_id": 99,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.3333,
+        "name_recall": 0.2,
+        "name_f1": 0.25
+      }
+    },
+    {
+      "case_id": 108,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6667,
+        "name_recall": 0.5,
+        "name_f1": 0.5714
+      }
+    },
+    {
+      "case_id": 118,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 120,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.8,
+        "name_recall": 0.6667,
+        "name_f1": 0.7273
+      }
+    },
+    {
+      "case_id": 123,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 126,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6667,
+        "name_recall": 0.3333,
+        "name_f1": 0.4444
+      }
+    },
+    {
+      "case_id": 129,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 136,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6667,
+        "name_recall": 0.2857,
+        "name_f1": 0.4
+      }
+    },
+    {
+      "case_id": 146,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 158,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.4286,
+        "name_f1": 0.6
+      }
+    },
+    {
+      "case_id": 161,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 165,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 171,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 175,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 176,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6667,
+        "name_recall": 0.3333,
+        "name_f1": 0.4444
+      }
+    },
+    {
+      "case_id": 177,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6667,
+        "name_recall": 0.3333,
+        "name_f1": 0.4444
+      }
+    },
+    {
+      "case_id": 178,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6667,
+        "name_f1": 0.8
+      }
+    },
+    {
+      "case_id": 179,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 180,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6667,
+        "name_f1": 0.8
+      }
+    },
+    {
+      "case_id": 202,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.4286,
+        "name_f1": 0.6
+      }
+    },
+    {
+      "case_id": 216,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.8333,
+        "name_recall": 0.5455,
+        "name_f1": 0.6593
+      }
+    },
+    {
+      "case_id": 223,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.8,
+        "name_recall": 0.6667,
+        "name_f1": 0.7273
+      }
+    },
+    {
+      "case_id": 226,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6667,
+        "name_f1": 0.8
+      }
+    },
+    {
+      "case_id": 228,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.4286,
+        "name_f1": 0.6
+      }
+    },
+    {
+      "case_id": 235,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6667,
+        "name_recall": 0.3333,
+        "name_f1": 0.4444
+      }
+    },
+    {
+      "case_id": 243,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6667,
+        "name_recall": 0.3333,
+        "name_f1": 0.4444
+      }
+    },
+    {
+      "case_id": 244,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 247,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.4286,
+        "name_f1": 0.6
+      }
+    },
+    {
+      "case_id": 248,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.4286,
+        "name_f1": 0.6
+      }
+    },
+    {
+      "case_id": 249,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 251,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.8,
+        "name_recall": 0.4286,
+        "name_f1": 0.5581
+      }
+    },
+    {
+      "case_id": 270,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6667,
+        "name_recall": 0.4,
+        "name_f1": 0.5
+      }
+    },
+    {
+      "case_id": 274,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 275,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6667,
+        "name_recall": 0.3333,
+        "name_f1": 0.4444
+      }
+    },
+    {
+      "case_id": 299,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 307,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.5,
+        "name_recall": 0.3333,
+        "name_f1": 0.4
+      }
+    },
+    {
+      "case_id": 311,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 312,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.3333,
+        "name_recall": 0.1667,
+        "name_f1": 0.2222
+      }
+    },
+    {
+      "case_id": 313,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 314,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 316,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 317,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5385,
+        "name_f1": 0.7
+      }
+    },
+    {
+      "case_id": 319,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 341,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5556,
+        "name_f1": 0.7143
+      }
+    },
+    {
+      "case_id": 351,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.8,
+        "name_recall": 0.5,
+        "name_f1": 0.6154
+      }
+    },
+    {
+      "case_id": 352,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.625,
+        "name_f1": 0.7692
+      }
+    },
+    {
+      "case_id": 353,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.4286,
+        "name_f1": 0.6
+      }
+    },
+    {
+      "case_id": 354,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 357,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6,
+        "name_recall": 0.3333,
+        "name_f1": 0.4286
+      }
+    },
+    {
+      "case_id": 365,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 367,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5556,
+        "name_f1": 0.7143
+      }
+    },
+    {
+      "case_id": 369,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 372,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 384,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 385,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 386,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6667,
+        "name_recall": 0.4,
+        "name_f1": 0.5
+      }
+    },
+    {
+      "case_id": 389,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 390,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.9412,
+        "name_recall": 0.4848,
+        "name_f1": 0.64
+      }
+    },
+    {
+      "case_id": 393,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5556,
+        "name_f1": 0.7143
+      }
+    },
+    {
+      "case_id": 398,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 399,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 400,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 402,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 403,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6667,
+        "name_recall": 0.5,
+        "name_f1": 0.5714
+      }
+    },
+    {
+      "case_id": 434,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 435,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 436,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.4286,
+        "name_f1": 0.6
+      }
+    },
+    {
+      "case_id": 438,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 439,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5556,
+        "name_f1": 0.7143
+      }
+    },
+    {
+      "case_id": 440,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5556,
+        "name_f1": 0.7143
+      }
+    },
+    {
+      "case_id": 441,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6667,
+        "name_recall": 0.4,
+        "name_f1": 0.5
+      }
+    },
+    {
+      "case_id": 442,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.3333,
+        "name_recall": 0.1667,
+        "name_f1": 0.2222
+      }
+    },
+    {
+      "case_id": 443,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 447,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6667,
+        "name_f1": 0.8
+      }
+    },
+    {
+      "case_id": 448,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 449,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6667,
+        "name_recall": 0.3333,
+        "name_f1": 0.4444
+      }
+    },
+    {
+      "case_id": 450,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 452,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5556,
+        "name_f1": 0.7143
+      }
+    },
+    {
+      "case_id": 453,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 1.0,
+        "name_f1": 1.0
+      }
+    },
+    {
+      "case_id": 454,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6667,
+        "name_recall": 0.4,
+        "name_f1": 0.5
+      }
+    },
+    {
+      "case_id": 458,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6667,
+        "name_recall": 0.5,
+        "name_f1": 0.5714
+      }
+    },
+    {
+      "case_id": 460,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.75,
+        "name_f1": 0.8571
+      }
+    },
+    {
+      "case_id": 461,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6364,
+        "name_f1": 0.7778
+      }
+    },
+    {
+      "case_id": 496,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.8,
+        "name_recall": 0.4444,
+        "name_f1": 0.5714
+      }
+    },
+    {
+      "case_id": 498,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 499,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6667,
+        "name_recall": 0.6667,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 526,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 528,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 529,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 536,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6,
+        "name_recall": 0.6,
+        "name_f1": 0.6
+      }
+    },
+    {
+      "case_id": 537,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 538,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 539,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 543,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 545,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6667,
+        "name_recall": 0.4,
+        "name_f1": 0.5
+      }
+    },
+    {
+      "case_id": 561,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6667,
+        "name_recall": 0.4,
+        "name_f1": 0.5
+      }
+    },
+    {
+      "case_id": 577,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 582,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 583,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6667,
+        "name_recall": 0.3333,
+        "name_f1": 0.4444
+      }
+    },
+    {
+      "case_id": 586,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 587,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 588,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 589,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 590,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 597,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5294,
+        "name_f1": 0.6923
+      }
+    },
+    {
+      "case_id": 613,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5556,
+        "name_f1": 0.7143
+      }
+    },
+    {
+      "case_id": 615,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 619,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5385,
+        "name_f1": 0.7
+      }
+    },
+    {
+      "case_id": 643,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 661,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.4286,
+        "name_f1": 0.6
+      }
+    },
+    {
+      "case_id": 662,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.4286,
+        "name_f1": 0.6
+      }
+    },
+    {
+      "case_id": 685,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5385,
+        "name_f1": 0.7
+      }
+    },
+    {
+      "case_id": 686,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 690,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5385,
+        "name_f1": 0.7
+      }
+    },
+    {
+      "case_id": 699,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 700,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5556,
+        "name_f1": 0.7143
+      }
+    },
+    {
+      "case_id": 702,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5294,
+        "name_f1": 0.6923
+      }
+    },
+    {
+      "case_id": 703,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.4545,
+        "name_recall": 0.2,
+        "name_f1": 0.2778
+      }
+    },
+    {
+      "case_id": 704,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.6667,
+        "name_recall": 0.3333,
+        "name_f1": 0.4444
+      }
+    },
+    {
+      "case_id": 705,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5556,
+        "name_f1": 0.7143
+      }
+    },
+    {
+      "case_id": 707,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 719,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.8,
+        "name_f1": 0.8889
+      }
+    },
+    {
+      "case_id": 720,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 1.0,
+        "name_f1": 1.0
+      }
+    },
+    {
+      "case_id": 722,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 723,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 0.5,
+        "name_recall": 0.3333,
+        "name_f1": 0.4
+      }
+    },
+    {
+      "case_id": 795,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.6,
+        "name_f1": 0.75
+      }
+    },
+    {
+      "case_id": 796,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.75,
+        "name_f1": 0.8571
+      }
+    },
+    {
+      "case_id": 872,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5,
+        "name_f1": 0.6667
+      }
+    },
+    {
+      "case_id": 883,
+      "metrics": {
+        "county_match": false,
+        "plea_match": false,
+        "name_precision": 1.0,
+        "name_recall": 0.5385,
+        "name_f1": 0.7
+      }
+    }
+  ]
+}

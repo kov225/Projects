@@ -1,0 +1,570 @@
+[
+  {
+    "human_id": 16,
+    "ai_ids": [
+      70,
+      240
+    ],
+    "merged_id": 10000
+  },
+  {
+    "human_id": 27,
+    "ai_ids": [
+      294,
+      1053
+    ],
+    "merged_id": 10001
+  },
+  {
+    "human_id": 43,
+    "ai_ids": [
+      624,
+      1162
+    ],
+    "merged_id": 10002
+  },
+  {
+    "human_id": 77,
+    "ai_ids": [
+      738,
+      937
+    ],
+    "merged_id": 10003
+  },
+  {
+    "human_id": 100,
+    "ai_ids": [
+      735,
+      731
+    ],
+    "merged_id": 10004
+  },
+  {
+    "human_id": 122,
+    "ai_ids": [
+      324,
+      323
+    ],
+    "merged_id": 10005
+  },
+  {
+    "human_id": 185,
+    "ai_ids": [
+      184,
+      399
+    ],
+    "merged_id": 10006
+  },
+  {
+    "human_id": 242,
+    "ai_ids": [
+      293,
+      1052
+    ],
+    "merged_id": 10007
+  },
+  {
+    "human_id": 268,
+    "ai_ids": [
+      81,
+      87
+    ],
+    "merged_id": 10008
+  },
+  {
+    "human_id": 271,
+    "ai_ids": [
+      85,
+      343
+    ],
+    "merged_id": 10009
+  },
+  {
+    "human_id": 286,
+    "ai_ids": [
+      765,
+      280
+    ],
+    "merged_id": 10010
+  },
+  {
+    "human_id": 320,
+    "ai_ids": [
+      814,
+      481
+    ],
+    "merged_id": 10011
+  },
+  {
+    "human_id": 321,
+    "ai_ids": [
+      821,
+      479
+    ],
+    "merged_id": 10012
+  },
+  {
+    "human_id": 323,
+    "ai_ids": [
+      820,
+      37
+    ],
+    "merged_id": 10013
+  },
+  {
+    "human_id": 331,
+    "ai_ids": [
+      36,
+      270
+    ],
+    "merged_id": 10014
+  },
+  {
+    "human_id": 333,
+    "ai_ids": [
+      31,
+      272
+    ],
+    "merged_id": 10015
+  },
+  {
+    "human_id": 358,
+    "ai_ids": [
+      1051,
+      171
+    ],
+    "merged_id": 10016
+  },
+  {
+    "human_id": 368,
+    "ai_ids": [
+      925,
+      922
+    ],
+    "merged_id": 10017
+  },
+  {
+    "human_id": 383,
+    "ai_ids": [
+      346,
+      347
+    ],
+    "merged_id": 10018
+  },
+  {
+    "human_id": 391,
+    "ai_ids": [
+      830,
+      675
+    ],
+    "merged_id": 10019
+  },
+  {
+    "human_id": 395,
+    "ai_ids": [
+      684,
+      683
+    ],
+    "merged_id": 10020
+  },
+  {
+    "human_id": 396,
+    "ai_ids": [
+      680,
+      861
+    ],
+    "merged_id": 10021
+  },
+  {
+    "human_id": 406,
+    "ai_ids": [
+      126,
+      747
+    ],
+    "merged_id": 10022
+  },
+  {
+    "human_id": 408,
+    "ai_ids": [
+      128,
+      130
+    ],
+    "merged_id": 10023
+  },
+  {
+    "human_id": 409,
+    "ai_ids": [
+      129,
+      748
+    ],
+    "merged_id": 10024
+  },
+  {
+    "human_id": 412,
+    "ai_ids": [
+      862,
+      132
+    ],
+    "merged_id": 10025
+  },
+  {
+    "human_id": 418,
+    "ai_ids": [
+      752,
+      339
+    ],
+    "merged_id": 10026
+  },
+  {
+    "human_id": 431,
+    "ai_ids": [
+      494,
+      627
+    ],
+    "merged_id": 10027
+  },
+  {
+    "human_id": 444,
+    "ai_ids": [
+      670,
+      845
+    ],
+    "merged_id": 10028
+  },
+  {
+    "human_id": 455,
+    "ai_ids": [
+      852,
+      725
+    ],
+    "merged_id": 10029
+  },
+  {
+    "human_id": 456,
+    "ai_ids": [
+      726,
+      967
+    ],
+    "merged_id": 10030
+  },
+  {
+    "human_id": 479,
+    "ai_ids": [
+      238,
+      325
+    ],
+    "merged_id": 10031
+  },
+  {
+    "human_id": 502,
+    "ai_ids": [
+      1095,
+      383
+    ],
+    "merged_id": 10032
+  },
+  {
+    "human_id": 517,
+    "ai_ids": [
+      318,
+      1169
+    ],
+    "merged_id": 10033
+  },
+  {
+    "human_id": 559,
+    "ai_ids": [
+      946,
+      687
+    ],
+    "merged_id": 10034
+  },
+  {
+    "human_id": 567,
+    "ai_ids": [
+      364,
+      982
+    ],
+    "merged_id": 10035
+  },
+  {
+    "human_id": 571,
+    "ai_ids": [
+      1016,
+      1017
+    ],
+    "merged_id": 10036
+  },
+  {
+    "human_id": 581,
+    "ai_ids": [
+      254,
+      1022
+    ],
+    "merged_id": 10037
+  },
+  {
+    "human_id": 598,
+    "ai_ids": [
+      1062,
+      41
+    ],
+    "merged_id": 10038
+  },
+  {
+    "human_id": 635,
+    "ai_ids": [
+      572,
+      305
+    ],
+    "merged_id": 10039
+  },
+  {
+    "human_id": 652,
+    "ai_ids": [
+      789,
+      450
+    ],
+    "merged_id": 10040
+  },
+  {
+    "human_id": 653,
+    "ai_ids": [
+      781,
+      452
+    ],
+    "merged_id": 10041
+  },
+  {
+    "human_id": 657,
+    "ai_ids": [
+      456,
+      1152
+    ],
+    "merged_id": 10042
+  },
+  {
+    "human_id": 658,
+    "ai_ids": [
+      457,
+      1153
+    ],
+    "merged_id": 10043
+  },
+  {
+    "human_id": 659,
+    "ai_ids": [
+      458,
+      1154
+    ],
+    "merged_id": 10044
+  },
+  {
+    "human_id": 660,
+    "ai_ids": [
+      459,
+      1155
+    ],
+    "merged_id": 10045
+  },
+  {
+    "human_id": 664,
+    "ai_ids": [
+      702,
+      442
+    ],
+    "merged_id": 10046
+  },
+  {
+    "human_id": 670,
+    "ai_ids": [
+      706,
+      708
+    ],
+    "merged_id": 10047
+  },
+  {
+    "human_id": 671,
+    "ai_ids": [
+      709,
+      441
+    ],
+    "merged_id": 10048
+  },
+  {
+    "human_id": 680,
+    "ai_ids": [
+      742,
+      919
+    ],
+    "merged_id": 10049
+  },
+  {
+    "human_id": 684,
+    "ai_ids": [
+      913,
+      936
+    ],
+    "merged_id": 10050
+  },
+  {
+    "human_id": 687,
+    "ai_ids": [
+      916,
+      930
+    ],
+    "merged_id": 10051
+  },
+  {
+    "human_id": 688,
+    "ai_ids": [
+      917,
+      931
+    ],
+    "merged_id": 10052
+  },
+  {
+    "human_id": 698,
+    "ai_ids": [
+      565,
+      1076
+    ],
+    "merged_id": 10053
+  },
+  {
+    "human_id": 718,
+    "ai_ids": [
+      611,
+      1003
+    ],
+    "merged_id": 10054
+  },
+  {
+    "human_id": 729,
+    "ai_ids": [
+      777,
+      711
+    ],
+    "merged_id": 10055
+  },
+  {
+    "human_id": 736,
+    "ai_ids": [
+      779,
+      719
+    ],
+    "merged_id": 10056
+  },
+  {
+    "human_id": 748,
+    "ai_ids": [
+      67,
+      11
+    ],
+    "merged_id": 10057
+  },
+  {
+    "human_id": 750,
+    "ai_ids": [
+      14,
+      907
+    ],
+    "merged_id": 10058
+  },
+  {
+    "human_id": 759,
+    "ai_ids": [
+      191,
+      889
+    ],
+    "merged_id": 10059
+  },
+  {
+    "human_id": 771,
+    "ai_ids": [
+      554,
+      219
+    ],
+    "merged_id": 10060
+  },
+  {
+    "human_id": 782,
+    "ai_ids": [
+      884,
+      657
+    ],
+    "merged_id": 10061
+  },
+  {
+    "human_id": 783,
+    "ai_ids": [
+      885,
+      658
+    ],
+    "merged_id": 10062
+  },
+  {
+    "human_id": 787,
+    "ai_ids": [
+      660,
+      693
+    ],
+    "merged_id": 10063
+  },
+  {
+    "human_id": 789,
+    "ai_ids": [
+      695,
+      700
+    ],
+    "merged_id": 10064
+  },
+  {
+    "human_id": 801,
+    "ai_ids": [
+      211,
+      287
+    ],
+    "merged_id": 10065
+  },
+  {
+    "human_id": 839,
+    "ai_ids": [
+      755,
+      941
+    ],
+    "merged_id": 10066
+  },
+  {
+    "human_id": 873,
+    "ai_ids": [
+      295,
+      382
+    ],
+    "merged_id": 10067
+  },
+  {
+    "human_id": 877,
+    "ai_ids": [
+      600,
+      635
+    ],
+    "merged_id": 10068
+  },
+  {
+    "human_id": 888,
+    "ai_ids": [
+      642,
+      205
+    ],
+    "merged_id": 10069
+  },
+  {
+    "human_id": 905,
+    "ai_ids": [
+      298,
+      381
+    ],
+    "merged_id": 10070
+  }
+]
