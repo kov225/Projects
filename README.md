@@ -23,12 +23,12 @@ I am a **Data Science graduate student at Lehigh University (GPA: 3.94)** specia
 * **Key Results:** Built a high-performance, batched inference engine on a single NVIDIA T4 GPU, achieving **>200 tokens/sec throughput** (handling quantization and LoRA adapters).
 * **Tech Stack:** PyTorch, HuggingFace Accelerate, bitsandbytes.
 
-### 2. [Automated NLP Reconciliation of Historical Data](./historical-nlp-reconciliation) *(End-to-End Data Science)*
+### 3. [Automated NLP Reconciliation of Historical Data](./historical-nlp-reconciliation) *(End-to-End Data Science)*
 * **The Business Problem:** Manual transcription and entity resolution of fragmented records costs thousands of human hours.
 * **Key Results:** Automated alignment of AI-generated HTR text against human ground-truth data using RapidFuzz and Bipartite matching. Achieved scalable bipartite resolution for 1,200+ unique entities to build historical social network graphs.
 * **Tech Stack:** Python, Flask, RapidFuzz, Pandas, SciPy, NetworkX.
 
-### 3. [Algorithmic Trading & Interpretability Research](./algorithmic-trading-research) *(Financial Modeling)*
+### 4. [Algorithmic Trading & Interpretability Research](./algorithmic-trading-research) *(Financial Modeling)*
 * **The Business Problem:** Black-box financial models fail during regime shifts; stakeholders require interpretable risk strategies.
 * **Key Results:** Cleaned decades of raw AAPL market data to engineer structural features (support/resistance). Developed a robust, rule-based scoring framework prioritizing logic transparency over opaque neural networks.
 * **Tech Stack:** Python, Pandas, Technical Indicators.
