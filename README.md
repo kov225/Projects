@@ -1,194 +1,66 @@
-# Koushik Vennalakanti  
-### Data Science, Machine Learning, AI Systems, Research
+# 📊 Koushik Vennalakanti | Applied Data Science & ML Engineering Portfolio
 
-![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white)
-![R](https://img.shields.io/badge/R-276DC3?logo=r&logoColor=white)
-![GPA](https://img.shields.io/badge/GPA-3.94-success)
+[![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white)](https://python.org)
+[![R](https://img.shields.io/badge/R-276DC3?logo=r&logoColor=white)](https://r-project.org)
+[![GPA](https://img.shields.io/badge/GPA-3.94-success)]()
+[![Status](https://img.shields.io/badge/Status-Actively_Seeking_Roles-blue)]()
 
-I am a **Data Science graduate student at Lehigh University (GPA: 3.94)** with a strong interest in **applied statistics, interpretable machine learning, and ML systems engineering**.
+> **"Built scalable LLM inference pipelines, reconstructed 15th-century legal networks using NLP and bipartite matching, and engineered interpretable trading algorithms."**
 
-This repository is my **academic and technical portfolio**, intentionally structured to distinguish between:
-- research projects  
-- major coursework projects  
-- assignments  
-- skill-building practice  
-- ongoing learning  
-
-Each folder contains its own README that clearly explains scope, intent, and outcomes.
+I am a **Data Science graduate student at Lehigh University (GPA: 3.94)** specializing in **applied statistics, interpretable machine learning, and ML systems engineering**. This repository showcases my ability to own the entire data lifecycle - from raw data ingestion and heuristic modeling to hardware-aware LLM deployment.
 
 ---
 
-## Featured Work (Start Here)
+## 🏆 Featured Projects & Business Impact
 
-If you are a recruiter or reviewer, these best represent my work:
+### 1. [Real-Time Credit Intelligence Platform](./credit-intelligence-platform) *(ML Engineering & Production AI)*
+* **The Business Problem:** Regulated lenders need drift-aware, explainable risk scoring to prevent model decay and ensure ECOA compliance.
+* **Key Results:** Built a 9-service containerized system handling 2.2M loans. Reached **p99 < 100ms** latency and automated retraining via drift sensing (PSI/KS).
+* **Tech Stack:** FastAPI, Kafka, Redis, MLflow, Prometheus, Grafana, SHAP, Mistral-7B.
 
-- **Optimized Inference Pipeline for Mistral LLMs**  
-  High-performance inference and benchmarking on a single NVIDIA T4 GPU  
-  Focus on quantization, batching, warmup, LoRA support, and throughput of 200+ tokens/sec  
-  Folder: `mistral-llm-optimised-inference`
+### 2. [Optimized Inference Pipeline for Mistral LLMs](./mistral-llm-optimised-inference)  *(ML Systems Engineering)*
+* **The Business Problem:** Deploying LLMs is computationally expensive and latency-heavy.
+* **Key Results:** Built a high-performance, batched inference engine on a single NVIDIA T4 GPU, achieving **>200 tokens/sec throughput** (handling quantization and LoRA adapters).
+* **Tech Stack:** PyTorch, HuggingFace Accelerate, bitsandbytes.
 
-- **Research Project: Apple Market Analysis**  
-  Interpretable, rule-based analysis of AAPL price and volume data with iterative research notebooks  
-  Folder: `research-project`
+### 2. [Automated NLP Reconciliation of Historical Data](./historical-nlp-reconciliation) *(End-to-End Data Science)*
+* **The Business Problem:** Manual transcription and entity resolution of fragmented records costs thousands of human hours.
+* **Key Results:** Automated alignment of AI-generated HTR text against human ground-truth data using RapidFuzz and Bipartite matching. Achieved scalable bipartite resolution for 1,200+ unique entities to build historical social network graphs.
+* **Tech Stack:** Python, Flask, RapidFuzz, Pandas, SciPy, NetworkX.
 
-- **Global Trade Inequality (Statistics)**  
-  Large-scale statistical analysis using a very large global trade dataset  
-  Folder: `stats`
-
----
-
-## How to Read This Repository
-
-Not everything here is a project, and that is intentional.
-
-This repository reflects how real technical work actually happens:
-- exploration to refinement to documentation  
-- research alongside coursework  
-- polished projects alongside practice work  
-
-Each section is clearly labeled so reviewers can quickly distinguish research, coursework, and assignments.
+### 3. [Algorithmic Trading & Interpretability Research](./algorithmic-trading-research) *(Financial Modeling)*
+* **The Business Problem:** Black-box financial models fail during regime shifts; stakeholders require interpretable risk strategies.
+* **Key Results:** Cleaned decades of raw AAPL market data to engineer structural features (support/resistance). Developed a robust, rule-based scoring framework prioritizing logic transparency over opaque neural networks.
+* **Tech Stack:** Python, Pandas, Technical Indicators.
 
 ---
 
-## Repository Overview
+## 📂 Project Structure
 
-### ML Systems and LLM Engineering
-**Folder:** `mistral-llm-optimised-inference`
+```text
+├── credit-intelligence-platform/ # Production ML (FastAPI, Redis, Kafka, Monitoring)
+├── mistral-llm-optimised-inference/ # LLM deployment (Quantization, Batching, Benchmarking)
+├── historical-nlp-reconciliation/   # Bipartite matching v2, Web Dashboard, Fuzzy String NLP
+├── capstone/capstone-project-kov225/# Modular reconciliation scripts, unit tests, network graph
+├── algorithmic-trading-research/    # Time-series EDA, Feature Engineering, Rule-based Backtesting
+├── global-trade-inequality-data/    # Large-scale R/Python Statistical Analysis
+└── coursework-and-practice/         # Genetic Algorithms, R Stats, Ethics, Coding exercises
+```
 
-An optimized inference pipeline for Mistral-based large language models, designed for resource-constrained environments.
+## 🚀 Reproducibility & Code Quality
+I prioritize code that works in production. Every major project folder contains a `requirements.txt` and explicit setup instructions. 
 
-Key aspects:
-- Single GPU deployment on NVIDIA T4
-- 4-bit and 8-bit quantization via bitsandbytes
-- Batch concurrency for throughput scaling
-- CUDA warmup for stable benchmarking
-- Optional LoRA adapter loading
-- End-to-end tokens per second benchmarking
+**Example (Running the NLP Reconciliation Pipeline):**
+```bash
+cd historical-nlp-reconciliation
+pip install -r requirements.txt
+python reconciliation.py
+```
 
-This project emphasizes deployment efficiency, hardware-aware optimization, and engineering trade-offs.
+## 🔮 Future Work
+- Package the LLM engine into a Dockerized FastAPI endpoint for scale.
+- Implement formal Backtrader backtesting for the equity scoring models to calculate Sharpe ratios and max drawdowns.
 
----
-
-### Research Project
-**Folder:** `research-project`
-
-An independent research project analyzing Apple (AAPL) market data, covering:
-- raw data ingestion, cleaning, and feature engineering  
-- structural market analysis such as support and resistance  
-- rule-based scoring frameworks  
-- iterative experimentation preserved across notebooks  
-
-Focus is on interpretability, reasoning, and research workflow rather than black-box prediction.
-
----
-
-### Statistics Coursework
-**Folder:** `stats`
-
-- **Global Trade Inequality (Major Project)**  
-  A multi-milestone statistics project using a very large international trade dataset  
-  The data spans many countries, product categories, and years, and focuses on inequality and distributional analysis.
-
-- **Software Pricing (Assignment)**  
-  A smaller, standalone statistics assignment demonstrating foundational analysis and interpretation.
-
----
-
-### AI Coursework
-**Folder:** `AI-Coursework`
-
-Coursework from CSF 407 (Artificial Intelligence), applying Genetic Algorithms to:
-- optimize shell-and-tube heat exchanger design  
-- minimize total discounted lifecycle cost  
-
-Includes Python implementation, academic presentation, and literature grounding.
-
----
-
-### R Coursework
-**Folder:** `R-Coursework`
-
-Weekly R assignments focused on:
-- statistical computing  
-- data wrangling  
-- visualization  
-- exploratory data analysis  
-
-Top-performing student in the class.  
-(Some datasets were lost after course completion, but all analytical logic is preserved.)
-
----
-
-### Coding Weekly
-**Folder:** `Coding Weekly`
-
-Weekly Python problem-solving exercises emphasizing:
-- core programming fundamentals  
-- logical reasoning  
-- clean and correct implementations  
-
-This folder demonstrates consistency and strong foundations rather than polish.
-
----
-
-### Ethics Coursework
-**Folder:** `ethics`
-
-Assignments focused on responsible data science and ethical reasoning.
-
-- **Project 1 (with its own README)**  
-  Integrates data analysis, academic literature review, and ethical evaluation.
-- Additional assignments included in notebook and HTML formats.
-
----
-
-### Capstone Work
-**Folders:**  
-- `capstone`  
-- `capstone-alternative-approach`
-
-Two capstone tracks are maintained:
-- Primary capstone with full end-to-end implementation  
-- Alternative approach that is research-driven and exploratory  
-
-The alternative approach intentionally omits components because it reflects ongoing research rather than incompleteness.
-
----
-
-### Certificates
-**Folder:** `certificates`
-
-Certificates from completed courses in:
-- data science  
-- statistics  
-- machine learning  
-- applied analytics  
-
-This section is actively growing as I continue structured learning.
-
----
-
-## Technical Stack
-
-- **Languages:** Python, R  
-- **Data and Statistics:** Pandas, NumPy, statistical methods  
-- **ML and AI:** scikit-learn, Genetic Algorithms, LLM inference optimization  
-- **Systems:** quantization, batching, benchmarking, GPU-aware deployment  
-- **Workflow:** Jupyter notebooks, exploratory to structured pipelines  
-
----
-
-## Guiding Principles
-
-- Depth over flash  
-- Reasoning over blind optimization  
-- Transparency over over-polish  
-
-This is a living repository and will continue evolving with new research, coursework, and systems experiments.
-
----
-
-## Contact
-
-- **Email:** kov225@lehigh.edu  
+## 📫 Let's Connect
+- **Email:** [kov225@lehigh.edu](mailto:kov225@lehigh.edu)
 - **GitHub:** https://github.com/kov225

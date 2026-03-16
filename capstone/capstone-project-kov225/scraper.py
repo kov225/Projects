@@ -48,12 +48,60 @@ def parse_image_text(text: str) -> Tuple[Optional[int], Optional[str]]:
     return int(digits), side
 
 
+def group_gt_defendants(tokens: List[str]) -> Tuple[List[str], List[str]]:
+    """Attempt to group fragmented GT tokens into full names and places.
+    
+    GT is often ['LastName', 'FirstName', 'of Place', 'Description'].
+    We group these into 'FirstName LastName' strings.
+    """
+    names: List[str] = []
+    places: List[str] = []
+    
+    current_name_parts: List[str] = []
+    
+    for t in tokens:
+        if not t: continue
+        low = t.lower().strip()
+        
+        # 'of' or 'of the' usually starts a place or description
+        if low.startswith("of ") or low == "of":
+            places.append(t)
+            continue
+            
+        # Common descriptions/roles that aren't names
+        if low in ["husbandman", "yeoman", "clerk", "gent", "esq", "knight", "widow", "laborer", "spinster", "chapman"]:
+            continue
+            
+        if "together with" in low:
+            continue
+            
+        # If we have two parts already, it's likely a full name (LastName, FirstName)
+        # We'll heuristic: group tokens until we hit a delimiter or have 2-3 parts.
+        current_name_parts.append(t)
+        if len(current_name_parts) >= 2:
+            # Reorder from [Last, First] to [First Last] if possible
+            p1, p2 = current_name_parts[0], current_name_parts[1]
+            names.append(f"{p2} {p1}")
+            current_name_parts = []
+            
+    # Flush any remaining parts
+    if current_name_parts:
+        names.append(" ".join(current_name_parts))
+        
+    return names, places
+
+
 def normalize_gt(gt_raw: Dict[str, Any]) -> List[Dict[str, Any]]:
     """Normalize GT cases into a predictable structure."""
     cases: List[Dict[str, Any]] = []
 
     for key, case in gt_raw.items():
         img_num_from_text, side = parse_image_text(case.get("image_text", ""))
+        
+        raw_defs = case.get("defendants", [])
+        raw_places = case.get("places", [])
+        
+        grouped_names, more_places = group_gt_defendants(raw_defs)
 
         cases.append(
             {
@@ -61,8 +109,8 @@ def normalize_gt(gt_raw: Dict[str, Any]) -> List[Dict[str, Any]]:
                 "image_num": case.get("image_num", img_num_from_text),
                 "side": side,
                 "plaintiffs": case.get("plaintiffs", []),
-                "defendants": case.get("defendants", []),
-                "places": case.get("places", []),
+                "defendants": grouped_names,
+                "places": raw_places + more_places,
                 "county": case.get("county"),
             }
         )

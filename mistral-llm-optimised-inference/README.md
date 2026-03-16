@@ -1,5 +1,7 @@
 # Optimized Inference Pipeline for Mistral LLMs
 
+![Mistral Inference Throughput](assets/benchmark.png)
+
 This repository provides a **generalized, high-performance inference engine** for running Mistral-based large language models on a single NVIDIA T4 GPU.  
 It is built to maximize **throughput, latency efficiency, and GPU utilization**, while remaining simple, reproducible, and compatible with both base and LoRA-fine-tuned models.
 

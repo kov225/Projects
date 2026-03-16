@@ -1,0 +1,40 @@
+.env
+__pycache__/
+*.py[cod]
+*.pyo
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+.venv/
+venv/
+env/
+.DS_Store
+
+# Data — raw CSVs are too large for git
+data/raw/
+data/processed/
+
+# Model artifacts — versioned via MLflow, not git
+models/artifacts/
+
+# MLflow local run storage
+mlruns/
+
+# Evaluation outputs
+evaluation/results/
+evaluation/fairness/
+evaluation/stress/
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+
+# IDE
+.vscode/
+.idea/
+
+# Pytest cache
+.pytest_cache/
+.coverage
+htmlcov/

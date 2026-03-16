@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+from pathlib import Path
 from typing import Any, Dict, List, Tuple
 
 import matplotlib.pyplot as plt
@@ -14,7 +15,7 @@ from reconciliation import reconcile_all
 
 
 def name_overlap_strict(gt_names: List[str], htr_names: List[str]) -> Tuple[int, int, int]:
-    """Exact string matching."""
+    """Exact string matching on full names."""
     gt_set = {n.strip().lower() for n in gt_names if n and n.strip()}
     htr_set = {n.strip().lower() for n in htr_names if n and n.strip()}
 
@@ -25,7 +26,7 @@ def name_overlap_strict(gt_names: List[str], htr_names: List[str]) -> Tuple[int,
 
 
 def name_overlap_fuzzy(gt_names: List[str], htr_names: List[str], threshold: int = 80) -> Tuple[int, int, int]:
-    """Fuzzy matching for medieval spelling variation."""
+    """Fuzzy matching on full name strings."""
     gt_clean = [n.strip().lower() for n in gt_names if n and n.strip()]
     htr_clean = [n.strip().lower() for n in htr_names if n and n.strip()]
 
@@ -35,10 +36,14 @@ def name_overlap_fuzzy(gt_names: List[str], htr_names: List[str], threshold: int
 
     # Count fuzzy true positives
     for i, g in enumerate(gt_clean):
+        # Higher threshold for full names than for individual tokens
         for j, h in enumerate(htr_clean):
             if j in matched_htr:
                 continue
-            if fuzz.token_sort_ratio(g, h) >= threshold:
+            
+            # Use token_set_ratio to handle name order or middle names
+            score = fuzz.token_set_ratio(g, h)
+            if score >= threshold:
                 tp += 1
                 matched_gt.add(i)
                 matched_htr.add(j)
@@ -156,19 +161,39 @@ def run_analysis(threshold: float = 50.0) -> None:
     print("[5] Building social network...\n")
     graph = build_graph(groups, gt_lookup)
 
+    print(f"Nodes: {graph.number_of_nodes()}")
+    print(f"Edges: {graph.number_of_edges()}")
+
     centrality = nx.degree_centrality(graph)
     sorted_people = sorted(centrality.items(), key=lambda x: x[1], reverse=True)
-    most_connected = sorted_people[0][0]
+    
+    if sorted_people:
+        most_connected = sorted_people[0][0]
+        print("Most connected individual:", most_connected)
 
-    print("Most connected individual:", most_connected)
+        ego = nx.ego_graph(graph, most_connected)
+        plt.figure(figsize=(10, 10))
+        pos = nx.spring_layout(ego, k=0.5, seed=42)
+        nx.draw(ego, pos, with_labels=True, node_size=1000, 
+                node_color="#3498db", font_size=8, font_weight="bold",
+                edge_color="#bdc3c7", alpha=0.8)
+        plt.title(f"Entity Resolution Social Network: 1-Hop Ego Graph of {most_connected}", 
+                  fontsize=14, fontweight="bold")
+        
+        out_plot = Path(__file__).parent / "assets" / "benchmark.png"
+        plt.savefig(out_plot, dpi=300, bbox_inches="tight")
+        print(f"Updated plot saved to {out_plot}")
+        # plt.show() # Disabled for headless execution
+    else:
+        print("Graph is empty, no network to plot.")
 
-    ego = nx.ego_graph(graph, most_connected)
-    plt.figure(figsize=(8, 8))
-    pos = nx.spring_layout(ego, seed=42)
-    nx.draw(ego, pos, with_labels=True, node_size=400, font_size=8, edge_color="gray")
-    plt.title(f"Sub-network of {most_connected}")
-    plt.tight_layout()
-    plt.show()
+    print("\n" + "="*40)
+    print("FINAL PORTFOLIO SUMMARY")
+    print("="*40)
+    print(f"Strict F1: {strict_f1:.4f}")
+    print(f"Fuzzy F1:  {fuzzy_f1:.4f}")
+    print(f"Improvement: {(fuzzy_f1/strict_f1 - 1)*100:.1f}%" if strict_f1 > 0 else "N/A")
+    print("="*40)
 
     print("\nDONE\n")
 
