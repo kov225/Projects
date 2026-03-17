@@ -33,18 +33,30 @@ I am a **Data Science graduate student at Lehigh University (GPA: 3.94)** specia
 * **Key Results:** Cleaned decades of raw AAPL market data to engineer structural features (support/resistance). Developed a robust, rule-based scoring framework prioritizing logic transparency over opaque neural networks.
 * **Tech Stack:** Python, Pandas, Technical Indicators.
 
+### 4. [latent-recommend: Music Search via Learned Audio Embeddings](./latent-recommend) *(Audio AI & Latent Space)*
+* **The Business Problem:** Popularity bias in music recommendation systems traps indie artists; content-based similarity is needed for discovery.
+* **Key Results:** Built a purely acoustic search engine extracting deep latent embeddings via VAE/Diffusion architectures. Validated 1.2M Spotify tracks via K-Means and 3D PCA to enable discovery strictly by "acoustic feeling."
+* **Tech Stack:** Python, PyTorch, Scikit-learn, PCA, K-Means, SQLite.
+
+### 5. [DSCI 441: Dataset Shift & Model Robustness](./dsci441-recommendation-analysis) *(ML Research & Statistical Validation)*
+* **The Business Problem:** Models trained on static data collapse in dynamic environments; production systems need quantified resilience.
+* **Key Results:** Assessed 7 ML architectures against controlled covariate and label shift. Implemented Kolmogorov-Smirnov (KS) divergence tracking and 95% CI bootstrapping to certify model stability under environmental drift.
+* **Tech Stack:** Python, Streamlit, Scipy (KS-Test), Scikit-learn, Bootstrap Resampling.
+
 ---
 
 ## 📂 Project Structure
 
 ```text
-├── credit-intelligence-platform/ # Production ML (FastAPI, Redis, Kafka, Monitoring)
-├── mistral-llm-optimised-inference/ # LLM deployment (Quantization, Batching, Benchmarking)
-├── historical-nlp-reconciliation/   # Bipartite matching v2, Web Dashboard, Fuzzy String NLP
-├── capstone/capstone-project-kov225/# Modular reconciliation scripts, unit tests, network graph
-├── algorithmic-trading-research/    # Time-series EDA, Feature Engineering, Rule-based Backtesting
-├── global-trade-inequality-data/    # Large-scale R/Python Statistical Analysis
-└── coursework-and-practice/         # Genetic Algorithms, R Stats, Ethics, Coding exercises
+├── credit-intelligence-platform/         # Production ML (FastAPI, Redis, Kafka, Monitoring)
+├── mistral-llm-optimised-inference/      # LLM deployment (Quantization, Batching, Benchmarking)
+├── historical-nlp-reconciliation/        # Bipartite matching v2, Web Dashboard, Fuzzy String NLP
+├── latent-recommend/                     # Music latent space search (VAE, PCA, K-Means)
+├── dsci441-recommendation-analysis/      # Dataset shift longitudinal study (KS-Test, Resampling)
+├── capstone/capstone-project-kov225/     # Modular reconciliation scripts, unit tests, network graph
+├── algorithmic-trading-research/         # Time-series EDA, Feature Engineering, Rule-based Backtesting
+├── global-trade-inequality-data/         # Large-scale R/Python Statistical Analysis
+└── coursework-and-practice/              # Genetic Algorithms, R Stats, Ethics, Coding exercises
 ```
 
 ## 🚀 Reproducibility & Code Quality
