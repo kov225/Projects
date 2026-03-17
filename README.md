@@ -33,12 +33,12 @@ I am a **Data Science graduate student at Lehigh University (GPA: 3.94)** specia
 * **Key Results:** Cleaned decades of raw AAPL market data to engineer structural features (support/resistance). Developed a robust, rule-based scoring framework prioritizing logic transparency over opaque neural networks.
 * **Tech Stack:** Python, Pandas, Technical Indicators.
 
-### 4. [latent-recommend: Music Search via Learned Audio Embeddings](./latent-recommend) *(Audio AI & Latent Space)*
+### 5. [latent-recommend: Music Search via Learned Audio Embeddings](./latent-recommend) *(Audio AI & Latent Space)*
 * **The Business Problem:** Popularity bias in music recommendation systems traps indie artists; content-based similarity is needed for discovery.
 * **Key Results:** Built a purely acoustic search engine extracting deep latent embeddings via VAE/Diffusion architectures. Validated 1.2M Spotify tracks via K-Means and 3D PCA to enable discovery strictly by "acoustic feeling."
 * **Tech Stack:** Python, PyTorch, Scikit-learn, PCA, K-Means, SQLite.
 
-### 5. [DSCI 441: Dataset Shift & Model Robustness](./dsci441-recommendation-analysis) *(ML Research & Statistical Validation)*
+### 6. [DSCI 441: Dataset Shift & Model Robustness](./dsci441-recommendation-analysis) *(ML Research & Statistical Validation)*
 * **The Business Problem:** Models trained on static data collapse in dynamic environments; production systems need quantified resilience.
 * **Key Results:** Assessed 7 ML architectures against controlled covariate and label shift. Implemented Kolmogorov-Smirnov (KS) divergence tracking and 95% CI bootstrapping to certify model stability under environmental drift.
 * **Tech Stack:** Python, Streamlit, Scipy (KS-Test), Scikit-learn, Bootstrap Resampling.
