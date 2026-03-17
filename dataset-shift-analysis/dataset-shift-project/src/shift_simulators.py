@@ -132,3 +132,34 @@ def apply_concept_adjacent_shift(X, top_n_indices, intensity=0.0):
         X_shifted[corrupt_indices, col_idx] = random_noise
         
     return X_shifted
+
+def apply_scaling_drift(X, continuous_indices, intensity=0.0):
+    """
+    Simulates Feature Scaling Drift by multiplying continuous features 
+    by a drift factor.
+
+    This is a variant of Covariate Shift where the scale of features 
+    changes systematically, rather than just adding noise.
+
+    Args:
+        X (np.ndarray): Feature matrix.
+        continuous_indices (list): Indices of features to be scaled.
+        intensity (float): The magnitude of the scaling drift.
+
+    Returns:
+        np.ndarray: The scaled feature matrix.
+    """
+    if intensity == 0.0:
+        return X
+        
+    X_shifted = deepcopy(X)
+    
+    # Systematic multiplicative drift
+    # At intensity 1.0, features are scaled by 1.5x
+    scale_factor = 1.0 + (intensity * 0.5)
+    
+    for col_idx in continuous_indices:
+        X_shifted[:, col_idx] = X_shifted[:, col_idx] * scale_factor
+        
+    return X_shifted
+

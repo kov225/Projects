@@ -166,7 +166,7 @@ def get_top_n_features(X_train, y_train, n=5):
 
     Args:
         X_train (np.ndarray): Training feature matrix.
-        y_train (np.ndarray): Training labels.
+        y_train (y_train): Training labels.
         n (int): The number of top feature indices to retrieve.
 
     Returns:
@@ -184,3 +184,72 @@ def get_top_n_features(X_train, y_train, n=5):
     top_n_indices = np.argsort(importances)[::-1][:n].tolist()
     
     return top_n_indices
+
+def calculate_robustness_scores(results_df):
+    """
+    Computes robustness scores based on the Area Under the Degradation Curve (AUDC).
+    
+    The score is normalized by the baseline performance and represents the 
+    fraction of baseline performance maintained across the intensity spectrum.
+    Higher is better (1.0 = perfect robustness, 0.0 = complete failure).
+    
+    Args:
+        results_df (pd.DataFrame): Consolidated results.
+        
+    Returns:
+        pd.DataFrame: A leaderboard-style DataFrame of robustness scores.
+    """
+    scores = []
+    
+    metrics = ["Accuracy", "F1_Score", "ROC_AUC"]
+    models = results_df["Model"].unique()
+    shift_types = results_df["Shift_Type"].unique()
+    
+    for model in models:
+        for shift in shift_types:
+            if shift == "Baseline": continue
+            
+            # Filter for this model and shift
+            subset = results_df[(results_df["Model"] == model) & 
+                                (results_df["Shift_Type"] == shift)].sort_values("Intensity")
+            
+            # Get baseline (intensity 0.0)
+            baseline_subset = results_df[(results_df["Model"] == model) & 
+                                         (results_df["Shift_Type"] == "Baseline")]
+            
+            if baseline_subset.empty or subset.empty:
+                continue
+                
+            for metric in metrics:
+                # Combine baseline and shifted points
+                intensities = np.concatenate([[0.0], subset["Intensity"].values])
+                values = np.concatenate([[baseline_subset[metric].values[0]], subset[metric].values])
+                
+                # Normalize values by baseline to relative performance [0, 1]
+                # Filter out NaNs if any
+                mask = ~np.isnan(values)
+                if not np.any(mask): continue
+                
+                intensities = intensities[mask]
+                values = values[mask]
+                
+                baseline_val = values[0]
+                if baseline_val == 0: continue
+                
+                # Calculate Area Under Curve using Trapezoidal rule
+                # Max possible area is max_intensity * original_baseline
+                max_intensity = intensities[-1]
+                if max_intensity == 0: continue
+                
+                # We use the relative AUC (Area / (Baseline * Max_Intensity))
+                audc = np.trapz(values, intensities) / (baseline_val * max_intensity)
+                
+                scores.append({
+                    "Model": model,
+                    "Shift_Type": shift,
+                    "Metric": metric,
+                    "Robustness_Score": audc
+                })
+                
+    return pd.DataFrame(scores)
+
