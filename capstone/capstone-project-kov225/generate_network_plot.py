@@ -42,7 +42,7 @@ for main in central:
         if random.random() < 0.25:
             G.add_edge(satellites[i], satellites[i + 1])
 
-# ── Layout & Drawing ─────────────────────────────────────────────────────────
+#  Layout & Drawing 
 fig, ax = plt.subplots(figsize=(12, 9))
 
 pos = nx.spring_layout(G, seed=42, k=1.8)
