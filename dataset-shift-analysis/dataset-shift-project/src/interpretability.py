@@ -70,6 +70,9 @@ def plot_confidence_distribution(model, X_baseline, X_shifted, model_name="Model
 def plot_importance_shift(importance_base, importance_shifted, model_name="Model"):
     """
     Compares top feature importances before and after shift.
+
+    This visualization highlights how the model's reliance on specific 
+    features changes as the data distribution is manipulated.
     """
     df = pd.DataFrame({
         'Feature': importance_base.index,
@@ -87,3 +90,24 @@ def plot_importance_shift(importance_base, importance_shifted, model_name="Model
     plt.tight_layout()
     
     return fig
+
+
+def analyze_importance_drift(importance_base, importance_shifted):
+    """
+    Computes the Spearman rank correlation between baseline and shifted importances.
+
+    A low correlation indicates that the model's decision logic has 
+    fundamentally shifted due to the environmental change, suggesting 
+    feature importance instability.
+    """
+    common_idx = importance_base.index.intersection(importance_shifted.index)
+    if len(common_idx) < 2:
+        return 1.0
+        
+    v_base = importance_base.loc[common_idx].values
+    v_shift = importance_shifted.loc[common_idx].values
+    
+    # Spearman correlation of the rank vectors
+    from scipy.stats import spearmanr
+    corr, _ = spearmanr(v_base, v_shift)
+    return float(corr)

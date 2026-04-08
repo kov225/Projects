@@ -163,3 +163,40 @@ def apply_scaling_drift(X, continuous_indices, intensity=0.0):
         
     return X_shifted
 
+
+def apply_feature_permutation_drift(X, col_indices, intensity=0.0):
+    """
+    Simulates Feature Permutation Drift by randomly shuffling a subset of 
+    feature values across samples.
+
+    This preserves the individual marginal distribution but destroys the 
+    joint distribution and dependencies between features for a certain 
+    proportion of the dataset.
+
+    Args:
+        X (np.ndarray): Feature matrix.
+        col_indices (list): Indices of features to be permuted.
+        intensity (float): The probability/proportion of samples to permute.
+
+    Returns:
+        np.ndarray: The permuted feature matrix.
+    """
+    if intensity == 0.0:
+        return X
+        
+    X_shifted = deepcopy(X)
+    X_shifted = np.array(X_shifted)
+    num_samples = X_shifted.shape[0]
+    
+    # We identify the number of rows to shuffle based on intensity
+    num_permute = int(num_samples * min(1.0, intensity))
+    
+    for col_idx in col_indices:
+        permute_indices = np.random.choice(num_samples, size=num_permute, replace=False)
+        shuffled_values = X_shifted[permute_indices, col_idx]
+        np.random.shuffle(shuffled_values)
+        X_shifted[permute_indices, col_idx] = shuffled_values
+        
+    return X_shifted
+
+
