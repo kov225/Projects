@@ -1,0 +1,9 @@
+__pycache__/
+*.parquet
+.venv/
+.env
+data/output/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
