@@ -5,71 +5,60 @@
 [![GPA](https://img.shields.io/badge/GPA-3.94-success)]()
 [![Status](https://img.shields.io/badge/Status-Actively_Seeking_Roles-blue)]()
 
-> **"Built scalable LLM inference pipelines, reconstructed 15th-century legal networks using NLP and bipartite matching, and engineered interpretable trading algorithms."**
+> "Built scalable LLM inference pipelines, engineered Bayesian media mix models, and automated TV ad attribution for high-growth DTC brands."
 
-I am a **Data Science graduate student at Lehigh University (GPA: 3.94)** specializing in **applied statistics, interpretable machine learning, and ML systems engineering**. This repository showcases my ability to own the entire data lifecycle - from raw data ingestion and heuristic modeling to hardware-aware LLM deployment.
-
----
+I am a Data Science graduate student at Lehigh University (GPA: 3.94) specializing in applied statistics, Bayesian inference, and ML systems engineering. This repository showcases my ability to own the entire data lifecycle from raw telemetry simulation to production-grade causal measurement and optimization.
 
 ## 🏆 Featured Projects & Business Impact
 
-### 1. [Real-Time Credit Intelligence Platform](./credit-intelligence-platform) *(ML Engineering & Production AI)*
-* **The Business Problem:** Regulated lenders need drift-aware, explainable risk scoring to prevent model decay and ensure ECOA compliance.
-* **Key Results:** Built a 9-service containerized system handling 2.2M loans. Reached **p99 < 100ms** latency and automated retraining via drift sensing (PSI/KS).
-* **Tech Stack:** FastAPI, Kafka, Redis, MLflow, Prometheus, Grafana, SHAP, Mistral-7B.
+### 1. [Bing Experimentation Suite](./bing-experimentation-suite)
+* **The Business Problem:** Online platforms like Bing require rigorous statistical engines to measure experiment lift while minimizing variance.
+* **Key Results:** Built a production-grade experimentation framework implementing CUPED (Controlled-experiment Using Pre-Experiment Data) and post-stratification. Achieved significant variance reduction on synthetic telemetry and implemented automated novelty effect detection using exponential decay models.
+* **Tech Stack:** Python, SciPy, Statsmodels, Pandas, Pytest.
 
-### 2. [Optimized Inference Pipeline for Mistral LLMs](./mistral-llm-optimised-inference)  *(ML Systems Engineering)*
-* **The Business Problem:** Deploying LLMs is computationally expensive and latency-heavy.
-* **Key Results:** Built a high-performance, batched inference engine on a single NVIDIA T4 GPU, achieving **>200 tokens/sec throughput** (handling quantization and LoRA adapters).
-* **Tech Stack:** PyTorch, HuggingFace Accelerate, bitsandbytes.
+### 2. [Bayesian Media Mix Modeling (MMM)](./media_mix_model)
+* **The Business Problem:** Brands often struggle to quantify the causal contribution of offline and online channels to conversions due to complex carryover effects and diminishing returns.
+* **Key Results:** Developed a Bayesian MMM using PyMC-Marketing to decompose website conversions across five channels. Implemented geometric adstock and logistic saturation transformations with custom Gamma and Beta priors. Built a budget optimizer using SciPy SLSQP to find the optimal allocation across the posterior distribution.
+* **Tech Stack:** PyMC-Marketing, PyMC, ArviZ, SciPy, Pandas.
 
-### 3. [Automated NLP Reconciliation of Historical Data](./historical-nlp-reconciliation) *(End-to-End Data Science)*
-* **The Business Problem:** Manual transcription and entity resolution of fragmented records costs thousands of human hours.
-* **Key Results:** Automated alignment of AI-generated HTR text against human ground-truth data using RapidFuzz and Bipartite matching. Achieved scalable bipartite resolution for 1,200+ unique entities to build historical social network graphs.
-* **Tech Stack:** Python, Flask, RapidFuzz, Pandas, SciPy, NetworkX.
+### 3. [TV Ad Attribution Engine](./tv_attribution)
+* **The Business Problem:** Measuring the immediate impact of linear TV airings requires high-resolution session data and sophisticated counterfactual estimation.
+* **Key Results:** Engineered a minute-level attribution system that extracts incremental sessions by fitting parametric response curves against local linear baselines. Validated campaign-level lift using Bayesian Structural Time Series (CausalImpact) with correlated control markets. Detected missed airings with high precision using statistical z-score thresholds.
+* **Tech Stack:** Python, TF-CausalImpact, SciPy (Non-linear Least Squares), Pandas.
 
-### 4. [Algorithmic Trading & Interpretability Research](./algorithmic-trading-research) *(Financial Modeling)*
-* **The Business Problem:** Black-box financial models fail during regime shifts; stakeholders require interpretable risk strategies.
-* **Key Results:** Cleaned decades of raw AAPL market data to engineer structural features (support/resistance). Developed a robust, rule-based scoring framework prioritizing logic transparency over opaque neural networks.
-* **Tech Stack:** Python, Pandas, Technical Indicators.
+### 4. [Real-Time Credit Intelligence Platform](./credit-intelligence-platform)
+* **The Business Problem:** Regulated lenders require drift-aware and explainable risk scoring to ensure compliance and model stability.
+* **Key Results:** Engineered a 9-service containerized system handling 2.2M loans with p99 latency under 100ms. Integrated automated retraining triggered by drift sensing and SHAP-based interpretability for high-stakes decisioning.
+* **Tech Stack:** FastAPI, Kafka, Redis, MLflow, Prometheus, Grafana, SHAP.
 
-### 5. [latent-recommend: Music Search via Learned Audio Embeddings](./latent-recommend) *(Audio AI & Latent Space)*
-* **The Business Problem:** Popularity bias in music recommendation systems traps indie artists; content-based similarity is needed for discovery.
-* **Key Results:** Built a purely acoustic search engine extracting deep latent embeddings via VAE/Diffusion architectures. Validated 1.2M Spotify tracks via K-Means and 3D PCA to enable discovery strictly by "acoustic feeling."
-* **Tech Stack:** Python, PyTorch, Scikit-learn, PCA, K-Means, SQLite.
+### 5. [NLP Reconciliation of Historical Data](./historical-nlp-reconciliation)
+* **The Business Problem:** Resolving entities across fragmented historical records is a massive manual bottleneck for researchers.
+* **Key Results:** Automated the alignment of AI-generated text against ground-truth data using RapidFuzz and Bipartite matching. Successfully resolved 1,200 unique entities to reconstruct 15th-century legal social network graphs.
+* **Tech Stack:** Python, RapidFuzz, SciPy (Bipartite Matching), NetworkX.
 
-### 6. [DSCI 441: Dataset Shift & Model Robustness](./dsci441-recommendation-analysis) *(ML Research & Statistical Validation)*
-* **The Business Problem:** Models trained on static data collapse in dynamic environments; production systems need quantified resilience.
-* **Key Results:** Assessed 7 ML architectures against controlled covariate and label shift. Implemented Kolmogorov-Smirnov (KS) divergence tracking and 95% CI bootstrapping to certify model stability under environmental drift.
-* **Tech Stack:** Python, Streamlit, Scipy (KS-Test), Scikit-learn, Bootstrap Resampling.
-
----
+### 6. [Dataset Shift & Model Robustness](./dataset-shift-analysis)
+* **The Business Problem:** Models trained on historical data often collapse in production due to environmental drift.
+* **Key Results:** Assessed model resilience against controlled covariate and label shift. Implemented Kolmogorov-Smirnov divergence tracking and 95% CI bootstrapping to certify model stability.
+* **Tech Stack:** Python, SciPy, Scikit-learn, Bootstrap Resampling.
 
 ## 📂 Project Structure
 
 ```text
-├── credit-intelligence-platform/         # Production ML (FastAPI, Redis, Kafka, Monitoring)
-├── mistral-llm-optimised-inference/      # LLM deployment (Quantization, Batching, Benchmarking)
-├── historical-nlp-reconciliation/        # Bipartite matching v2, Web Dashboard, Fuzzy String NLP
-├── latent-recommend/                     # Music latent space search (VAE, PCA, K-Means)
-├── dsci441-recommendation-analysis/      # Dataset shift longitudinal study (KS-Test, Resampling)
-├── capstone/capstone-project-kov225/     # Modular reconciliation scripts, unit tests, network graph
-├── algorithmic-trading-research/         # Time-series EDA, Feature Engineering, Rule-based Backtesting
-├── global-trade-inequality-data/         # Large-scale R/Python Statistical Analysis
-└── coursework-and-practice/              # Genetic Algorithms, R Stats, Ethics, Coding exercises
+├── bing-experimentation-suite/       # Variance Reduction, CUPED, Novelty Detection
+├── media_mix_model/                  # Bayesian MMM, Geometric Adstock, Budget Optimization
+├── tv_attribution/                    # TV Attribution, Response Curves, CausalImpact
+├── netflix-device-analytics/         # High-scale Telemetry Simulations & Real-time Dashboards
+├── credit-intelligence-platform/     # Production ML (FastAPI, Redis, Kafka, Monitoring)
+├── dataset-shift-analysis/           # Model Robustness & Statistical Validation
+├── mistral-llm-optimised-inference/  # LLM Deployment (Quantization, Batching)
+├── historical-nlp-reconciliation/    # Entity Resolution & Social Network NLP
+├── latent-recommend/                 # Audio Latent Space Search (VAE, PCA, K-Means)
+└── algorithmic-trading-research/     # Time-series EDA & Rule-based Backtesting
 ```
 
-## 🚀 Reproducibility & Code Quality
-I prioritize code that works in production. Every major project folder contains a `requirements.txt` and explicit setup instructions. 
-
-**Example (Running the NLP Reconciliation Pipeline):**
-```bash
-cd historical-nlp-reconciliation
-pip install -r requirements.txt
-python reconciliation.py
-```
-
+## 🚀 Reproducibility
+Every project is designed for production reproducibility. Each directory contains a `requirements.txt` and a dedicated README with setup instructions.
 
 ## 📫 Let's Connect
-- **Email:** [kov225@lehigh.edu](mailto:kov225@lehigh.edu)
-- **Mobile:** 484-935-7840
+* **Email:** [kov225@lehigh.edu](mailto:kov225@lehigh.edu)
+* **Mobile:** 484-935-7840

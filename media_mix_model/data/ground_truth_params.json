@@ -1,0 +1,55 @@
+{
+    "channels": {
+        "linear_tv": {
+            "adstock_alpha": 0.55,
+            "saturation_k": 80000,
+            "saturation_s": 3.0,
+            "beta": 0.15,
+            "spend_range": [
+                50000,
+                150000
+            ]
+        },
+        "ctv": {
+            "adstock_alpha": 0.35,
+            "saturation_k": 50000,
+            "saturation_s": 2.5,
+            "beta": 0.1,
+            "spend_range": [
+                20000,
+                80000
+            ]
+        },
+        "paid_search": {
+            "adstock_alpha": 0.1,
+            "saturation_k": 40000,
+            "saturation_s": 4.0,
+            "beta": 0.12,
+            "spend_range": [
+                15000,
+                60000
+            ]
+        },
+        "paid_social": {
+            "adstock_alpha": 0.25,
+            "saturation_k": 35000,
+            "saturation_s": 3.0,
+            "beta": 0.08,
+            "spend_range": [
+                10000,
+                50000
+            ]
+        },
+        "display": {
+            "adstock_alpha": 0.15,
+            "saturation_k": 20000,
+            "saturation_s": 5.0,
+            "beta": 0.05,
+            "spend_range": [
+                5000,
+                25000
+            ]
+        }
+    },
+    "seed": 42
+}
