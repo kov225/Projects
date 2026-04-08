@@ -56,7 +56,7 @@ class MMMSimulator:
         
     def geometric_adstock(self, x, alpha):
         """Applies geometric decay to a time series."""
-        adstocked = np.zeros_like(x)
+        adstocked = np.zeros(len(x), dtype=float)
         for t in range(len(x)):
             if t == 0:
                 adstocked[t] = x[t]
