@@ -106,21 +106,9 @@ The final notebooks consolidate these components into a **coherent evaluation fr
 - Interpretable scoring frameworks aid reasoning and debugging
 - Research value lies as much in *process* as in outcomes
 
----
 
-## 🔮 Future Directions
-
-- Formal backtesting with transaction cost modeling
-- Extension to multiple equities
-- Statistical validation across regimes
-- Integration with probabilistic or reinforcement-based decision layers
 
 ---
 
-## 📖 Research Context
 
-This project was conducted as a ** research initiative** under Professor Bilal Khan.  
-designed to deepen understanding of **market microstructure, price action, and systematic strategy development**.
-
-The repository intentionally preserves intermediate experiments to reflect the **true research process**, not just polished results.
 
