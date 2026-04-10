@@ -5,9 +5,9 @@
 [![GPA](https://img.shields.io/badge/GPA-3.94-success)]()
 [![Status](https://img.shields.io/badge/Status-Actively_Seeking_Roles-blue)]()
 
-> "Built scalable LLM inference pipelines, engineered Bayesian media mix models, and automated TV ad attribution for high-growth DTC brands."
+> "Built scalable LLM inference pipelines, engineered Bayesian media mix models, and automated causal attribution with Monte Carlo robustness certification."
 
-I am a Data Science graduate student at Lehigh University (GPA: 3.94) specializing in applied statistics, Bayesian inference, and ML systems engineering. This repository showcases my ability to own the entire data lifecycle from raw telemetry simulation to production-grade causal measurement and optimization.
+I am a Data Science graduate student at Lehigh University (GPA: 3.94) specializing in applied statistics, Bayesian inference, and ML systems engineering. This repository showcases my ability to own the entire data lifecycle—from high-resolution counterfactual simulation to production-grade model monitoring and optimization.
 
 ## 🏆 Featured Projects & Business Impact
 
