@@ -1,28 +1,51 @@
-# Algorithmic Trading Research
+# 📈 Algorithmic Trading Research: Quantitative Alpha & Risk
 
-The Algorithmic Trading Research project is an independent investigation into historical market data for Apple (AAPL) with a focus on developing a systematic, rule based trading and scoring framework. Financial markets are characterized by high noise and complex structural behaviors, making raw price action difficult to interpret without a rigorous analytical lens. This project moves beyond simple indicators to engineer features grounded in price action, volume dynamics, and market microstructure to provide a transparent and defensible basis for trading decisions.
+This repository contains a quantitative research framework for developing and backtesting systematic trading strategies. It focuses on the application of statistical learning to identify predictive signals (alphas) while maintaining a rigorous risk-management framework.
 
-## Key Research Components
+## 🧠 Methodology: The Science of the Alpha
 
-| Component | Description | Primary Metric |
-|---|---|---|
-| Support & Resistance | Identification of key structural zones | Zone Bounce Probability |
-| Volume Confirmation | Analysis of price moves relative to liquidity | Volume Flow Indicator |
-| Scoring Logic | Rule based ranking of potential trade setups | Setup Quality Score |
-| Regime Analysis | Performance evaluation across market cycles | Profit Factor |
+Quant research requires a move beyond simple visual backtesting into formal statistical validation.
 
-## Research Methodology
+### 1. Walk-Forward Cross-Validation (WF-CV)
+To prevent look-ahead bias and overfitting, we utilize a sliding window model optimization.
+- **Training**: Anchored to historical data.
+- **Validation**: Rolling OOS (Out-of-Sample) period for parameter tuning.
+- **Testing**: Pure walk-forward execution to simulate real-world deployment.
 
-This study follows an iterative, hypothesis driven workflow that emphasizes interpretability and reasoning over black box prediction. Each stage of the research is captured in a series of collaborative notebooks that document the evolution of the strategy from initial data cleaning to final strategy refinement. We prioritize the identification of structural markers like support and resistance zones and analyze how price behaves when approaching these key levels, using volume as a secondary confirmation signal to filter out low conviction moves.
+### 2. Risk-Adjusted Performance (Sharpe & MDD)
+We prioritize risk-adjusted returns over absolute nominal gains.
+- **Sharpe Ratio ($\sqrt{52} \cdot \frac{\mu}{\sigma}$)**: Annualized metric for consistency.
+- **Maximum Drawdown (MDD)**: Measuring the peak-to-trough resilience of the equity curve to understand 'tail risk'.
 
-## Implementation
+### 3. Strategy Robustness (Monte Carlo)
+A successful backtest may still be the result of 'lucky' market regimes.
+- **Implementation**: We perform **Bootstrap Monte Carlo Simulations** (5,000+ trajectories) on empirical return distributions.
+- **Assurance**: By simulating thousands of 'alternative histories', we quantify the **Probability of Ruin (PoR)** and ensure the strategy is robust to high-variance regimes.
 
-The research pipeline is implemented using Python and its standard scientific stack, including Pandas and NumPy for time series manipulation. The data layer handles the ingestion and cleaning of historical AAPL price and volume data, ensuring high integrity for subsequent experiments. The analytical core consists of several research notebooks that explore different facets of market behavior, such as the Tue–Thu structural dynamics and the construction of custom scoring functions that rank trade setups according to their alignment with the learned price action rules.
+## 🛠️ Project Structure
 
-## Tools and Technologies
+```text
+├── strategy.py           # Core Backtesting & Monte Carlo Engine
+├── evaluate_strategy.py  # Performance profiling suite
+├── notebooks/
+│   ├── 01_eda.ipynb      # Market regime analysis
+│   ├── 03_baseline.ipynb # Benchmarking vs Buy-and-Hold
+└── data/                 # Cleaned OHLCV market data (AAPL, SPY)
+```
 
-The investigation relies on the Python data science ecosystem to perform large scale financial analysis and visualization. Jupyter Notebooks serve as the primary research environment, facilitating a transparent look into the decision logic and the iterative refinement of trading thresholds. We leverage visualization driven validation to confirm that our engineered features correctly capture the intended market phenomena before they are integrated into the final evaluation framework.
+## 🚀 Usage
 
-## Future Directions
+1. **Run Backtest & Risk Profile**:
+   ```bash
+   python strategy.py
+   ```
 
-The next phase of this research involves the implementation of a constraint generated opttimization.
+The next phase of this research involves the implementation of a constraint generated optimization.
+
+2. **Generate Visualization**:
+   ```bash
+   python generate_plot.py
+   ```
+
+---
+*Developed as part of my Applied Data Science & ML Engineering Portfolio.*

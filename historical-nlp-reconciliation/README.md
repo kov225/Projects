@@ -1,69 +1,49 @@
-# Historical NLP Reconciliation Engine (KB27)
+# 📜 Historical NLP Reconciliation: Global Optimal Entity Matching
 
-A production-grade entity resolution and reconciliation suite designed for medieval legal manuscripts from the King's Bench (KB-27). This project automates the matching of AI-HTR transcriptions against historical ground truth records, handling split cases and noisy data with a weighted bipartite matching algorithm.
+This project implements a sophisticated reconciliation pipeline to align historical legal records (King's Bench, 17th Century) between human-curated ground truth and noisy AI-extracted data. It addresses the challenges of OCR errors, historical spelling variations, and fragmented document structures.
 
-## 🏛️ Project Architecture
+## 🧠 Methodology: The Hungarian Reconciliation
 
-```mermaid
-graph TD
-    subgraph "Data Pipeline"
-        A[Raw HTR Output] --> B[Reconstruction Script]
-        C[Human Ground Truth] --> B
-        B --> D[(Standardized JSON)]
-    end
+Traditional fuzzy matching is insufficient for many-to-one record reconciliation where multiple fragmented AI extractions might map to a single historical record.
 
-    subgraph "Analysis Engine"
-        D --> E[ReconciliationEngine]
-        E --> F{Bipartite Matching}
-        F --> G[Master Reconciliation]
-        F --> H[Split Case Discovery]
-        G --> I[Accuracy Auditor]
-    end
+### 1. Global Optimization (Hungarian Algorithm)
+Instead of greedy local matching, we model the problem as a Bipartite Matching task. We utilize the **Hungarian Algorithm (Kuhn-Munkres, 1955)** to minimize the global edit-distance between the ground truth set and the extracted set. This ensures the most mathematically optimal alignment across the entire dataset.
 
-    subgraph "Interactive Front-End"
-        I --> J[Flask Web UI]
-        G --> J
-        J --> K[Audit Dashboard]
-    end
+### 2. Domain-Specific Heuristics
+- **Occupational Filtering**: Historical records are laden with occupational titles (e.g., *Yeoman*, *Husbandman*, *Spinster*) that act as semantic noise. Our pipeline implements a domain-aware stop-word filter and entity grouping logic to isolate core name tokens.
+- **Weighted Attribute Scoring**: Matches are computed via a composite score of:
+  - **Phonetic Name Similarity**: 75% weight (Rapidfuzz Token Sort Ratio).
+  - **County Alignment**: +15 bonus for categorical matches.
+  - **Plea Reconciliation**: +10 bonus for semantic alignment of legal pleas.
+  - **Entity Count Penalty**: -20 penalty for significant divergence in the number of litigants.
+
+## 🛠️ Project Structure
+
+```text
+├── src/
+│   ├── engine.py       # Core Reconciliation Logic (Hungarian Matching)
+│   ├── accuracy.py     # Evaluation Module (F1, Precision, Recall)
+├── data/               # Raw and Processed JSON records
+├── tests/              # Unit tests for matching heuristics
+└── Dockerfile          # Containerized pipeline execution
 ```
 
-## 💎 Features
-- **Modular Design**: Clean separation of concerns between data ingestion, reconciliation logic, and visualization.
-- **Advanced Matching**: Bipartite matching (Hungarian Algorithm) with weighted similarity scoring (Name Fuzzy, County Bonus, Plea Context).
-- **Split Case Resolution**: Intelligent merging of cases split across multiple manuscript images.
-- **Premium Dashboard**: Glass-inspired design system built for high-level telemetry and deep audit analysis.
-- **Engineering Excellence**: Fully containerized (Docker), unit-tested (Pytest), and PEP8 compliant.
+## 🚀 Usage
 
-## 🚀 Getting Started
+1. **Install Dependencies**:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-### Prerequisites
-- Python 3.11+
-- [Docker](https://www.docker.com/) (Optional, for containerized deployment)
+2. **Run Pipeline**:
+   ```bash
+   python -m src.engine
+   ```
 
-### Standard Deployment
-```bash
-# 1. Install dependencies
-pip install -r requirements.txt
-
-# 2. Run Data Pipeline & Matching Engine
-python scripts/reconstruct_data.py
-python -m src.engine
-
-# 3. Launch Dashboard
-python -m flask --app web/app run
-```
-
-### Docker Deployment
-```bash
-docker-compose up --build
-```
+3. **Verify via Docker**:
+   ```bash
+   docker compose up
+   ```
 
 ---
-
-## 📊 Performance Benchmarks
-- **Name F1 Score**: 65% (High Noise)
-- **County Accuracy**: 85%+
-- **Resolved Entities**: 1,200+ individuals mapped across 700+ images.
-
----
-*Created for the Historical Data Science Portfolio.*
+*Developed as part of my Applied Data Science & ML Engineering Portfolio.*

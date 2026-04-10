@@ -1,28 +1,42 @@
-# Global Trade Inequality & Applied Statistics
+# 🌍 Global Trade Inequality: Distributional Economics
 
-This repository contains a collection of applied statistics projects and coursework focused on the rigorous analysis of large scale economic datasets. In the field of international trade, identifying structural inequalities and distributional patterns requires a deep understanding of statistical theory combined with the ability to handle complex, high dimensional data. The projects presented here emphasize statistical clarity and interpretability over black box modeling, providing a clear linkage between data evidence and economic conclusions.
+This project investigates the structural inequalities in international trade using longitudinal economic datasets. It combines traditional exploratory data analysis (EDA) with rigorous statistical measures of concentration and disparity to identify patterns of economic divergence.
 
-## Featured Project: Global Trade Inequality
+## 🧠 Methodology: The Statistics of Inequality
 
-The Global Trade Inequality project is a large scale longitudinal study that analyzes international trade flows across multiple countries, regions, and product categories. Handling this dataset required extensive preprocessing and aggregation to make meaningful group wise comparisons feasible. We apply exploratory data analysis (EDA) techniques to identify hidden patterns of inequality and use distributional measures to quantify the disparity in trade value across different economic blocks. The full analytical workflow is documented in a series of research notebooks and formal reports that translate complex statistical findings into actionable insights.
+Understanding global trade requires moving beyond aggregate means to analyze the full distribution of value across economic actors.
 
-## Key Statistical Applications
+### 1. Inequality Quantification (Gini Coefficient)
+We implement the **Gini Coefficient** to measure the statistical dispersion of trade value.
+- **Formula**: $G = \frac{\sum_{i=1}^n \sum_{j=1}^n |x_i - x_j|}{2n^2\bar{x}}$
+- **Interpretation**: Allows for a normalized comparison of inequality across different product categories and time periods, regardless of the absolute scale of trade.
 
-| Analysis Type | Dataset Focus | Core Statistical Method |
-|---|---|---|
-| Inequality Mapping | Global Trade Flows | Distributional Variance Analysis |
-| Pricing Strategies | Software Licensing | Comparative Hypothesis Testing |
-| Regional Comparison | Trade Bloc Performance | Group Wise Aggregation |
-| Data Quality | Multi Source Integration | Integrity & Outlier Detection |
+### 2. Market Concentration (HHI)
+To detect monopolistic patterns or trade dependencies, we utilize the **Herfindahl-Hirschman Index (HHI)**.
+- **Application**: Identifying "Bottleneck" regions where global trade for specific commodities is concentrated in a handful of actors.
 
-## Software Pricing Analysis
+### 3. Hypothesis Testing: Pricing & Power
+The repository includes comparative studies on software pricing strategies, utilizing **Welch’s T-Tests** to identify significant market shifts in licensing models across different economic tiers.
 
-Alongside the primary trade study, this repository includes a standalone assignment focused on software pricing behavior. This analysis involves cleaning and summarizing pricing data to identify common market patterns and baseline statistical relationships. While smaller in scope, this work demonstrates the foundational competence required to perform disciplined exploratory analysis and interpret basic comparative statistics in a business context.
+## 🛠️ Project Structure
 
-## Tools and Techniques
+```text
+├── src/
+│   ├── inequality_metrics.py  # Gini & HHI Calculation Engine
+├── Cheema_Vennalakanti_Global Trade Inequality.ipynb  # Primary Research Notebook
+├── Vennalakanti_Koushik_softwarePricing.ipynb        # Pricing Analysis Notebook
+└── reports/                   # Formal PDF Research Summaries
+```
 
-All analyses are implemented using the Python scientific stack, with a heavy reliance on Pandas and NumPy for large scale data manipulation. Jupyter Notebooks are used to maintain a transparent and reproducible research record, while formal PDF reports facilitate the communication of high level results to non technical stakeholders. The emphasis throughout the coursework is on maintaining statistical rigor and ensuring that every analytical decision is supported by the underlying data distribution.
+## 🚀 Quick Start
 
-## Purpose and Learnings
+1. **Calculate Concentration Metrics**:
+   ```bash
+   python src/inequality_metrics.py
+   ```
 
-This collection of work demonstrates a strong foundation in applied statistics and the ability to manage multi stage analytical projects at scale. Key learnings include the importance of careful data cleaning in large scale economic studies and the value of clear communication when presenting statistical results. These projects highlight the ability to think statistically while working with complex real world datasets to uncover meaningful signals within the noise of global trade.
+2. **Run Interactive Analysis**:
+   Open the Jupyter notebooks in the root directory to view the full longitudinal study.
+
+---
+*Developed as part of my Applied Data Science & ML Engineering Portfolio.*

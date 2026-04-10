@@ -2,22 +2,30 @@ import sqlite3
 import pandas as pd
 import numpy as np
 import os
+import logging
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 from sklearn.cluster import KMeans
+from sklearn.metrics.pairwise import cosine_similarity
 from scipy import stats
+
+# Professional Logging Configuration
+logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
+logger = logging.getLogger(__name__)
 
 DB_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data', 'metadata.db')
 
 def load_data():
+    """Retrieves track features from SQL store."""
     if not os.path.exists(DB_PATH):
-        raise FileNotFoundError("Database not found. Run data_ingestion.py first.")
+        logger.error("Data store not found. Ensure ingestion pipeline has executed.")
+        raise FileNotFoundError("Database not found.")
     
     conn = sqlite3.connect(DB_PATH)
     query = """
-        SELECT t.track_id, t.popularity, t.genre,
+        SELECT t.track_id, t.track_name, t.popularity, t.genre,
                f.acousticness, f.danceability, f.energy, f.valence, f.tempo
         FROM tracks t
         JOIN acoustic_features f ON t.track_id = f.track_id
@@ -26,74 +34,87 @@ def load_data():
     conn.close()
     return df
 
-def analyze_popularity_bias(df):
+def analyze_structural_bias(df):
     """
-    STATISTICAL COMPONENT 1: Hypothesis testing distributions.
-    We plot the distribution showing the popularity bias gap between Mainstream and Indie/Obscure (Ambient/Dub).
+    Quantifies the discrepancy between mainstream and niche distributions.
+    
+    Hypothesis: The popularity distribution of 'Mainstream' vs 'Indie/Ambient' 
+    is not IID, suggesting systemic platform bias.
     """
-    print("\n--- Running Statistical Analysis: Popularity Bias ---")
+    logger.info("Executing Hypothesis Testing: Popularity Bias Distribution...")
     
-    plt.figure(figsize=(10, 6))
-    sns.kdeplot(data=df, x='popularity', hue='genre', fill=True, common_norm=False, palette='viridis')
-    plt.title('Distribution of Popularity Scores by Genre')
-    plt.xlabel('Popularity Score (0-100)')
-    plt.ylabel('Density')
+    # Welch's T-Test (does not assume equal variance)
+    pop_group = df[df['genre'] == 'Pop-Mainstream']['popularity']
+    niche_group = df[df['genre'].isin(['Ambient', 'Dub-Techno'])]['popularity']
     
-    plot_path = os.path.join(os.path.dirname(DB_PATH), 'popularity_distribution.png')
-    plt.savefig(plot_path)
-    print(f"Popularity distribution graph saved to {plot_path}")
+    t_stat, p_val = stats.ttest_ind(pop_group, niche_group, equal_var=False)
+    logger.info(f"Welch's T-Test | t-stat: {t_stat:.3f} | p-value: {p_val:.2e}")
     
-    # Simple T-Test (Hypothesis Testing)
-    pop = df[df['genre'] == 'Pop-Mainstream']['popularity']
-    obscure = df[df['genre'].isin(['Ambient', 'Dub-Techno'])]['popularity']
-    
-    t_stat, p_val = stats.ttest_ind(pop, obscure, equal_var=False)
-    print(f"Hypothesis Test (Welch's t-test) comparing Mainstream vs Obscure popularity:")
-    print(f"T-statistic: {t_stat:.2f}, P-value: {p_val:.2e}")
     if p_val < 0.05:
-        print("Conclusion: Significant statistical difference in popularity exists, confirming the platform bias.")
+        logger.info("Statistical Significance Confirmed: Significant divergence in popularity distributions.")
 
-def run_pca_and_clustering(df):
+def run_latent_discovery_engine(df):
     """
-    STATISTICAL COMPONENT 2: Dimensionality Reduction & Unsupervised Clustering.
-    We apply PCA to map the features to 2D, then cluster using K-Means to show that music 
-    groups naturally by acoustic features, regardless of the popularity gap shown above.
+    Generates a latent topological map of acoustic features.
+    
+    Uses PCA for dimensionality reduction and K-Means for unsupervised 
+    neighborhood discovery. This bypasses popularity bias by focusing on 
+    the raw acoustic manifold.
     """
-    print("\n--- Running Unsupervised SML: PCA & K-Means ---")
+    logger.info("Projecting acoustic features into latent space...")
     
     feature_cols = ['acousticness', 'danceability', 'energy', 'valence', 'tempo']
     X = df[feature_cols].values
     
-    # Standardize the features
+    # Z-score normalization for scale independence
     scaler = StandardScaler()
     X_scaled = scaler.fit_transform(X)
     
-    # 1. Dimensionality Reduction
+    # 1. Latent Factor Extraction (PCA)
     pca = PCA(n_components=2)
     X_pca = pca.fit_transform(X_scaled)
-    df['pca1'] = X_pca[:, 0]
-    df['pca2'] = X_pca[:, 1]
+    df['pca1'], df['pca2'] = X_pca[:, 0], X_pca[:, 1]
     
-    print(f"PCA Explained Variance Ratio: {pca.explained_variance_ratio_}")
+    logger.info(f"Latent Explained Variance: {np.sum(pca.explained_variance_ratio_):.2%}")
     
-    # 2. Unsupervised Clustering
-    # We purposefully don't tell K-Means the labels. We want to see if it finds 3 clusters organically.
+    # 2. Neighborhood Discovery (Clustering)
     kmeans = KMeans(n_clusters=3, random_state=42, n_init=10)
     df['cluster'] = kmeans.fit_predict(X_scaled)
     
-    # Plotting PCA Space with True Genres to prove acoustic separation bypasses popularity
-    plt.figure(figsize=(10, 6))
-    sns.scatterplot(data=df, x='pca1', y='pca2', hue='genre', style='cluster', palette='Set1', s=100)
-    plt.title('PCA of Acoustic Features: Organic Topological Mapping')
-    plt.xlabel('First Principal Component (PCA1)')
-    plt.ylabel('Second Principal Component (PCA2)')
+    return X_scaled
+
+def recommend_niche_alternatives(df, X_latent, track_index, n_recs=5):
+    """
+    Implements a Latent Discovery Recommender.
     
-    pca_plot_path = os.path.join(os.path.dirname(DB_PATH), 'pca_clusters.png')
-    plt.savefig(pca_plot_path)
-    print(f"PCA clustering scatterplot saved to {pca_plot_path}")
-    print("Baseline model complete. We have proven that the acoustic topology creates distinct neighborhoods independently of the popularity index.")
+    Given a mainstream track, finds the nearest niche 'acoustic neighbors' 
+    using cosine similarity in the latent manifest space.
+    """
+    logger.info(f"Computing latent neighbors for: {df.iloc[track_index]['track_name']}")
+    
+    # Compute Cosine Similarity across the feature space
+    similarities = cosine_similarity(X_latent[track_index].reshape(1, -1), X_latent).flatten()
+    
+    # Filter for niche tracks only (Ambient/Dub) to demonstrate discovery
+    niche_mask = df['genre'].isin(['Ambient', 'Dub-Techno'])
+    
+    # Get top N niche tracks by similarity
+    recommendation_indices = np.argsort(similarities[niche_mask])[::-1][:n_recs]
+    recommendations = df[niche_mask].iloc[recommendation_indices]
+    
+    print("\n" + "="*40)
+    print(f"LATENT DISCOVERY: Neighbors for '{df.iloc[track_index]['track_name']}'")
+    print("="*40)
+    for _, row in recommendations.iterrows():
+        print(f"• {row['track_name']} ({row['genre']}) | Similarity: {similarities[row.name]:.3f}")
+    print("="*40)
 
 if __name__ == "__main__":
     data = load_data()
-    analyze_popularity_bias(data)
-    run_pca_and_clustering(data)
+    analyze_structural_bias(data)
+    X_latent = run_latent_discovery_engine(data)
+    
+    # Recommend based on a sample pop track if it exists
+    pop_samples = data[data['genre'] == 'Pop-Mainstream'].index
+    if not pop_samples.empty:
+        recommend_niche_alternatives(data, X_latent, track_index=pop_samples[0])

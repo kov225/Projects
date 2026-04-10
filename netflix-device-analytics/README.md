@@ -1,38 +1,42 @@
-# Netflix Device Analytics
+# 📺 Streaming Intelligence: Device-Level QoS Analytics
 
-Netflix Device Analytics is a high scale telemetry simulation and monitoring platform designed to investigate playback performance across a global fleet of millions of devices. In a production streaming environment, identifying subtle service degradations hidden within massive datasets is a core challenge for data engineering and reliability teams. This project provides a robust framework for simulating complex failure scenarios, such as firmware rollout anomalies and regional CDN outages, and provides the necessary analytical views to detect and resolve these issues before they impact the user experience.
+This project implements a Quality of Service (QoS) telemetry pipeline to analyze video streaming performance across heterogeneous device categories (Smart TVs, Mobile, Web, Game Consoles). It focuses on identifying performance bottlenecks and quantifying the statistical significance of buffering latency across platforms.
 
-## Key Results
+## 🧠 Methodology: The Statistics of Streaming Experience
 
-| Scenario | Affected Slices | Observed Impact | Resolution Status |
-|---|---|---|---|
-| Firmware Rollout Anomaly | Smart TVs, v4.2.0 | 4.2x spike in playback failures | Resolved in v4.2.1 |
-| Regional CDN Failure | Asia Pacific regions | 315ms increase in median latency | Redirected to primary edge |
-| Silent Metric Drift | Smart Monitors, Europe West | 95% drop in buffering reports | Re-calibrated data pipeline |
+Ensuring a seamless playback experience requires monitoring low-level telemetry through a rigorous analytical lens.
 
-## Data Architecture
+### 1. QoS Metrics (Quality of Service)
+- **Buffering Ratio**: Measured as $\frac{\text{Total Buffer Time}}{\text{Total Playback Time}}$. This is our primary KPI for site reliability and user churn prediction.
+- **Throughput Efficiency**: Analyzing the stability of the encoding ladder based on device-specific bandwidth constraints.
 
-The architecture is built around a highly scalable telemetry generator that produces partitioned Parquet files resembling real world device event logs. Each event captures critical dimensions such as device type, firmware version, and geographic region alongside performance metrics like request latency and bytes transferred. This data is organized into weekly partitions to support efficient time series analysis and is validated against a machine readable manifest that defines the expected anomaly patterns for testing detection algorithms.
+### 2. Bootstrap Significance Testing
+Streaming telemetry is often highly skewed (most sessions have zero buffering, while a few have extreme spikes). Standard T-tests can fail to capture the true distribution.
+- **Implementation**: We use **Non-Parametric Bootstrap Resampling** to generate empirical confidence intervals for buffering differences between device categories.
+- **Goal**: Formally determine if a performance lag on 'Mobile' relative to 'Smart TV' is a systemic infrastructure issue or random noise.
 
-## Implementation
+## 🛠️ Project Structure
 
-We implement the ingestion layer using a batch processing pipeline that handles millions of rows across multiple device classes. The analytical core computes rolling error rates and latency percentiles to identify statistical outliers in specific device firmware combinations. A Streamlit dashboard provides the primary interface for visualizing these telemetry streams, allowing engineers to drill down into specific regional slices and verify the impact of infrastructure changes in real time.
-
-## Quickstart
-
-Follow these steps to initialize the environment and generate a sample telemetry dataset for analysis.
-
-```bash
-cd netflix-device-analytics
-python -m venv .venv
-# On Windows PowerShell use: .\.venv\Scripts\Activate.ps1
-# On Unix or Mac use: source .venv/bin/activate
-pip install -r requirements.txt
-# Generate 1 million events for exploration
-python -m data.generator
-streamlit run dashboard/app.py
+```text
+├── analytics/
+│   ├── device_performance.py # Core QoS Engine & Bootstrap Analysis
+├── ingestion/               # Telemetry ingestion scripts (WIP)
+├── database/                # Schema definitions for session logging
+├── Dockerfile               # Containerized analytics environment
+└── docker-compose.yml       # Full stack orchestration (InfluxDB + Grafana)
 ```
 
-## Reproducing Results
+## 🚀 Quick Start
 
-The results displayed in the interactive dashboard can be reproduced by executing the analytical pipeline on the generated Parquet files. The system will automatically compare the observed metric distributions against the baseline periods to highlight the simulated anomalies.
+1. **Calculate QoS Reports**:
+   ```bash
+   python analytics/device_performance.py
+   ```
+
+2. **Deploy Telemetry Stack**:
+   ```bash
+   docker compose up -d
+   ```
+
+---
+*Developed as part of my Applied Data Science & ML Engineering Portfolio.*

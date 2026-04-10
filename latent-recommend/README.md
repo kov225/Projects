@@ -1,38 +1,43 @@
-# Latent Recommend
+# 🎵 Latent Recommend: Acoustic Topological Discovery
 
-Latent Recommend is an innovative music recommendation engine that focuses on deep content analysis and acoustic similarity rather than traditional user behavior metrics. In a world where collaborative filtering often reinforces popular trends at the expense of discovery, this project leverages latent audio embeddings to identify musical connections based on the raw properties of the waveform itself. By decoding the underlying acoustic topology of a massive dataset, we can provide recommendations that are grounded in the actual sonic characteristics of a track.
+This project implements a latent-factor recommendation engine designed to bypass popularity bias in music discovery. It uses dimensionality reduction and unsupervised clustering to map the "acoustic manifold" of tracks, enabling the discovery of niche content based on structural similarity rather than mainstream popularity.
 
-## Key Results
+## 🧠 Methodology: Mapping the Acoustic Manifold
 
-| Feature Set | Dimensionality | Clustering Method | Explained Variance | Evaluation Metric |
-|---|---|---|---|---|
-| Acoustic Proxy | 8D reduced to 3D | K-Means | 68.21% | Silhouette Score |
-| Timbre Embeddings | 128D via VAE | Gaussian Mixture | 74.5% | Davies Bouldin Index |
-| Hybrid Latents | 256D Transformer | Hierarchical | 82.1% | Calinski Harabasz |
+Modern recommendation systems often suffer from the "Rich Get Richer" effect (popularity bias), where highly-rated content is over-exposed. Our engine focuses on the *latent acoustic properties* of music.
 
-## Methodology
+### 1. Structural Bias Quantification
+We utilize **Welch's T-Test** to formally quantify the discrepancy between 'Mainstream' and 'Niche' distributions. This establishes the statistical necessity for a non-popularity-based discovery engine.
 
-This study utilizes a multi stage pipeline to transform high dimensional audio features into a navigable latent space. We first establish a baseline using 1.2 million tracks from a public Spotify dataset, pruning the metadata to focus on eight core acoustic dimensions like energy and valence. To visualize these relationships, we apply principal component analysis (PCA) to reduce the dimensionality into a three dimensional map where music is clustered using unsupervised learning techniques. This approach allows us to discover organic genres that exist independently of human labels or marketing categories.
+### 2. Latent Factor Extraction
+We project high-dimensional acoustic features (Acousticness, Danceability, Energy, Valence, Tempo) into a lower-dimensional latent space using **Principal Component Analysis (PCA)**. This isolates the primary variance components that define a 'musical neighborhood'.
 
-## Implementation
+### 3. Topological Recommendation
+Once the latent manifold is established, recommendations are generated using **Cosine Similarity** in the normalized feature space.
+- **Goal**: Given a mainstream pop track, find the nearest neighbors in the 'Ambient' or 'Indie' subspaces.
+- **Result**: A cross-genre discovery engine that prioritizes *sonic texture* over *market reach*.
 
-The engineering core of the project is built around a scalable data ingestion layer that maps millions of features into a local SQLite environment for efficient querying. We use the scikit learn library to implement the dimensionality reduction and clustering algorithms, ensuring that the latent mapping remains robust across different subsets of the data. For more advanced discovery, we integrate the ACE-Step 1.5 diffusion transformer VAE to extract deep embeddings directly from the acoustic signal, which provides a more nuanced view of musical similarity than metadata alone.
+## 🛠️ Project Structure
 
-## Repository Structure
-
-The project is organized into several modules that handle the different stages of the recommendation pipeline. The data ingestion scripts manage the connection to the external datasets and the population of the local database while the modeling scripts perform the statistical machine learning tasks. We also provide a set of documentation files that detail the architectural design and the transition from Milestone 1 focused on baseline SML to the more complex deep learning implementation in Milestone 2.
-
-## Quickstart
-
-Follow these instructions to install the necessary dependencies and execute the baseline statistical machine learning matrix to generate your first latent music maps.
-
-```bash
-cd latent-recommend
-python -m venv .venv
-# On Windows PowerShell use: .\.venv\Scripts\Activate.ps1
-# On Unix or Mac use: source .venv/bin/activate
-pip install -r requirements.txt
-python src/scripts/prune_spotify_data.py
-python src/data_ingestion_kaggle.py
-python src/baseline_sml_kaggle.py
+```text
+├── src/
+│   ├── baseline_sml.py    # Core Discovery Engine & Latent Mapping
+│   ├── data_ingestion.py   # SQL Pipeline for track metadata
+├── data/                  # SQLite store and serialized models
+└── notebooks/             # Exploratory Analysis & Cluster Visualization
 ```
+
+## 🚀 Usage
+
+1. **Ingest Data**:
+   ```bash
+   python src/data_ingestion.py
+   ```
+
+2. **Run Discovery Pipeline**:
+   ```bash
+   python src/baseline_sml.py
+   ```
+
+---
+*Developed as part of my Applied Data Science & ML Engineering Portfolio.*
