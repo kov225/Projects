@@ -1,51 +1,59 @@
-# 📈 Algorithmic Trading Research: Quantitative Alpha & Risk
+# 📈 Algorithmic Trading Research: Systematic Alpha Extraction
 
-This repository contains a quantitative research framework for developing and backtesting systematic trading strategies. It focuses on the application of statistical learning to identify predictive signals (alphas) while maintaining a rigorous risk-management framework.
+![Apple Feature Correlation](assets/feature_correlation_heatmap.png)
 
-## 🧠 Methodology: The Science of the Alpha
+This project represents an **independent quantitative research initiative** focused on the multi-stage development of a systematic trading framework for Apple (AAPL) market data. The research methodology prioritizes **market microstructure analysis**, price action dynamics, and structural feature engineering over opaque black-box modeling.
 
-Quant research requires a move beyond simple visual backtesting into formal statistical validation.
+## 🧠 Research Philosophy
 
-### 1. Walk-Forward Cross-Validation (WF-CV)
-To prevent look-ahead bias and overfitting, we utilize a sliding window model optimization.
-- **Training**: Anchored to historical data.
-- **Validation**: Rolling OOS (Out-of-Sample) period for parameter tuning.
-- **Testing**: Pure walk-forward execution to simulate real-world deployment.
-
-### 2. Risk-Adjusted Performance (Sharpe & MDD)
-We prioritize risk-adjusted returns over absolute nominal gains.
-- **Sharpe Ratio ($\sqrt{52} \cdot \frac{\mu}{\sigma}$)**: Annualized metric for consistency.
-- **Maximum Drawdown (MDD)**: Measuring the peak-to-trough resilience of the equity curve to understand 'tail risk'.
-
-### 3. Strategy Robustness (Monte Carlo)
-A successful backtest may still be the result of 'lucky' market regimes.
-- **Implementation**: We perform **Bootstrap Monte Carlo Simulations** (5,000+ trajectories) on empirical return distributions.
-- **Assurance**: By simulating thousands of 'alternative histories', we quantify the **Probability of Ruin (PoR)** and ensure the strategy is robust to high-variance regimes.
-
-## 🛠️ Project Structure
-
-```text
-├── strategy.py           # Core Backtesting & Monte Carlo Engine
-├── evaluate_strategy.py  # Performance profiling suite
-├── notebooks/
-│   ├── 01_eda.ipynb      # Market regime analysis
-│   ├── 03_baseline.ipynb # Benchmarking vs Buy-and-Hold
-└── data/                 # Cleaned OHLCV market data (AAPL, SPY)
-```
-
-## 🚀 Usage
-
-1. **Run Backtest & Risk Profile**:
-   ```bash
-   python strategy.py
-   ```
-
-The next phase of this research involves the implementation of a constraint generated optimization.
-
-2. **Generate Visualization**:
-   ```bash
-   python generate_plot.py
-   ```
+Real-world quantitative trading requires a move beyond simple indicators into a formal understanding of **market topology**. This project emphasizes:
+- **Reasoning over Prediction**: Building a rule-based scoring logic that mimics professional discretionary trader logic.
+- **Structural Integrity**: Identifying non-stationary market regimes (e.g., support/resistance zones) to contextualize signals.
+- **Iterative Refinement**: Preserving the 'evolution of thought' through tiered research notebooks, from raw exploration to final strategy validation.
 
 ---
-*Developed as part of my Applied Data Science & ML Engineering Portfolio.*
+
+## 📂 Project Architecture
+
+### 📁 Quantitative Data Store
+- **[aapl.us.txt](file:///e:/Projects/Projects/algorithmic-trading-research/aapl.us.txt)**: Raw high-resolution historical Apple equity data.
+- **[cleaned_apple.csv](file:///e:/Projects/Projects/algorithmic-trading-research/cleaned_apple.csv)**: Pre-processed, analysis-ready dataset with integrity verification.
+
+### 📓 Tiered Research Notebooks
+| Phase | Research Focus | Key Output |
+| :--- | :--- | :--- |
+| **01 EDA** | Initial feature distributions & cleaning | Signal-to-noise baseline |
+| **02 Logic** | Feature engineering & momentum patterns | Normalized alpha features |
+| **03 Zones** | Support and resistance structural mapping | Regime detection logic |
+| **04 Scoring** | Final alpha signal & Tue-Thu framework | Integrated strategy engine |
+
+---
+
+## 🔍 The Research Pipeline
+
+### 1. Feature Engineering & Normalization
+We implement expanding-window normalization to transform non-stationary price data into Z-scored features, preventing look-ahead bias and ensuring scale independence across different market regimes.
+
+### 2. Walk-Forward Cross-Validation
+Rather than standard K-fold CV, we utilize a **sliding-window optimization** (WF-CV) to simulate real-world deployment. This approach validates the strategy's stability against temporal drift.
+
+### 3. Systematic Scoring Framework
+We develop a custom multi-objective scoring function that balances:
+- **Precision**: Signal accuracy in the validation window.
+- **Chattiness**: Signal frequency to ensure statistical significance.
+- **Correctness**: Mean expected value of identified trades.
+
+---
+
+## 🛠️ Tech Stack & Methodology
+
+- **Language**: Python 3.13
+- **Analysis**: Pandas, NumPy, SciPy (Bipartite Matching & Statistical Testing)
+- **Modelling**: Scikit-Learn (Decision Tree classifiers for non-linear boundary detection)
+- **Validation**: Walk-forward backtesting with risk-adjusted performance profiling (Sharpe, MDD).
+
+## 🔮 Future Directions
+The next phase of this research involves the implementation of constrained-gradient optimization and a more granular transaction cost modeling layer to simulate high-frequency slippage.
+
+---
+*Developed under the research initiative of Professor Bilal Khan. Part of my Applied Data Science & ML Engineering Portfolio.*
