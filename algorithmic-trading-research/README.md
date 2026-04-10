@@ -25,4 +25,4 @@ The investigation relies on the Python data science ecosystem to perform large s
 
 ## Future Directions
 
-The next phase of this research involves the implementation of a formal backtesting engine that accounts for transaction costs and slippage to move from theoretical scoring to live performance estimation. We also plan to extend the framework to multiple equities and integrate more advanced statistical validation techniques to ensure that the identified patterns remain robust across different market regimes and volatility cycles.
+The next phase of this research involves the implementation of a constraint generated opttimization.
