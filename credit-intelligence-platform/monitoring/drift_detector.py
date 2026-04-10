@@ -1,22 +1,3 @@
-"""
-drift_detector.py
-
-Evidently-based covariate drift detection running on a sliding window of the
-most recent predictions from PostgreSQL. For each input feature we compute:
-
-  - PSI (Population Stability Index): compares distribution of feature in the
-    reference window vs. the current window. PSI > 0.2 is conventionally
-    considered significant drift.
-  - KS test: non-parametric two-sample test. p-value < 0.05 means we can
-    reject the null hypothesis that the distributions are the same.
-
-Both metrics fire alerts, and both are stored back to PostgreSQL for the
-Grafana dashboard to visualize over time.
-
-We use the first trained batch as the reference distribution, following the
-standard practice of anchoring drift detection to production deployment state.
-"""
-
 import json
 import logging
 import os
@@ -29,8 +10,11 @@ import pandas as pd
 import psycopg2
 from dotenv import load_dotenv
 from scipy import stats
+from scipy.stats import wasserstein_distance
 
+# Researcher-grade monitoring configuration
 load_dotenv()
+logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
 logger = logging.getLogger(__name__)
 
 PSI_THRESHOLD = float(os.environ.get("PSI_THRESHOLD", "0.2"))
@@ -60,6 +44,7 @@ def ensure_drift_tables() -> None:
                     drifted_features JSONB,
                     psi_scores      JSONB,
                     ks_pvalues      JSONB,
+                    wasserstein_dist JSONB,
                     any_drifted     BOOLEAN
                 );
                 CREATE TABLE IF NOT EXISTS reference_features (
@@ -73,18 +58,19 @@ def ensure_drift_tables() -> None:
 
 
 def compute_psi(reference: np.ndarray, current: np.ndarray, n_bins: int = 10) -> float:
-    """Compute Population Stability Index between two 1D arrays.
+    """
+    Computes Population Stability Index (PSI).
     
-    PSI = sum((P_current - P_reference) * ln(P_current / P_reference))
+    PSI = sum((P_cur - P_ref) * ln(P_cur / P_ref))
     
-    Bin edges are derived from the reference distribution to ensure both
-    histograms use the same buckets. A small epsilon prevents log(0).
+    A PSI > 0.2 indicates significant distributional shift requiring attention.
     """
     eps = 1e-6
+    # Robust binning using reference percentiles
     bin_edges = np.percentile(reference, np.linspace(0, 100, n_bins + 1))
-    bin_edges = np.unique(bin_edges)  # dedup if reference has many ties
+    bin_edges = np.unique(bin_edges)
     if len(bin_edges) < 2:
-        return 0.0  # degenerate case: constant feature
+        return 0.0
 
     ref_counts, _ = np.histogram(reference, bins=bin_edges)
     cur_counts, _ = np.histogram(current, bins=bin_edges)
@@ -100,7 +86,6 @@ def compute_psi(reference: np.ndarray, current: np.ndarray, n_bins: int = 10) ->
 
 
 def load_reference_features(feature_cols: list[str]) -> pd.DataFrame | None:
-    """Load the reference feature distribution from PostgreSQL."""
     conn = get_db_connection()
     try:
         with conn.cursor() as cur:
@@ -118,7 +103,6 @@ def load_reference_features(feature_cols: list[str]) -> pd.DataFrame | None:
 
 
 def save_reference_features(ref_df: pd.DataFrame) -> None:
-    """Save the reference distribution (as column arrays) to PostgreSQL."""
     conn = get_db_connection()
     try:
         with conn.cursor() as cur:
@@ -130,13 +114,12 @@ def save_reference_features(ref_df: pd.DataFrame) -> None:
                     ON CONFLICT (feature_name) DO NOTHING
                 """, (col, json.dumps(values)))
         conn.commit()
-        logger.info(f"Saved reference distribution for {len(ref_df.columns)} features")
+        logger.info(f"Reference distribution anchored for {len(ref_df.columns)} features.")
     finally:
         conn.close()
 
 
 def load_recent_predictions(window_size: int = WINDOW_SIZE) -> pd.DataFrame:
-    """Fetch the most recent `window_size` prediction feature vectors from PostgreSQL."""
     conn = get_db_connection()
     try:
         with conn.cursor() as cur:
@@ -155,47 +138,53 @@ def load_recent_predictions(window_size: int = WINDOW_SIZE) -> pd.DataFrame:
 
 
 def run_drift_detection(feature_cols: list[str] | None = None) -> dict[str, Any]:
-    """Run a full drift detection pass and store results.
+    """
+    Executes covariate drift detection suite.
     
-    Returns a summary dict with drifted_features, psi_scores, and ks_pvalues.
+    This run computes:
+    1. Kolmogorov-Smirnov (KS) test for distribution overlap.
+    2. Population Stability Index (PSI) for structural shifts.
+    3. Wasserstein Distance for absolute drift magnitude.
     """
     ensure_drift_tables()
     current_df = load_recent_predictions(window_size=WINDOW_SIZE)
 
     if current_df.empty or len(current_df) < 100:
-        logger.warning(f"Only {len(current_df)} predictions in window : skipping drift check")
+        logger.warning(f"Insufficient telemetry ({len(current_df)}) for robust drift detection.")
         return {"skipped": True, "reason": "insufficient_data"}
 
     ref_df = load_reference_features(feature_cols or list(current_df.columns))
     if ref_df is None:
-        # First run: save this window as the reference and return
         save_reference_features(current_df)
-        logger.info("No reference distribution found : saved current window as reference")
         return {"skipped": True, "reason": "reference_set_initialized"}
 
     numeric_cols = [c for c in current_df.select_dtypes(include=[np.number]).columns
                     if c in ref_df.columns]
 
-    psi_scores = {}
-    ks_pvalues = {}
+    psi_scores, ks_pvalues, w_distances = {}, {}, {}
     drifted = []
 
     for col in numeric_cols:
         ref_vals = np.array(ref_df[col].dropna())
         cur_vals = current_df[col].dropna().values
 
-        if len(ref_vals) < 10 or len(cur_vals) < 10:
+        if len(ref_vals) < 50 or len(cur_vals) < 50:
             continue
 
+        # 1. PSI (Stability)
         psi = compute_psi(ref_vals, cur_vals)
+        # 2. KS Test (Significance)
         _, ks_p = stats.ks_2samp(ref_vals, cur_vals)
+        # 3. Wasserstein (Magnitude)
+        w_dist = wasserstein_distance(ref_vals, cur_vals)
 
         psi_scores[col] = round(psi, 4)
         ks_pvalues[col] = round(ks_p, 6)
+        w_distances[col] = round(float(w_dist), 6)
 
         if psi > PSI_THRESHOLD or ks_p < KS_PVALUE_THRESHOLD:
             drifted.append(col)
-            logger.warning(f"DRIFT DETECTED: {col} | PSI={psi:.4f} | KS p={ks_p:.6f}")
+            logger.warning(f"Drift Detected: {col} | PSI: {psi:.3f} | KS p: {ks_p:.4f} | W-Dist: {w_dist:.4f}")
 
     any_drifted = len(drifted) > 0
     conn = get_db_connection()
@@ -203,24 +192,26 @@ def run_drift_detection(feature_cols: list[str] | None = None) -> dict[str, Any]
         with conn.cursor() as cur:
             cur.execute("""
                 INSERT INTO drift_reports 
-                    (window_size, drifted_features, psi_scores, ks_pvalues, any_drifted)
-                VALUES (%s, %s, %s, %s, %s)
+                    (window_size, drifted_features, psi_scores, ks_pvalues, wasserstein_dist, any_drifted)
+                VALUES (%s, %s, %s, %s, %s, %s)
             """, (
                 len(current_df),
                 json.dumps(drifted),
                 json.dumps(psi_scores),
                 json.dumps(ks_pvalues),
+                json.dumps(w_distances),
                 any_drifted,
             ))
             conn.commit()
     finally:
         conn.close()
 
-    logger.info(f"Drift check complete: {len(drifted)}/{len(numeric_cols)} features drifted")
+    logger.info(f"Drift scan finalized. Features flagged: {len(drifted)}")
     return {
         "drifted_features": drifted,
         "psi_scores": psi_scores,
         "ks_pvalues": ks_pvalues,
+        "wasserstein_dist": w_distances,
         "any_drifted": any_drifted,
         "window_size": len(current_df),
     }

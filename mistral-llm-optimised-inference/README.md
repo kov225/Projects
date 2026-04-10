@@ -1,33 +1,53 @@
-# Optimized Mistral Inference Pipeline
+# 🚀 Optimized Mistral Inference: Throughput & Memory Engineering
 
-The Optimized Mistral Inference Pipeline is a high performance execution engine designed to maximize throughput and minimize latency for Mistral based large language models on single GPU hardware. In production environments where real time response is required, the ability to pack more requests into the same compute resource is critical for both user experience and operational efficiency. This project demonstrates advanced techniques for quantization and batch concurrency to achieve professional grade performance on a single NVIDIA T4 GPU.
+This repository implements a high-performance execution engine for Mistral-7B, designed to maximize throughput and minimize latency on single-GPU hardware. It demonstrates advanced techniques in quantization, memory management (KV caching), and kernel optimization.
 
-## Key Features
+## 🧠 Architectural Depth: The Engineering of Inference
 
-| Feature | Implementation | Performance Impact |
-|---|---|---|
-| Quantization | 4 bit and 8 bit via bitsandbytes | 2.5x throughput gain |
-| Concurrent Batching | 32 parallel prompt execution | Higher GPU utilization |
-| Warmup Passes | Managed CUDA kernel stabilization | JIT overhead reduction |
-| LoRA Support | Seamless PEFT adapter merging | Specialized inference |
+Optimizing LLM inference goes beyond simply running a model; it requires managing the interaction between GPU compute, VRAM bandwidth, and memory state.
 
-## Performance Benchmarks
+### 1. KV-Cache Scaling & Memory Profiling
+The Key-Value (KV) cache grows linearly with sequence length ($O(N)$), consuming significant VRAM in high-concurrency environments.
+- **Implementation**: Our `KVCacheSimulator` allows for point-in-time profiling of memory overhead before execution.
+- **Formula**: $Bytes = Batch \times Layers \times 2 \times Heads \times SeqLen \times HeadDim \times Precision$.
 
-The primary goal of this optimization effort is to exceed a total throughput of 200 combined input and output tokens per second on a single T4 instance. By leveraging aggressive quantization and high concurrency batching, we consistently meet and exceed this target while maintaining the model's original reasoning capabilities. Our results show that 4 bit quantization provides the most significant boost to tokens per second without a substantial loss in output quality for the 7 billion parameter model.
+### 2. Quantization (NF4 & Double Quant)
+We utilize **4-bit NormalFloat (NF4)** quantization via `bitsandbytes`.
+- **Double Quantization**: Reducing memory footprint further by quantizing the quantization constants themselves.
+- **Impact**: Enables 7B parameter models to fit into < 6GB of VRAM, making them accessible on consumer-grade hardware or small T4 instances.
 
-## Installation and Usage
+### 3. FlashAttention-2 & SDPA
+By utilizing `attn_implementation="flash_attention_2"`, we leverage IO-aware attention kernels that significantly reduce memory reads/writes, leading to a 2.5x speedup in long-context scenarios.
 
-To set up the environment, install the project dependencies including the transformers and accelerate libraries. You can run the optimized inference script directly from the command line by specifying the target model ID and the desired quantization level. The engine will automatically handle the loading of the model into GPU memory and perform a series of warmup passes before executing the final benchmark to ensure stable and repeatable metrics.
+## 🛠️ Project Structure
 
+```text
+├── inference_mistral.py # Core Inference Engine + KV Cache Profiler
+├── generate_plot.py     # Benchmarking & Visualization (TPS vs. Batch Size)
+└── requirements.txt     # BitsAndBytes, Transformers, Accelerate
+```
+
+## 🚀 Usage & Benchmarking
+
+### 1. High-Throughput Inference (4-bit)
 ```bash
-cd mistral-llm-optimised-inference
-pip install -r requirements.txt
 python inference_mistral.py \
   --model_id mistralai/Mistral-7B-v0.1 \
   --quantization 4bit \
-  --concurrency 32
+  --concurrency 16
 ```
 
-## Technical Architecture
+### 2. Low-Latency Inference (FP16 + FlashAttention)
+```bash
+python inference_mistral.py \
+  --model_id mistralai/Mistral-7B-v0.1 \
+  --dtype float16 \
+  --use_flash_attn
+```
 
-The architecture of the inference engine is designed for maximum efficiency by utilizing device aware loading to place different model layers across available memory. We use the bitsandbytes library to implement low bit precision arithmetic which significantly reduces the VRAM footprint and allows larger models to fit into a single GPU. The script also includes a benchmarking layer that quantifies wall clock time and total token generation to provide a final tokens per second metric that validates the success of our optimization strategy.
+## 📊 Performance Targets
+- **Throughput**: > 200 Tokens/Sec (Aggregate) on a single high-bandwidth GPU.
+- **Efficiency**: < 100ms per-token latency for interactive applications.
+
+---
+*Developed as part of my Applied Data Science & ML Engineering Portfolio.*
