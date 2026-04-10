@@ -1,59 +1,126 @@
-# 📈 Algorithmic Trading Research: Systematic Alpha Extraction
+# Algorithmic Trading Research : Apple (AAPL) Market Data Analysis
 
 ![Apple Feature Correlation](assets/feature_correlation_heatmap.png)
 
-This project represents an **independent quantitative research initiative** focused on the multi-stage development of a systematic trading framework for Apple (AAPL) market data. The research methodology prioritizes **market microstructure analysis**, price action dynamics, and structural feature engineering over opaque black-box modeling.
+This folder contains my **independent research project** focused on analyzing historical Apple (AAPL) market data and developing a **rule-based trading and scoring framework** grounded in price action, volume behavior, and structural market features.
 
-## 🧠 Research Philosophy
-
-Real-world quantitative trading requires a move beyond simple indicators into a formal understanding of **market topology**. This project emphasizes:
-- **Reasoning over Prediction**: Building a rule-based scoring logic that mimics professional discretionary trader logic.
-- **Structural Integrity**: Identifying non-stationary market regimes (e.g., support/resistance zones) to contextualize signals.
-- **Iterative Refinement**: Preserving the 'evolution of thought' through tiered research notebooks, from raw exploration to final strategy validation.
+The project progresses from **raw financial data ingestion** to **cleaned datasets**, followed by **iterative research notebooks** that explore support/resistance behavior, scoring functions, and strategy refinement.
 
 ---
 
-## 📂 Project Architecture
+## 📌 Project Overview
 
-### 📁 Quantitative Data Store
-- **[aapl.us.txt](file:///e:/Projects/Projects/algorithmic-trading-research/aapl.us.txt)**: Raw high-resolution historical Apple equity data.
-- **[cleaned_apple.csv](file:///e:/Projects/Projects/algorithmic-trading-research/cleaned_apple.csv)**: Pre-processed, analysis-ready dataset with integrity verification.
+The objective of this research is to:
+- Understand how **price, volume, and structure** interact over time
+- Engineer interpretable features from raw market data
+- Develop a **systematic scoring framework** to evaluate trade setups
+- Iteratively refine strategy logic through experimentation and analysis
 
-### 📓 Tiered Research Notebooks
-| Phase | Research Focus | Key Output |
-| :--- | :--- | :--- |
-| **01 EDA** | Initial feature distributions & cleaning | Signal-to-noise baseline |
-| **02 Logic** | Feature engineering & momentum patterns | Normalized alpha features |
-| **03 Zones** | Support and resistance structural mapping | Regime detection logic |
-| **04 Scoring** | Final alpha signal & Tue-Thu framework | Integrated strategy engine |
+This work emphasizes **reasoning, structure, and repeatability**, not black-box prediction.
 
 ---
 
-## 🔍 The Research Pipeline
+## 📂 Folder Contents
 
-### 1. Feature Engineering & Normalization
-We implement expanding-window normalization to transform non-stationary price data into Z-scored features, preventing look-ahead bias and ensuring scale independence across different market regimes.
-
-### 2. Walk-Forward Cross-Validation
-Rather than standard K-fold CV, we utilize a **sliding-window optimization** (WF-CV) to simulate real-world deployment. This approach validates the strategy's stability against temporal drift.
-
-### 3. Systematic Scoring Framework
-We develop a custom multi-objective scoring function that balances:
-- **Precision**: Signal accuracy in the validation window.
-- **Chattiness**: Signal frequency to ensure statistical significance.
-- **Correctness**: Mean expected value of identified trades.
+### 📁 Data
+| File | Description |
+|----|----|
+| `aapl.us.txt` | Raw historical Apple market data |
+| `cleaned_apple.csv` | Cleaned and processed dataset used for analysis |
 
 ---
 
-## 🛠️ Tech Stack & Methodology
+### 📓 Research Notebooks
+| Notebook | Focus |
+|----|----|
+| `apple_week1.ipynb` | Initial data exploration, cleaning logic, and baseline analysis |
+| `apple_week2.ipynb` | Feature engineering and early pattern analysis |
+| `resistance_and_support.ipynb` | Identification and analysis of support and resistance zones |
+| `final_function_tue_thu.ipynb` | Finalized scoring and strategy logic (Tue–Thu framework) |
+| `Untitled-2.ipynb`, `Untitled-7.ipynb` | Experimental and exploratory iterations |
 
-- **Language**: Python 3.13
-- **Analysis**: Pandas, NumPy, SciPy (Bipartite Matching & Statistical Testing)
-- **Modelling**: Scikit-Learn (Decision Tree classifiers for non-linear boundary detection)
-- **Validation**: Walk-forward backtesting with risk-adjusted performance profiling (Sharpe, MDD).
+Each notebook represents a **distinct research iteration**, preserving the evolution of ideas rather than only final results.
+
+---
+
+## 🔍 Data Pipeline
+
+1. **Raw Data Ingestion**
+   - Imported historical AAPL price and volume data
+   - Verified data integrity and time ordering
+
+2. **Data Cleaning**
+   - Removed inconsistencies and formatting issues
+   - Standardized columns and timestamps
+   - Generated a clean, analysis-ready dataset
+
+3. **Feature Engineering**
+   - Price-based metrics
+   - Volume-derived indicators
+   - Structural markers related to market behavior
+
+---
+
+## 🧠 Research Methodology
+
+The research follows an **iterative experimental workflow**:
+
+- Hypothesis-driven exploration
+- Feature construction based on financial intuition
+- Rule-based scoring rather than direct prediction
+- Continuous validation through visualization and diagnostics
+- Incremental refinement of logic and thresholds
+
+Rather than optimizing for short-term accuracy, the focus is on **interpretability and robustness**.
+
+---
+
+## 📊 Strategy & Scoring Framework
+
+Key components explored include:
+- Support and resistance detection
+- Price behavior around key levels
+- Volume confirmation
+- Custom scoring functions to rank trade setups
+- Day-specific structural behavior (e.g., Tue–Thu dynamics)
+
+The final notebooks consolidate these components into a **coherent evaluation framework**.
+
+---
+
+## 🛠 Tools & Technologies
+
+- Python
+- Pandas & NumPy
+- Jupyter Notebooks
+- Financial time-series analysis
+- Visualization-driven validation
+
+---
+
+## 🎯 Key Learnings
+
+- Raw financial data requires extensive preprocessing before analysis
+- Structural market features are often more informative than raw indicators
+- Iterative experimentation is critical for refining trading logic
+- Interpretable scoring frameworks aid reasoning and debugging
+- Research value lies as much in *process* as in outcomes
+
+---
 
 ## 🔮 Future Directions
-The next phase of this research involves the implementation of constrained-gradient optimization and a more granular transaction cost modeling layer to simulate high-frequency slippage.
+
+- Formal backtesting with transaction cost modeling
+- Extension to multiple equities
+- Statistical validation across regimes
+- Integration with probabilistic or reinforcement-based decision layers
 
 ---
-*Developed under the research initiative of Professor Bilal Khan. Part of my Applied Data Science & ML Engineering Portfolio.*
+
+## 📖 Research Context
+
+This project was conducted as a ** research initiative** under Professor Bilal Khan.  
+designed to deepen understanding of **market microstructure, price action, and systematic strategy development**.
+
+The repository intentionally preserves intermediate experiments to reflect the **true research process**, not just polished results.
+
