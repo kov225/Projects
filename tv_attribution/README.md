@@ -1,49 +1,52 @@
-# 📡 TV Ad Attribution Engine
+# 📡 TV Ad Attribution Engine: Minute-Level Causal Inference
 
 This engine measures the minute-level causal incremental impact of linear TV ad airings on website traffic. It addresses the lack of direct click-through data for traditional television advertising by implementing high-resolution counterfactual estimation and statistical significance testing.
 
-## 🧠 Methodology and Performance Framework
+## 🧠 Methodology: Parametric Response Recovery
 
-### 1. High-Resolution Simulation
-The `simulator.py` module generates a 90-day minute-level sessions dataset (129k mins) with complex organic behaviors:
-- **Baseline Components**: Hourly and weekly seasonality, slow growth trends, and AR(1) noise reflecting the inherent volatility of web traffic.
-- **Airing Response Model**: Injects non-linear response curves ($lift(t) = A \cdot (t/\tau) \cdot e^{1-t/\tau}$) with varying network reach, spot length (15s vs 30s), and creative effectiveness factor.
-- **Frequency Fatigue**: Realistically decays response when multiple airings occur on the same network in a short time frame.
+Unlike simple "spike" detection, this engine models the underlying physics of TV response—where a spot triggers immediate awareness followed by a specific decay curve.
 
-### 2. Spot-Level Attribution
-The `attribution.py` system extracts the immediate incremental sessions for every ad spot:
-- **Local Linear Baseline**: Estimates what traffic would have been without the ad using a 20-minute pre-airing window.
-- **Statistical Significance**: Performs Z-score thresholding against the cumulative noise floor to separate true signal from random fluctuations.
-- **Response Curve Fitting**: Uses non-linear least squares to fit the lift surface and extract peak response time and total incremental impact.
+### 1. Counterfactual Estimation (Local Linear Baseline)
+We estimate the "unobserved" baseline (what would have happened without the ad) by fitting a local linear trend to the 20 minutes of telemetry prior to the airing. This controls for intra-day seasonality and pre-existing trends.
 
-### 3. Campaign-Level Causal Impact
-For aggregate measurement, the project uses Bayesian Structural Time Series (BSTS). By utilizing a correlated control market, the model constructs a robust counterfactual to identify the overall campaign-level lift with quantified 95% credible intervals.
+### 2. Signal Extraction & Bootstrapping
+Incremental sessions are isolated by subtracting the counterfactual baseline from the observed sessions. 
+- **Bootstrap Resampling**: To account for the high variance in minute-level web traffic, we resample pre-airing residuals (Efron, 1979) to generate a full distribution of potential lifts.
+- **Significance Criteria**: A spot is marked as "Significant" only if its 95% bootstrap confidence interval does not cross zero.
 
-## 🚀 Key Performance Indicators (KPIs)
+### 3. Parametric Curve Fitting
+We fit a non-linear response model to the Isolated signal:
+$$L(t) = A \cdot \frac{t}{\tau} \cdot e^{1 - \frac{t}{\tau}}$$
+- **$A$ (Intensity)**: The peak response magnitude.
+- **$\tau$ (Decay Rate)**: The time constant reflecting how quickly the response fades.
 
-- **Network Scorecard**: Ranking networks by Cost Per Incremental Session (CPIS) and average response magnitude.
-- **Creative Efficiency**: Box plots comparisons and ANOVA testing to identify the most effective ad creative version.
-- **Daypart Heatmaps**: 20x6 heatmaps (Network x Daypart) coloring efficiency to guide media buyer re-allocation.
-- **Frequency Response**: Identifying the "saturation point" where additional daily airings yield diminishing returns.
+## 🛠️ Project Structure
 
-## 🛠️ Tech Stack
+```text
+├── attribution.py    # Core Attribution Engine (Bootstrap + Curve Fitting)
+├── simulator.py       # High-resolution Session Simulation (Seasonality + Noise)
+├── notebooks/
+│   └── analysis.ipynb # Performance Dashboard & Network Scorecards
+└── data/             # Airing logs and minute-level telemetry
+```
 
-- **Causal Analysis**: TF-CausalImpact, Statsmodels
-- **Optimization**: SciPy (Curve Fit), LinearRegression
-- **Data Engineering**: Pandas, NumPy
-- **Diagnostics**: Scikit-learn (ANOVA, Tukey HSD)
+## 🚀 Quick Start
 
-## 📋 Quickstart
-
-1. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-2. Generate simulated sessions and airings:
+1. **Generate Simulated Data**:
    ```bash
    python simulator.py
    ```
-3. Open the notebooks to view the performance dashboard:
+
+2. **Run Attribution Pipeline**:
    ```bash
-   jupyter notebook notebooks/04_performance_report.ipynb
+   python attribution.py
    ```
+
+## 📈 Strategic KPIs
+The engine outputs a network-level scorecard including:
+- **CPIS (Cost Per Incremental Session)**: Causal efficiency of each network.
+- **Response Half-Life**: Identifying which networks drive the most "durable" sessions.
+- **Daypart Optimality**: Heatmaps identifying the most efficient airing windows.
+
+---
+*Developed as part of my Applied Data Science & ML Engineering Portfolio.*
