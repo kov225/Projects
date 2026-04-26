@@ -1,255 +1,374 @@
 """
-Model Evaluation and Feature Importance Module
+Evaluation Module  Milestone 2
 
-This module provides tools for quantifying model performance across multiple 
-statistical dimensions. It includes a unified evaluation framework for 
-calculating classification metrics and a utility for identifying informative 
-features to guide concept-adjacent shift simulations.
+Provides a unified, statistically rigorous evaluation harness for all
+experiments in this project.  Key capabilities added over Milestone 1:
+
+  1. Full metric suite: Accuracy, Precision, Recall, F1, ROC-AUC,
+     Calibration (Brier Score), and Confusion-Matrix-derived counts.
+  2. Robustness scoring: an aggregate degradation index and relative
+     drop computed against each model's clean baseline.
+  3. Bootstrap confidence intervals (95%) for every metric.
+  4. KS-test and PSI for distribution-level shift quantification.
+  5. Stateless baseline caching via an explicit context object instead
+     of mutable module-level globals.
+
+Public API
+----------
+  EvaluationContext   Class that carries baseline state between calls.
+  evaluate_models()   Main evaluation function; returns a tidy DataFrame.
+  get_top_n_features() Random-Forest importance heuristic for shift targeting.
+  compute_robustness_score()  Aggregate robustness index for a single model.
 """
 
-import pandas as pd
-import numpy as np
-from sklearn.metrics import accuracy_score, f1_score, roc_auc_score, brier_score_loss
 import sys
 import os
+import numpy as np
+import pandas as pd
 
-# We insert the local directory to the front of the path to ensure that our 
-# local 'statistics.py' is prioritized over the Python standard library.
+from sklearn.metrics import (
+    accuracy_score, precision_score, recall_score,
+    f1_score, roc_auc_score, brier_score_loss,
+    confusion_matrix,
+)
+from scipy.stats import ks_2samp, ttest_ind
+
 sys.path.insert(0, os.path.dirname(__file__))
-import statistics
+from utils import get_logger, compute_avg_psi
 
-# We use module-level caches to store the uncorrupted baseline data and its performance.
-# This allows us to compare shifted distributions against the original.
-_BASELINE_X_CACHE = None
-_BASELINE_METRICS_CACHE = {} # Maps model names to their baseline bootstrapped accuracies
+logger = get_logger(__name__)
 
-def _calculate_metrics(y_true, y_pred, y_prob, has_multiple_classes):
+BOOTSTRAP_ITERATIONS = 200
+CI_LOWER = 2.5
+CI_UPPER = 97.5
+
+
+# ---------------------------------------------------------------------------
+# Baseline State Container
+# ---------------------------------------------------------------------------
+
+class EvaluationContext:
     """
-    Internal helper to calculate a bundle of metrics for a single sample.
+    Carries the baseline (clean) distribution and performance across the
+    full experiment loop.
+
+    Using an explicit context object instead of module-level globals makes
+    the evaluation pipeline stateless from the caller's perspective: you can
+    run multiple independent experiment sweeps by instantiating separate
+    EvaluationContext objects without side effects.
+
+    Attributes:
+        baseline_X:       Cached clean test feature matrix.
+        baseline_metrics: Per-model list of bootstrapped accuracy samples
+                          collected during the baseline pass.
     """
-    acc = accuracy_score(y_true, y_pred)
-    f1 = f1_score(y_true, y_pred, average='weighted', zero_division=0)
-    
-    if has_multiple_classes:
-        try:
-            roc_auc = roc_auc_score(y_true, y_prob)
-        except ValueError:
-            roc_auc = np.nan
+
+    def __init__(self):
+        self.baseline_X: np.ndarray | None = None
+        self.baseline_metrics: dict = {}
+
+    def is_ready(self) -> bool:
+        return self.baseline_X is not None
+
+
+# ---------------------------------------------------------------------------
+# Internal Helpers
+# ---------------------------------------------------------------------------
+
+def _predict(model, X: np.ndarray) -> tuple:
+    """
+    Produces class predictions and calibrated probability estimates for a
+    single model regardless of its interface (predict_proba vs.
+    decision_function vs. neither).
+
+    Returns:
+        Tuple (y_pred, y_prob) where y_prob is a 1-D array of positive-class
+        probability estimates.
+    """
+    y_pred = model.predict(X)
+
+    if hasattr(model, "predict_proba"):
+        y_prob = model.predict_proba(X)[:, 1]
+    elif hasattr(model, "decision_function"):
+        raw = model.decision_function(X)
+        y_prob = 1.0 / (1.0 + np.exp(-raw))   # sigmoid calibration
     else:
-        roc_auc = np.nan
-        
+        y_prob = y_pred.astype(float)
+
+    return y_pred, y_prob
+
+
+def _point_metrics(y_true: np.ndarray, y_pred: np.ndarray,
+                   y_prob: np.ndarray) -> dict:
+    """
+    Computes the full metric bundle for a single (y_true, y_pred, y_prob)
+    triplet.  Returns a dictionary of scalar metric values.
+
+    Handles edge cases (single-class samples, NaN probability estimates)
+    gracefully by returning np.nan instead of raising.
+    """
+    multi = len(np.unique(y_true)) > 1
+    metrics = {
+        "Accuracy":  accuracy_score(y_true, y_pred),
+        "Precision": precision_score(y_true, y_pred, average="weighted",
+                                     zero_division=0),
+        "Recall":    recall_score(y_true, y_pred, average="weighted",
+                                  zero_division=0),
+        "F1_Score":  f1_score(y_true, y_pred, average="weighted",
+                              zero_division=0),
+    }
+
+    metrics["ROC_AUC"] = roc_auc_score(y_true, y_prob) if multi else np.nan
     try:
-        brier = brier_score_loss(y_true, y_prob)
+        metrics["Brier_Score"] = brier_score_loss(y_true, y_prob)
     except ValueError:
-        brier = np.nan
-        
-    return acc, f1, roc_auc, brier
+        metrics["Brier_Score"] = np.nan
 
-def evaluate_models(trained_models, X_test, y_test, shift_type="None", intensity=0.0):
+    return metrics
+
+
+def _bootstrap_metrics(y_true: np.ndarray, y_pred: np.ndarray,
+                        y_prob: np.ndarray, n_iter: int = BOOTSTRAP_ITERATIONS
+                        ) -> dict:
     """
-    Evaluates a collection of trained models with statistical bootstrapping.
+    Constructs 95% bootstrap confidence intervals for all point metrics.
 
-    This function quantifying model performance while providing confidence 
-    intervals for all metrics. It also calculates the Kolmogorov-Smirnov 
-    statistic to measure the physical divergence of the input features relative 
-    to the baseline distribution.
-
-    Args:
-        trained_models (dict): Mapping of model names to fitted instances.
-        X_test (np.ndarray): The feature matrix for evaluation.
-        y_test (np.ndarray): The ground truth labels.
-        shift_type (str): The name of the dataset shift applied.
-        intensity (float): The magnitude of the shift applied.
+    Resampling is performed with replacement over the test-set rows.
+    Single-class bootstrap draws (which are common at small sample sizes
+    or extreme shift) are silently skipped rather than crashing.
 
     Returns:
-        pd.DataFrame: A DataFrame containing metrics, confidence intervals, 
-                      and distribution shift statistics.
+        Dictionary containing lists of per-bootstrap metric values.
     """
-    global _BASELINE_X_CACHE, _BASELINE_METRICS_CACHE
-    results = []
-    
-    # We cache the very first clean test set encountered to serve as the reference 
-    # point for all future comparisons.
+    idx = np.arange(len(y_true))
+    boot = {k: [] for k in ["Accuracy", "Precision", "Recall",
+                             "F1_Score", "ROC_AUC", "Brier_Score"]}
+
+    for _ in range(n_iter):
+        s = np.random.choice(idx, size=len(idx), replace=True)
+        if len(np.unique(y_true[s])) < 2:
+            continue
+        m = _point_metrics(y_true[s], y_pred[s], y_prob[s])
+        for k, v in m.items():
+            boot[k].append(v)
+
+    return boot
+
+
+def _ci(values: list) -> tuple:
+    """Returns (lower_95, upper_95) confidence interval from bootstrap samples."""
+    arr = np.array([v for v in values if not np.isnan(v)])
+    if len(arr) == 0:
+        return (np.nan, np.nan)
+    return (np.nanpercentile(arr, CI_LOWER), np.nanpercentile(arr, CI_UPPER))
+
+
+# ---------------------------------------------------------------------------
+# Robustness Score
+# ---------------------------------------------------------------------------
+
+def compute_robustness_score(
+    baseline_acc: float,
+    shifted_acc: float,
+    ks_statistic: float
+) -> float:
+    """
+    Computes a composite Robustness Score for a single (model, shift) pair.
+
+    The score integrates two signals:
+      1. Relative performance retention (how much accuracy is preserved).
+      2. Distribution shift magnitude (KS statistic) as a penalty.
+
+    Formula:
+        RS = retention_ratio * (1 - ks_statistic)
+
+    Where retention_ratio = shifted_acc / baseline_acc (clamped to [0, 1]).
+    A score near 1.0 means the model maintained performance despite large
+    distributional divergence; near 0.0 means complete collapse.
+
+    Args:
+        baseline_acc: Clean-data accuracy.
+        shifted_acc:  Accuracy under shift.
+        ks_statistic: Average KS statistic between baseline and shifted X.
+
+    Returns:
+        Robustness score in [0, 1].
+    """
+    if baseline_acc <= 0:
+        return 0.0
+    retention = np.clip(shifted_acc / baseline_acc, 0.0, 1.0)
+    return float(retention * (1.0 - np.clip(ks_statistic, 0.0, 1.0)))
+
+
+def compute_relative_drop(baseline_acc: float, shifted_acc: float) -> float:
+    """
+    Returns the relative accuracy drop from baseline to shifted condition.
+
+    Positive values indicate degradation. Negative values indicate
+    (unlikely) improvement after shift.
+
+    Formula: (baseline_acc - shifted_acc) / baseline_acc * 100
+    """
+    if baseline_acc <= 0:
+        return 0.0
+    return float((baseline_acc - shifted_acc) / baseline_acc * 100.0)
+
+
+# ---------------------------------------------------------------------------
+# Main Evaluation Function
+# ---------------------------------------------------------------------------
+
+def evaluate_models(
+    trained_models: dict,
+    X_test: np.ndarray,
+    y_test: np.ndarray,
+    shift_type: str = "None",
+    intensity: float = 0.0,
+    ctx: EvaluationContext = None,
+    continuous_indices: list = None,
+) -> pd.DataFrame:
+    """
+    Evaluates all trained models against a (possibly shifted) test set and
+    returns a tidy DataFrame with metrics, confidence intervals, distribution
+    shift statistics, and robustness scores.
+
+    The function is context-aware: when ctx is provided and the current pass
+    is the baseline (intensity == 0.0 or shift_type == "Baseline"), it
+    populates ctx.baseline_X and ctx.baseline_metrics for use by subsequent
+    shifted evaluations.
+
+    Args:
+        trained_models:     Dict of name to fitted estimator.
+        X_test:             Feature matrix for evaluation.
+        y_test:             Ground-truth labels.
+        shift_type:         Name of the applied shift (for result tagging).
+        intensity:          Magnitude of the applied shift (for result tagging).
+        ctx:                EvaluationContext carrying baseline state.
+                            If None, a fresh context is created (baseline
+                            caching will not persist across calls).
+        continuous_indices: Feature columns used for PSI computation.
+                            Defaults to all columns when None.
+
+    Returns:
+        pd.DataFrame with one row per model.
+    """
+    if ctx is None:
+        ctx = EvaluationContext()
+
     is_baseline = (intensity == 0.0 or shift_type == "Baseline")
-    if _BASELINE_X_CACHE is None and is_baseline:
-        _BASELINE_X_CACHE = X_test.copy()
-    
-    # Calculate distribution shift using the statistics module
-    ks_results = statistics.calculate_feature_drift(
-        _BASELINE_X_CACHE, X_test, list(range(X_test.shape[1]))
-    )
-    
-    has_multiple_classes = len(np.unique(y_test)) > 1
-    n_iterations = 100
-    
+    if is_baseline and ctx.baseline_X is None:
+        ctx.baseline_X = X_test.copy()
+        logger.info("Baseline distribution cached.")
+
+    # Distribution shift statistics
+    ref = ctx.baseline_X if ctx.baseline_X is not None else X_test
+    feat_idx = continuous_indices if continuous_indices else list(range(X_test.shape[1]))
+
+    ks_stats = []
+    for i in feat_idx:
+        stat, _ = ks_2samp(ref[:, i], X_test[:, i])
+        ks_stats.append(stat)
+    avg_ks = float(np.mean(ks_stats)) if ks_stats else 0.0
+    max_ks = float(np.max(ks_stats)) if ks_stats else 0.0
+    avg_psi = compute_avg_psi(ref, X_test, feat_idx)
+
+    rows = []
     for name, model in trained_models.items():
-        # Baseline point estimates
-        y_pred = model.predict(X_test)
-        if hasattr(model, "predict_proba"):
-            y_prob = model.predict_proba(X_test)[:, 1]
-        elif hasattr(model, "decision_function"):
-            decision = model.decision_function(X_test)
-            y_prob = 1 / (1 + np.exp(-decision)) 
-        else:
-            y_prob = y_pred
-            
-        point_acc, point_f1, point_roc, point_brier = _calculate_metrics(
-            y_test, y_pred, y_prob, has_multiple_classes
-        )
-        
-        # Bootstrapping loop for uncertainty quantification
-        boot_acc, boot_f1, boot_roc, boot_brier = [], [], [], []
-        indices = np.arange(len(y_test))
-        
-        for _ in range(n_iterations):
-            # Resampling with replacement simulates multiple draws from the same population
-            resample_idx = np.random.choice(indices, size=len(indices), replace=True)
-            y_true_b = y_test[resample_idx]
-            y_pred_b = y_pred[resample_idx]
-            y_prob_b = y_prob[resample_idx]
-            
-            # Metric check for single-class resamples to prevent calculation errors
-            b_multi = len(np.unique(y_true_b)) > 1
-            a, f, r, b = _calculate_metrics(y_true_b, y_pred_b, y_prob_b, b_multi)
-            
-            boot_acc.append(a)
-            boot_f1.append(f)
-            boot_roc.append(r)
-            boot_brier.append(b)
-            
-        # Store baseline accuracies for future hypothesis testing
+        y_pred, y_prob = _predict(model, X_test)
+        point = _point_metrics(y_test, y_pred, y_prob)
+        boot  = _bootstrap_metrics(y_test, y_pred, y_prob)
+
+        # Baseline caching and hypothesis test
         if is_baseline:
-            _BASELINE_METRICS_CACHE[name] = boot_acc
-            p_val = np.nan
-            significant = False
+            ctx.baseline_metrics[name] = boot["Accuracy"]
+            p_val, significant = np.nan, False
         else:
-            # Shifted vs Baseline Hypothesis Testing
-            baseline_dist = _BASELINE_METRICS_CACHE.get(name, [])
-            if baseline_dist:
-                hr = statistics.perform_hypothesis_test(baseline_dist, boot_acc)
-                p_val = hr["p_value"]
-                significant = hr["significant"]
+            bl_acc = ctx.baseline_metrics.get(name, [])
+            if len(bl_acc) >= 2 and len(boot["Accuracy"]) >= 2:
+                _, p_val = ttest_ind(bl_acc, boot["Accuracy"], alternative="greater")
+                significant = bool(p_val < 0.05)
             else:
-                p_val = np.nan
-                significant = False
+                p_val, significant = np.nan, False
 
-        results.append({
-            "Model": name,
-            "Shift_Type": shift_type,
-            "Intensity": intensity,
-            "Accuracy": point_acc,
-            "Accuracy_Lower_CI": np.nanpercentile(boot_acc, 2.5),
-            "Accuracy_Upper_CI": np.nanpercentile(boot_acc, 97.5),
-            "F1_Score": point_f1,
-            "F1_Lower_CI": np.nanpercentile(boot_f1, 2.5),
-            "F1_Upper_CI": np.nanpercentile(boot_f1, 97.5),
-            "ROC_AUC": point_roc,
-            "ROC_Lower_CI": np.nanpercentile(boot_roc, 2.5),
-            "ROC_Upper_CI": np.nanpercentile(boot_roc, 97.5),
-            "Brier_Score": point_brier,
-            "Brier_Lower_CI": np.nanpercentile(boot_brier, 2.5),
-            "Brier_Upper_CI": np.nanpercentile(boot_brier, 97.5),
-            "KS_Statistic": ks_results["avg_ks"],
-            "P_Value": p_val,
-            "Significant_Shift": significant
+        # Robustness scores
+        baseline_acc = np.mean(ctx.baseline_metrics.get(name, [point["Accuracy"]]))
+        rob_score    = compute_robustness_score(baseline_acc, point["Accuracy"], avg_ks)
+        rel_drop     = compute_relative_drop(baseline_acc, point["Accuracy"])
+
+        # Confusion matrix
+        cm = confusion_matrix(y_test, y_pred, labels=[0, 1])
+        tn, fp, fn, tp = (cm.ravel() if cm.size == 4 else (0, 0, 0, 0))
+
+        # Assemble row
+        acc_lo, acc_hi = _ci(boot["Accuracy"])
+        f1_lo,  f1_hi  = _ci(boot["F1_Score"])
+        roc_lo, roc_hi = _ci(boot["ROC_AUC"])
+        br_lo,  br_hi  = _ci(boot["Brier_Score"])
+        pr_lo,  pr_hi  = _ci(boot["Precision"])
+        rc_lo,  rc_hi  = _ci(boot["Recall"])
+
+        rows.append({
+            "Model":               name,
+            "Shift_Type":          shift_type,
+            "Intensity":           round(intensity, 4),
+            "Accuracy":            point["Accuracy"],
+            "Accuracy_Lower_CI":   acc_lo,
+            "Accuracy_Upper_CI":   acc_hi,
+            "Precision":           point["Precision"],
+            "Precision_Lower_CI":  pr_lo,
+            "Precision_Upper_CI":  pr_hi,
+            "Recall":              point["Recall"],
+            "Recall_Lower_CI":     rc_lo,
+            "Recall_Upper_CI":     rc_hi,
+            "F1_Score":            point["F1_Score"],
+            "F1_Lower_CI":         f1_lo,
+            "F1_Upper_CI":         f1_hi,
+            "ROC_AUC":             point["ROC_AUC"],
+            "ROC_Lower_CI":        roc_lo,
+            "ROC_Upper_CI":        roc_hi,
+            "Brier_Score":         point["Brier_Score"],
+            "Brier_Lower_CI":      br_lo,
+            "Brier_Upper_CI":      br_hi,
+            "TP":                  int(tp),
+            "TN":                  int(tn),
+            "FP":                  int(fp),
+            "FN":                  int(fn),
+            "Avg_KS_Statistic":    avg_ks,
+            "Max_KS_Statistic":    max_ks,
+            "Avg_PSI":             avg_psi,
+            "Robustness_Score":    rob_score,
+            "Relative_Drop_Pct":   rel_drop,
+            "P_Value":             p_val,
+            "Significant_Shift":   significant,
         })
-        
-    return pd.DataFrame(results)
 
-def get_top_n_features(X_train, y_train, n=5):
+    return pd.DataFrame(rows)
+
+
+# ---------------------------------------------------------------------------
+# Feature Importance Helper
+# ---------------------------------------------------------------------------
+
+def get_top_n_features(X_train: np.ndarray, y_train: np.ndarray,
+                        n: int = 5) -> list:
     """
-    Identifies the top N most informative features using a Random Forest heuristic.
+    Returns the indices of the N most informative features using a
+    shallow Random Forest's Gini importance.
 
-    By training a shallow ensemble on the training data, we can extract Gini 
-    importance scores. These indices are used to selectively corrupt the 
-    most critical dimensions during 'Concept-Adjacent' shift simulations.
+    This heuristic is used to direct concept-drift and feature-removal
+    shift simulators toward the dimensions that carry the most signal,
+    maximising the observable degradation effect.
 
     Args:
-        X_train (np.ndarray): Training feature matrix.
-        y_train (y_train): Training labels.
-        n (int): The number of top feature indices to retrieve.
+        X_train: Training feature matrix.
+        y_train: Training label vector.
+        n:       Number of top features to return.
 
     Returns:
-        list: A list of integer indices corresponding to the most importantes features.
+        List of n integer column indices in descending importance order.
     """
     from sklearn.ensemble import RandomForestClassifier
-    
-    # Shallow depth keeps computation fast while still surfacing strong linear/non-linear signals
-    rf = RandomForestClassifier(n_estimators=50, max_depth=5, random_state=42)
-    rf.fit(X_train, y_train)
-    
-    importances = rf.feature_importances_
-    
-    # Argsort provides indices that sort the array; we slice the tail for highest values
-    top_n_indices = np.argsort(importances)[::-1][:n].tolist()
-    
-    return top_n_indices
-
-def calculate_robustness_scores(results_df):
-    """
-    Computes robustness scores based on the Area Under the Degradation Curve (AUDC).
-    
-    The score is normalized by the baseline performance and represents the 
-    fraction of baseline performance maintained across the intensity spectrum.
-    Higher is better (1.0 = perfect robustness, 0.0 = complete failure).
-    
-    Args:
-        results_df (pd.DataFrame): Consolidated results.
-        
-    Returns:
-        pd.DataFrame: A leaderboard-style DataFrame of robustness scores.
-    """
-    scores = []
-    
-    metrics = ["Accuracy", "F1_Score", "ROC_AUC"]
-    models = results_df["Model"].unique()
-    shift_types = results_df["Shift_Type"].unique()
-    
-    for model in models:
-        for shift in shift_types:
-            if shift == "Baseline": continue
-            
-            # Filter for this model and shift
-            subset = results_df[(results_df["Model"] == model) & 
-                                (results_df["Shift_Type"] == shift)].sort_values("Intensity")
-            
-            # Get baseline (intensity 0.0)
-            baseline_subset = results_df[(results_df["Model"] == model) & 
-                                         (results_df["Shift_Type"] == "Baseline")]
-            
-            if baseline_subset.empty or subset.empty:
-                continue
-                
-            for metric in metrics:
-                # Combine baseline and shifted points
-                intensities = np.concatenate([[0.0], subset["Intensity"].values])
-                values = np.concatenate([[baseline_subset[metric].values[0]], subset[metric].values])
-                
-                # Normalize values by baseline to relative performance [0, 1]
-                # Filter out NaNs if any
-                mask = ~np.isnan(values)
-                if not np.any(mask): continue
-                
-                intensities = intensities[mask]
-                values = values[mask]
-                
-                baseline_val = values[0]
-                if baseline_val == 0: continue
-                
-                # Calculate Area Under Curve using Trapezoidal rule
-                # Max possible area is max_intensity * original_baseline
-                max_intensity = intensities[-1]
-                if max_intensity == 0: continue
-                
-                # We use the relative AUC (Area / (Baseline * Max_Intensity))
-                audc = np.trapz(values, intensities) / (baseline_val * max_intensity)
-                
-                scores.append({
-                    "Model": model,
-                    "Shift_Type": shift,
-                    "Metric": metric,
-                    "Robustness_Score": audc
-                })
-                
-    return pd.DataFrame(scores)
-
+    probe = RandomForestClassifier(n_estimators=50, max_depth=6,
+                                   random_state=42, n_jobs=-1)
+    probe.fit(X_train, y_train)
+    return np.argsort(probe.feature_importances_)[::-1][:n].tolist()

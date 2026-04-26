@@ -38,8 +38,8 @@ I am a Data Science graduate student at Lehigh University (GPA: 3.94) specializi
 
 ### 6. [Dataset Shift & Model Robustness](./dataset-shift-analysis)
 * **The Business Problem:** Models trained on historical data often collapse in production due to environmental drift.
-* **Key Results:** Assessed model resilience against controlled covariate and label shift. Implemented Kolmogorov-Smirnov divergence tracking and 95% CI bootstrapping to certify model stability.
-* **Tech Stack:** Python, SciPy, Scikit-learn, Bootstrap Resampling.
+* **Key Results:** Built a rigorous simulation suite assessing 9 model architectures against 8 shift families (Covariate, Label, Concept Drift). Engineered a unified Robustness Score and deployed an interactive Streamlit dashboard for real-time visualization of performance decay and calibration loss.
+* **Tech Stack:** Python, Streamlit, Scikit-learn, XGBoost, Bootstrap Resampling.
 
 ## 📂 Project Structure
 
