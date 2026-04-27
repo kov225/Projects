@@ -8,6 +8,8 @@
 [![PyTorch](https://img.shields.io/badge/PyTorch-EE4C2C?logo=pytorch&logoColor=white)](https://pytorch.org)
 [![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white)](https://docker.com)
 [![GPA](https://img.shields.io/badge/GPA-3.94-success)]()
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/koushik-vennalakanti-895abb240)
+[![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white)](https://github.com/kov225/Projects)
 
 > M.S. Data Science candidate at Lehigh University. I build end to end ML
 > systems: causal experimentation, Bayesian modeling, drift aware production
@@ -179,6 +181,8 @@ NLP Reconciliation, Netflix QoS, Media Mix Model, TV Attribution) include a
 
 * **Email:** [kov225@lehigh.edu](mailto:kov225@lehigh.edu)
 * **Personal:** [vennelakantiavinash@gmail.com](mailto:vennelakantiavinash@gmail.com)
+* **LinkedIn:** [linkedin.com/in/koushik-vennalakanti-895abb240](https://www.linkedin.com/in/koushik-vennalakanti-895abb240)
+* **GitHub:** [github.com/kov225/Projects](https://github.com/kov225/Projects)
 * **Mobile:** 484-935-7840
 * **Location:** Bethlehem, PA. Open to relocation.
 
