@@ -1,43 +1,60 @@
-# 🎵 Latent Recommend: Acoustic Topological Discovery
+# Latent Recommend
 
-This project implements a latent-factor recommendation engine designed to bypass popularity bias in music discovery. It uses dimensionality reduction and unsupervised clustering to map the "acoustic manifold" of tracks, enabling the discovery of niche content based on structural similarity rather than mainstream popularity.
+**Stack:** Python, scikit-learn (PCA, K-Means), SciPy, SQLite, Pandas.
 
-## 🧠 Methodology: Mapping the Acoustic Manifold
+A small content based music recommender that uses Spotify acoustic features
+rather than play count popularity. The motivating question: if a listener
+liked one mainstream pop track, can we surface tracks from less played
+artists with similar *sonic texture*, without relying on collaborative
+filtering signals that overweight already popular catalog?
 
-Modern recommendation systems often suffer from the "Rich Get Richer" effect (popularity bias), where highly-rated content is over-exposed. Our engine focuses on the *latent acoustic properties* of music.
+## Methods
 
-### 1. Structural Bias Quantification
-We utilize **Welch's T-Test** to formally quantify the discrepancy between 'Mainstream' and 'Niche' distributions. This establishes the statistical necessity for a non-popularity-based discovery engine.
+### 1. Quantifying popularity bias
+A Welch's t-test (unequal variances) compares the per track popularity score
+between "mainstream" and "niche" buckets, segmented by play count quartile.
+The very large effect size motivates moving away from popularity ranked
+baselines. This step is mostly a sanity check, but it is honest framing for
+why a content based approach is worth running at all.
 
-### 2. Latent Factor Extraction
-We project high-dimensional acoustic features (Acousticness, Danceability, Energy, Valence, Tempo) into a lower-dimensional latent space using **Principal Component Analysis (PCA)**. This isolates the primary variance components that define a 'musical neighborhood'.
+### 2. Latent factor extraction
+Five acoustic features (`acousticness`, `danceability`, `energy`,
+`valence`, `tempo`) are standardized and projected with PCA. The first two
+or three components capture most of the variance and form the "acoustic
+neighborhood" in which similarity is computed.
 
-### 3. Topological Recommendation
-Once the latent manifold is established, recommendations are generated using **Cosine Similarity** in the normalized feature space.
-- **Goal**: Given a mainstream pop track, find the nearest neighbors in the 'Ambient' or 'Indie' subspaces.
-- **Result**: A cross-genre discovery engine that prioritizes *sonic texture* over *market reach*.
+### 3. Recommendation
+Given a seed track, recommendations are the cosine similarity nearest
+neighbors in the normalized PCA space, with a popularity aware penalty so
+that the top results are not dominated by tracks that were already
+mainstream. K-Means clustering is also fit so neighborhoods can be inspected
+qualitatively.
 
-## 🛠️ Project Structure
+## Repository layout
 
-```text
-├── src/
-│   ├── baseline_sml.py    # Core Discovery Engine & Latent Mapping
-│   ├── data_ingestion.py   # SQL Pipeline for track metadata
-├── data/                  # SQLite store and serialized models
-└── notebooks/             # Exploratory Analysis & Cluster Visualization
+```
+src/
+  baseline_sml.py         PCA, similarity, K-Means
+  data_ingestion.py       SQLite metadata + acoustic feature loader
+  data_ingestion_kaggle.py Alternate ingestion path for the Kaggle dump
+data/                     SQLite database, fitted models
+documentations/           Design notes
 ```
 
-## 🚀 Usage
+## Reproduction
 
-1. **Ingest Data**:
-   ```bash
-   python src/data_ingestion.py
-   ```
+```bash
+pip install -r requirements.txt
+python src/data_ingestion.py     # build data/metadata.db
+python src/baseline_sml.py       # fit PCA, K-Means, run example queries
+```
 
-2. **Run Discovery Pipeline**:
-   ```bash
-   python src/baseline_sml.py
-   ```
+## Caveats
 
----
-*Developed as part of my Applied Data Science & ML Engineering Portfolio.*
+- This is a content based recommender, not a collaborative one. It cannot
+  learn from listener track interactions, only from track features.
+- The five acoustic features are coarse. Adding raw audio embeddings (for
+  example CLAP or a small CNN over mel spectrograms) is an obvious next step
+  but requires the audio itself, not just metadata.
+- The popularity penalty is a heuristic; turning it into a calibrated re
+  ranking layer would be a more principled fix.

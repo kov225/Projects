@@ -4,7 +4,7 @@
 
 The objective of the `latent-recommend` project is to build a purely content-based music recommendation and similarity search engine. Modern recommendation systems predominantly rely on collaborative filtering (user-behavior metrics), which creates a "popularity bias" echo chamber.
 
-This project bypasses collaborative filtering entirely. Instead, we will rely on the acoustic properties of the music. By extracting compact latent vectors from a structurally diverse music corpus, we will apply classical Statistical Machine Learning (SML) techniques—specifically dimensionality reduction, unsupervised clustering, and nearest-neighbor retrieval—to map the natural topology of musical genres and enable purely content-driven similarity search.
+This project bypasses collaborative filtering entirely. Instead, we will rely on the acoustic properties of the music. By extracting compact latent vectors from a structurally diverse music corpus, we will apply classical Statistical Machine Learning (SML) techniques (specifically dimensionality reduction, unsupervised clustering, and nearest-neighbor retrieval) to map the natural topology of musical genres and enable purely content-driven similarity search.
 
 ## **2\. Parallel Ecosystem Context: Project `neural-noise`**
 

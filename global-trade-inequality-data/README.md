@@ -1,42 +1,55 @@
-# 🌍 Global Trade Inequality: Distributional Economics
+# Global Trade Inequality
 
-This project investigates the structural inequalities in international trade using longitudinal economic datasets. It combines traditional exploratory data analysis (EDA) with rigorous statistical measures of concentration and disparity to identify patterns of economic divergence.
+**Stack:** Python, Pandas, NumPy, SciPy, Matplotlib, Jupyter.
+**Co-author:** Group project with Cheema (statistics milestone, Lehigh).
 
-## 🧠 Methodology: The Statistics of Inequality
+A notebook driven study of structural inequality in international trade,
+combined with a smaller follow on study on cross tier software pricing. The
+two notebooks share statistical machinery from the same `src/` module so the
+inequality measures are computed identically across both.
 
-Understanding global trade requires moving beyond aggregate means to analyze the full distribution of value across economic actors.
+## Methods
 
-### 1. Inequality Quantification (Gini Coefficient)
-We implement the **Gini Coefficient** to measure the statistical dispersion of trade value.
-- **Formula**: $G = \frac{\sum_{i=1}^n \sum_{j=1}^n |x_i - x_j|}{2n^2\bar{x}}$
-- **Interpretation**: Allows for a normalized comparison of inequality across different product categories and time periods, regardless of the absolute scale of trade.
+### Gini coefficient
+Used to measure the dispersion of trade value across actors:
 
-### 2. Market Concentration (HHI)
-To detect monopolistic patterns or trade dependencies, we utilize the **Herfindahl-Hirschman Index (HHI)**.
-- **Application**: Identifying "Bottleneck" regions where global trade for specific commodities is concentrated in a handful of actors.
-
-### 3. Hypothesis Testing: Pricing & Power
-The repository includes comparative studies on software pricing strategies, utilizing **Welch’s T-Tests** to identify significant market shifts in licensing models across different economic tiers.
-
-## 🛠️ Project Structure
-
-```text
-├── src/
-│   ├── inequality_metrics.py  # Gini & HHI Calculation Engine
-├── Cheema_Vennalakanti_Global Trade Inequality.ipynb  # Primary Research Notebook
-├── Vennalakanti_Koushik_softwarePricing.ipynb        # Pricing Analysis Notebook
-└── reports/                   # Formal PDF Research Summaries
+```
+G = sum_i sum_j |x_i - x_j| / (2 * n^2 * mean(x))
 ```
 
-## 🚀 Quick Start
+The normalization makes the index comparable across product categories and
+time periods regardless of the absolute scale of trade.
 
-1. **Calculate Concentration Metrics**:
-   ```bash
-   python src/inequality_metrics.py
-   ```
+### Herfindahl Hirschman Index (HHI)
+Concentration of market share, computed as the sum of squared shares. Used
+to flag commodities where a handful of countries dominate exports, which is
+a signal of trade bottleneck risk.
 
-2. **Run Interactive Analysis**:
-   Open the Jupyter notebooks in the root directory to view the full longitudinal study.
+### Welch's t-tests on pricing tiers
+The companion software pricing notebook uses Welch's t-tests to test whether
+licensing prices differ significantly across economic tiers, with effect
+sizes reported alongside p-values.
 
----
-*Developed as part of my Applied Data Science & ML Engineering Portfolio.*
+## Repository layout
+
+```
+src/
+  inequality_metrics.py     Gini and HHI implementations
+Cheema_Vennalakanti_Global Trade Inequality.ipynb     Main research notebook
+Vennalakanti_Koushik_softwarePricing.ipynb           Pricing follow-up
+*.pdf                       Formal write-ups
+```
+
+## Reproduction
+
+```bash
+python src/inequality_metrics.py        # smoke test on bundled data
+jupyter lab                              # open either notebook
+```
+
+## Notes
+
+This project is mostly notebook driven: the `src/` module is intentionally
+minimal and exists so the inequality calculations can be reused outside the
+notebooks. The PDFs in this directory are the formal milestone write-ups
+submitted with the project.

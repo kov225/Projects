@@ -1,51 +1,99 @@
-# 🧪 Bing Experimentation Suite: Advanced Variance Reduction & Causal Inference
+# Bing Experimentation Suite
 
-This suite implements production-grade statistical estimators designed to increase experiment sensitivity and reduce the time-to-decision in high-traffic online platforms. By utilizing pre-experiment data and demographic stratification, we can achieve up to 30-50% variance reduction, allowing for the detection of smaller treatment effects with the same sample size.
+**Status:** Independent study (Spring 2025).
+**Stack:** Python, NumPy, SciPy, Statsmodels, Pandas, Plotly Dash, Pytest.
 
-## 🚀 Key Methodologies
+A small experimentation library implementing variance reduction estimators
+for online A/B tests on simulated telemetry. The motivation was to understand
+the statistical machinery that platforms like Bing, Booking, and Netflix
+actually deploy, and to validate end to end that the estimators behave as the
+papers claim.
 
-### 1. CUPED (Controlled-experiment Using Pre-Experiment Data)
-Following **Deng et al. (2013)**, we implement CUPED to adjust the post-treatment metric $Y$ using a pre-experiment covariate $X$. 
-- **Estimator**: $\hat{Y}_{CUPED} = Y - \theta(X - \mathbb{E}[X])$
-- **Optimal $\theta$**: $\frac{Cov(Y, X)}{Var(X)}$
-- **Impact**: Reduces variance by a factor of $(1 - \rho^2)$, where $\rho$ is the correlation between $X$ and $Y$.
+## What is implemented
 
-### 2. Post-Stratification
-We adjust for accidental imbalances in group assignment across user segments (e.g., Geo, Device, Tier).
-- **Technique**: Weighted average of within-strata treatment effects.
-- **Reference**: Miratrix, Sekhon, and Yu (2013).
+### CUPED (Deng, Xu, Kohavi, Walker, 2013)
+Adjusts a post treatment metric `Y` by a pre experiment covariate `X`:
 
-### 3. Heterogeneous Treatment Effects (HTE)
-Beyond the Global Average Treatment Effect (GATE), this suite identifies if specific segments respond differently to the treatment, enabling personalized product experiences.
-
-## 🛠️ Project Structure
-
-```text
-├── experiments/
-│   ├── ab_test.py            # Welch's T-Test & Non-parametric Bootstrap
-│   ├── cuped.py              # CUPED variance reduction logic
-│   ├── stratification.py     # Post-stratification & Regression Adjustment
-│   ├── novelty.py            # Exponential decay model for novelty effects
-│   └── variance_benchmark.py # Comparative performance framework
-├── data/
-│   └── generate.py           # Realistic telemetry simulation with noise
-├── dashboard/               # Plotly/Dash visualization for experiment results
-└── tests/                   # Statistical validation unit tests
+```
+Y_cuped = Y - theta * (X - E[X])
+theta*  = Cov(Y, X) / Var(X)
 ```
 
-## 📊 Quick Start: Running the Benchmark
+The variance of the adjusted estimator is `(1 - rho^2)` times the original,
+where `rho` is the sample correlation between `X` and `Y`. The test in
+`tests/test_cuped.py` verifies this reduction empirically.
 
-To compare all estimators on fresh synthetic telemetry:
+### Post stratification
+Treatment effects are estimated within strata (geo, device, tier) and
+combined as a weighted average of the within stratum effects. This corrects
+accidental imbalances in randomization and follows Miratrix, Sekhon, and Yu
+(2013).
+
+### Novelty effect detection
+Fits an exponential decay model of the form `lift(t) = a * exp(-b * t) + c`
+to the per day lift series. A series is flagged as novelty driven when the
+decay constant `b` is statistically distinguishable from zero. The detector
+helps distinguish true treatment effects from the transient excitement that
+accompanies any new UI.
+
+### A/B test core
+Welch's t-test plus a non parametric bootstrap for cases where normality
+fails (skewed engagement metrics, zero inflated revenue, etc.). The bootstrap
+path is slower but does not require the sampling distribution assumption.
+
+### Variance benchmark
+`experiments/variance_benchmark.py` runs all estimators against the same
+generated telemetry and reports the empirical variance reduction so the
+methods can be compared on identical data.
+
+## Repository layout
+
+```
+experiments/
+  ab_test.py             Welch's t-test + bootstrap
+  cuped.py               CUPED variance reduction
+  stratification.py      Post stratification + regression adjustment
+  novelty.py             Exponential decay novelty detector
+  variance_benchmark.py  Comparative harness
+data/
+  generate.py            Synthetic telemetry with structured noise
+dashboard/               Plotly Dash views (3 pages)
+tests/                   11 unit tests covering A/A validity, CUPED, novelty
+```
+
+## Running it
 
 ```bash
+pip install -r requirements.txt
 python -m experiments.variance_benchmark
+pytest -q
 ```
 
-## 🧪 Statistical Validation
-We use a rigorous validation suite to ensure estimators are unbiased. This includes:
-- **A/A Testing**: Verifying that p-values follow a Uniform distribution $U(0, 1)$ when no effect is present.
-- **Power Analysis**: Benchmarking Minimum Detectable Effect (MDE) improvements across methods.
-- **Bootstrap Robustness**: Comparing frequentist p-values against non-parametric distributions.
+The benchmark prints variance reduction for each estimator on a freshly
+simulated dataset.
 
----
-*Developed as part of my Applied Data Science & ML Engineering Portfolio.*
+## Validation
+
+- **A/A test.** Under no treatment effect, p-values are uniformly distributed
+  on `[0, 1]` (Kolmogorov-Smirnov check in the tests).
+- **Power curves.** Minimum detectable effect (MDE) is reported for each
+  estimator at fixed sample size.
+- **Bootstrap parity.** Frequentist and bootstrap p-values agree within
+  Monte Carlo error on well behaved data.
+
+## Limitations and next steps
+
+- An earlier draft of the README mentioned heterogeneous treatment effect
+  (HTE) estimation. That is not yet implemented. The suite reports global and
+  stratified effects, but no causal tree or meta learner code is in place.
+  This is the next addition I plan to make.
+- The Plotly Dash views are intentionally minimal; the focus has been on the
+  estimators rather than the front end.
+
+## References
+
+- Deng, Xu, Kohavi, Walker (2013). *Improving the sensitivity of online
+  controlled experiments by utilizing pre-experiment data.* WSDM.
+- Miratrix, Sekhon, Yu (2013). *Adjusting treatment effect estimates by
+  post-stratification in randomized experiments.* JRSS-B.
+- Kohavi, Tang, Xu (2020). *Trustworthy Online Controlled Experiments.* CUP.

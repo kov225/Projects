@@ -1,55 +1,92 @@
-# 📈 Bayesian Media Mix Modeling (MMM) for DTC Growth
+# Bayesian Media Mix Model
 
-This repository implements a production-grade Bayesian Media Mix Model (MMM) using **PyMC-Marketing**. The objective is to quantify the causal contribution of various marketing channels (Social, Search, TV, etc.) to website conversions, while accounting for adstock (carryover) and saturation (diminishing returns).
+**Stack:** PyMC-Marketing, PyMC, ArviZ, NumPy, Pandas, SciPy.
 
-## 🧠 Methodology: The Bayesian Advantage
+A Bayesian Media Mix Model (MMM) on simulated direct to consumer marketing
+data. The goal is to decompose conversions across channels (Search, Social,
+TV, Display, Affiliate) while accounting for two effects that almost always
+break frequentist MMMs: the **carryover** of spend across weeks (adstock)
+and the **diminishing returns** of additional spend (saturation).
 
-Unlike frequentist MMMs which often suffer from multicollinearity between channel spends, our Bayesian approach utilizes informative priors to stabilize estimates and provides a full posterior distribution of ROI.
+Working in the Bayesian setting matters because adstock and saturation
+parameters are weakly identified from spend alone. Informative priors
+stabilize the estimates and produce a full posterior over channel ROI rather
+than a single point estimate.
 
-### 1. Geometric Adstock Transformation
-Marketing impact isn't instantaneous; it decays over time. We model this using a geometric decay parameter $\alpha \in [0, 1]$:
-$$Y_t = X_t + \alpha Y_{t-1}$$
-We use a **Beta(2, 2)** prior for $\alpha$, reflecting an expectation of moderate carryover for digital channels.
+## Methods
 
-### 2. Hill / Logistic Saturation
-To model diminishing returns, we apply a saturation transformation. This prevents the model from overstating ROI as spend scales to inefficient levels.
+### Geometric adstock
+Carryover is modeled with a single decay parameter `alpha` per channel:
 
-### 3. Posterior Diagnostics & Convergence
-We enforce rigorous MCMC validation:
-- **R-hat ($\hat{R}$)**: All parameters must satisfy $\hat{R} < 1.05$ to ensure chain convergence.
-- **Effective Sample Size (ESS)**: Ensuring sufficient bulk and tail ESS for reliable inference.
-- **Posterior Predictive Checks (PPC)**: Validating that the model captures the observed variance in conversions.
-
-## 🛠️ Project Structure
-
-```text
-├── modeling.py        # MMMWrapper using PyMC-Marketing with Diagnostic Checks
-├── simulator.py       # Realistic DTC data simulation (Seasonality + Trend + Noise)
-├── optimizer.py       # Budget optimization using SLSQP over the posterior
-├── notebooks/
-│   └── analysis.ipynb # Detailed EDA and Model Interpretation
-└── requirements.txt   # PyMC, ArviZ, PyMC-Marketing
+```
+Y_t = X_t + alpha * Y_{t-1},   alpha in [0, 1]
 ```
 
-## 🚀 Usage
+I use a `Beta(2, 2)` prior, encoding moderate but uncertain carryover
+appropriate for digital channels. Heavier tailed channels like TV would be
+better served by a `Beta(5, 2)`.
 
-### 1. Simulated Telemetry
-Generate synthetic marketing spend and conversion data:
+### Logistic saturation
+Diminishing returns are modeled as a logistic curve in spend, with channel
+specific half saturation and steepness parameters. This prevents the
+posterior from extrapolating linearly when a channel is pushed past its
+observed range.
+
+### Posterior diagnostics
+The fit script reports:
+
+- `R_hat` for every parameter (target < 1.05).
+- Effective sample size (bulk and tail) for the channel coefficients.
+- Posterior predictive checks against held out weeks.
+
+If any chain fails `R_hat < 1.05`, the script raises rather than producing a
+silently bad model.
+
+### Budget optimizer (prototype)
+`optimizer.py` formulates allocation as a constrained optimization. The goal
+is to maximize expected weekly conversions subject to a total spend budget
+and per channel floors and caps, evaluating the objective by sampling from
+the posterior of the fitted MMM. The current SciPy `SLSQP` driver is a
+working prototype. See *Limitations* below.
+
+## Repository layout
+
+```
+modeling.py    PyMC-Marketing wrapper with diagnostic checks
+simulator.py   DTC data generator (trend + seasonality + channel specific noise)
+optimizer.py   Posterior aware budget allocation (prototype)
+notebooks/
+  analysis.ipynb  EDA, posterior interpretation, ROI plots
+tests/         Unit tests for the simulator and adstock/saturation transforms
+```
+
+## Reproduction
+
 ```bash
-python simulator.py
+pip install -r requirements.txt
+
+python simulator.py     # generate data/marketing_data.csv
+python modeling.py      # fit MMM, save posterior, run diagnostics
+python optimizer.py     # allocate a fixed weekly budget across channels
 ```
 
-### 2. Model Fitting & Diagnostics
-Fit the Bayesian model and generate diagnostic plots:
-```bash
-python modeling.py
-```
+## Limitations
 
-### 3. Budget Optimization
-Find the optimal spend allocation across channels to maximize predicted conversions:
-```bash
-python optimizer.py
-```
+- **The optimizer is not finished.** The SLSQP call is wired up, but the
+  saturation gradient used in the objective is still being verified, and
+  gradient evaluation through the posterior samples is currently slow. I
+  expect to either move to a vectorized JAX objective or fall back to
+  `scipy.optimize.minimize` with `method="trust-constr"` and finite
+  differences.
+- **Synthetic data.** The simulator is meant to give the diagnostics
+  something to bite on, not to mimic any real brand. Channel ROI plots from
+  this run should not be read as substantive marketing claims.
+- **Prior sensitivity.** I have not yet run a formal prior predictive check
+  sweep across plausible `Beta(a, b)` choices for adstock; that is the next
+  thing I want to add.
 
----
-*Developed as part of my Applied Data Science & ML Engineering Portfolio.*
+## References
+
+- Jin et al. (2017). *Bayesian Methods for Media Mix Modeling with Carryover
+  and Shape Effects.* Google Research.
+- PyMC-Marketing documentation (Aesara backend, MMM module).

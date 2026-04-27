@@ -1,49 +1,91 @@
-# 📜 Historical NLP Reconciliation: Global Optimal Entity Matching
+# Historical NLP Reconciliation
 
-This project implements a sophisticated reconciliation pipeline to align historical legal records (King's Bench, 17th Century) between human-curated ground truth and noisy AI-extracted data. It addresses the challenges of OCR errors, historical spelling variations, and fragmented document structures.
+**Stack:** Python, RapidFuzz, SciPy (`linear_sum_assignment`), NetworkX,
+Docker.
 
-## 🧠 Methodology: The Hungarian Reconciliation
+A reconciliation pipeline that aligns AI extracted entity records against a
+human curated ground truth from 17th century King's Bench plea rolls. The
+underlying question is straightforward but messy: when an OCR/extraction
+pipeline reads early modern legal text, can the resulting fragments be
+matched back to the right historical individuals despite spelling variation,
+occupational titles, and fragmented mentions?
 
-Traditional fuzzy matching is insufficient for many-to-one record reconciliation where multiple fragmented AI extractions might map to a single historical record.
+## Why the Hungarian algorithm
 
-### 1. Global Optimization (Hungarian Algorithm)
-Instead of greedy local matching, we model the problem as a Bipartite Matching task. We utilize the **Hungarian Algorithm (Kuhn-Munkres, 1955)** to minimize the global edit-distance between the ground truth set and the extracted set. This ensures the most mathematically optimal alignment across the entire dataset.
+A greedy "best match first" pass produces local optima but misallocates
+records when several extractions plausibly map to the same person. Framing
+reconciliation as a bipartite assignment problem and solving it with the
+**Hungarian algorithm (Kuhn and Munkres, 1955)** finds the assignment that
+minimizes total cost across the whole record set. SciPy's
+`linear_sum_assignment` is used for the solver.
 
-### 2. Domain-Specific Heuristics
-- **Occupational Filtering**: Historical records are laden with occupational titles (e.g., *Yeoman*, *Husbandman*, *Spinster*) that act as semantic noise. Our pipeline implements a domain-aware stop-word filter and entity grouping logic to isolate core name tokens.
-- **Weighted Attribute Scoring**: Matches are computed via a composite score of:
-  - **Phonetic Name Similarity**: 75% weight (Rapidfuzz Token Sort Ratio).
-  - **County Alignment**: +15 bonus for categorical matches.
-  - **Plea Reconciliation**: +10 bonus for semantic alignment of legal pleas.
-  - **Entity Count Penalty**: -20 penalty for significant divergence in the number of litigants.
+## Scoring function
 
-## 🛠️ Project Structure
+Each candidate pair is scored by a weighted composite:
 
-```text
-├── src/
-│   ├── engine.py       # Core Reconciliation Logic (Hungarian Matching)
-│   ├── accuracy.py     # Evaluation Module (F1, Precision, Recall)
-├── data/               # Raw and Processed JSON records
-├── tests/              # Unit tests for matching heuristics
-└── Dockerfile          # Containerized pipeline execution
+| Component | Weight | Source |
+|-----------|--------|--------|
+| Token sorted name similarity | 0.75 | RapidFuzz `token_sort_ratio` |
+| County agreement | +15 bonus | exact match on county field |
+| Plea type agreement | +10 bonus | semantic match on pleading category |
+| Litigant count divergence | -20 penalty | absolute difference in mentioned parties |
+
+The weights are hand tuned against an annotated dev split. The scoring
+function is intentionally interpretable: every reconciliation can be traced
+back to which terms drove the match.
+
+### Domain stop words
+
+Occupational titles (`Yeoman`, `Husbandman`, `Spinster`, `Gentleman`,
+`Esquire`, and so on) and honorifics dominate the token statistics and would
+otherwise inflate the similarity score on truly different people. The
+preprocessor strips a curated list of these before fuzzy scoring.
+
+## Repository layout
+
+```
+src/
+  engine.py        Hungarian reconciliation + scoring composite
+  accuracy.py      F1 / precision / recall against held out ground truth
+data/              Raw and processed JSON record sets
+tests/             Unit tests on the heuristics
+Dockerfile
+docker-compose.yml
 ```
 
-## 🚀 Usage
+## Reproduction
 
-1. **Install Dependencies**:
-   ```bash
-   pip install -r requirements.txt
-   ```
+```bash
+pip install -r requirements.txt
+python -m src.engine
+# or, fully containerized:
+docker compose up
+```
 
-2. **Run Pipeline**:
-   ```bash
-   python -m src.engine
-   ```
+The script writes a reconciliation report and computes precision and recall
+against the held out ground truth in `data/`.
 
-3. **Verify via Docker**:
-   ```bash
-   docker compose up
-   ```
+## Results
 
----
-*Developed as part of my Applied Data Science & ML Engineering Portfolio.*
+Roughly 1,200 unique entities are reconciled across the curated and
+extracted sets. Fuzzy matching plus the Hungarian assignment substantially
+outperforms a strict equality baseline on F1 (the capstone version of this
+project reports F1 of about 0.49 vs. 0.26 on the same split). The
+reconstructed network of plaintiffs and defendants is exported as a
+NetworkX graph for downstream social network analysis.
+
+## Caveats
+
+- The scoring weights are not learned. A logistic regression layer that fits
+  the weights on the dev set would be more honest than the current hand
+  tuning, and is the next planned change.
+- Plea type semantic matching uses string matching on a small controlled
+  vocabulary. It could be replaced with embeddings, but the vocabulary is
+  small enough that returns are likely modest.
+
+## References
+
+- Kuhn, H. W. (1955). *The Hungarian method for the assignment problem.*
+  Naval Research Logistics Quarterly.
+- Munkres, J. (1957). *Algorithms for the assignment and transportation
+  problems.* SIAM Journal.

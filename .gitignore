@@ -1,0 +1,93 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# --- Environments ---
+.env
+.env.*
+!.env.example
+.venv/
+venv/
+ENV/
+env/
+
+# --- Tooling ---
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+coverage.xml
+*.cover
+*.log
+.cache/
+
+# --- Notebooks ---
+.ipynb_checkpoints/
+*-checkpoint.ipynb
+profile_default/
+ipython_config.py
+
+# --- ML / Data artifacts ---
+mlruns/
+mlflow-artifacts/
+wandb/
+.dvc/
+*.pkl
+*.joblib
+*.h5
+*.parquet
+*.feather
+*.onnx
+*.bin
+*.safetensors
+*.pt
+*.pth
+
+# Exception: keep tiny shipped artifacts that READMEs reference
+!**/data/sample/*.parquet
+!**/assets/**
+
+# --- Data caches ---
+data/raw/
+data/processed/
+data/interim/
+data/cache/
+
+# --- Editors ---
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# --- OS ---
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- Build / serving artifacts ---
+*.db-journal
+node_modules/

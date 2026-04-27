@@ -12,11 +12,11 @@ venv/
 env/
 .DS_Store
 
-# Data — raw CSVs are too large for git
+# Data: raw CSVs are too large for git
 data/raw/
 data/processed/
 
-# Model artifacts — versioned via MLflow, not git
+# Model artifacts: versioned via MLflow, not git
 models/artifacts/
 
 # MLflow local run storage

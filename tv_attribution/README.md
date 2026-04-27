@@ -1,52 +1,86 @@
-# 📡 TV Ad Attribution Engine: Minute-Level Causal Inference
+# TV Ad Attribution
 
-This engine measures the minute-level causal incremental impact of linear TV ad airings on website traffic. It addresses the lack of direct click-through data for traditional television advertising by implementing high-resolution counterfactual estimation and statistical significance testing.
+**Stack:** Python, NumPy, SciPy (non-linear least squares + bootstrap),
+Pandas, tfcausalimpact (notebook).
 
-## 🧠 Methodology: Parametric Response Recovery
+A short window attribution engine for linear TV airings that estimates
+incremental site sessions per spot by comparing observed minute level traffic
+to a local linear counterfactual. The CausalImpact notebook validates the
+campaign level result with a Bayesian Structural Time Series model fit on
+correlated control markets.
 
-Unlike simple "spike" detection, this engine models the underlying physics of TV response—where a spot triggers immediate awareness followed by a specific decay curve.
+## Methods
 
-### 1. Counterfactual Estimation (Local Linear Baseline)
-We estimate the "unobserved" baseline (what would have happened without the ad) by fitting a local linear trend to the 20 minutes of telemetry prior to the airing. This controls for intra-day seasonality and pre-existing trends.
+### Local linear counterfactual
+For each airing, the script fits an OLS line to the 20 minute pre roll window
+and projects it forward across a 15 minute post roll window. The projection
+is the counterfactual; the residual against observed traffic is the
+**incremental signal**. This handles intra day seasonality and short run
+trend without assuming a global time series model.
 
-### 2. Signal Extraction & Bootstrapping
-Incremental sessions are isolated by subtracting the counterfactual baseline from the observed sessions. 
-- **Bootstrap Resampling**: To account for the high variance in minute-level web traffic, we resample pre-airing residuals (Efron, 1979) to generate a full distribution of potential lifts.
-- **Significance Criteria**: A spot is marked as "Significant" only if its 95% bootstrap confidence interval does not cross zero.
+### Residual bootstrap
+Because minute level web traffic is noisy and far from Gaussian, the script
+resamples pre airing residuals (Efron, 1979) to build a 95 percent confidence
+interval around the per spot lift. A spot is reported as significant only
+when the interval excludes zero.
 
-### 3. Parametric Curve Fitting
-We fit a non-linear response model to the Isolated signal:
-$$L(t) = A \cdot \frac{t}{\tau} \cdot e^{1 - \frac{t}{\tau}}$$
-- **$A$ (Intensity)**: The peak response magnitude.
-- **$\tau$ (Decay Rate)**: The time constant reflecting how quickly the response fades.
+### Parametric response curve
+The aggregated lift trajectory is fit to a one parameter Pearson IV style
+response curve:
 
-## 🛠️ Project Structure
-
-```text
-├── attribution.py    # Core Attribution Engine (Bootstrap + Curve Fitting)
-├── simulator.py       # High-resolution Session Simulation (Seasonality + Noise)
-├── notebooks/
-│   └── analysis.ipynb # Performance Dashboard & Network Scorecards
-└── data/             # Airing logs and minute-level telemetry
+```
+L(t) = A * (t / tau) * exp(1 - t / tau)
 ```
 
-## 🚀 Quick Start
+`A` is the peak response, `tau` the time to peak / decay constant. The fit
+is done with `scipy.optimize.curve_fit` and gives a clean way to compare
+networks: a small `tau` is a fast, short burst response; a large `tau` is
+slower but longer lived.
 
-1. **Generate Simulated Data**:
-   ```bash
-   python simulator.py
-   ```
+### Cross validation with CausalImpact
+`notebooks/03_causal_impact.ipynb` runs Brodersen et al. (2015) BSTS at the
+campaign level, using a correlated unaired DMA as the synthetic control.
+This is a coarser, campaign level check on whether the per spot lift
+aggregates into something the BSTS model can detect from market level data.
 
-2. **Run Attribution Pipeline**:
-   ```bash
-   python attribution.py
-   ```
+## Repository layout
 
-## 📈 Strategic KPIs
-The engine outputs a network-level scorecard including:
-- **CPIS (Cost Per Incremental Session)**: Causal efficiency of each network.
-- **Response Half-Life**: Identifying which networks drive the most "durable" sessions.
-- **Daypart Optimality**: Heatmaps identifying the most efficient airing windows.
+```
+attribution.py        Per spot bootstrap lift + parametric curve fit
+simulator.py          Minute level session generator with airing impulses
+notebooks/
+  01_eda.ipynb              Exploratory checks on the simulated traffic
+  02_attribution.ipynb      Walkthrough of the per spot pipeline
+  03_causal_impact.ipynb    Campaign level BSTS cross check
+  04_scorecard.ipynb        Network level summaries
+data/                 Airing logs and minute level telemetry
+tests/                Unit tests on the bootstrap and curve fitting
+```
 
----
-*Developed as part of my Applied Data Science & ML Engineering Portfolio.*
+## Reproduction
+
+```bash
+pip install -r requirements.txt
+python simulator.py
+python attribution.py
+```
+
+The script writes a network level scorecard with CPIS (cost per incremental
+session), response half life, and a daypart heatmap.
+
+## Caveats
+
+- **"Minute level" refers to telemetry resolution, not causal granularity.**
+  The attribution windows are 15 minutes wide; finer windows are too noisy
+  for the bootstrap interval to be informative.
+- **Synthetic data only.** The lift magnitudes here are useful for sanity
+  checking the math, not for benchmarking against any real network.
+- **CausalImpact is in a notebook, not in `attribution.py`.** Promoting it
+  into the core library is a planned next step.
+
+## References
+
+- Efron, B. (1979). *Bootstrap Methods: Another Look at the Jackknife.*
+  Annals of Statistics.
+- Brodersen et al. (2015). *Inferring causal impact using Bayesian
+  structural time-series models.* Annals of Applied Statistics.

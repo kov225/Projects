@@ -15,7 +15,7 @@ The files in this folder represent:
 - Incremental improvement in logic, structure, and clarity
 - Reinforcement of core programming concepts used in data science and AI
 
-Rather than showcasing one “perfect” solution, this folder demonstrates **process, repetition, and growth**.
+Rather than showcasing one "perfect" solution, this folder demonstrates **process, repetition, and growth**.
 
 ---
 
@@ -26,7 +26,7 @@ The folder consists of multiple Python scripts, typically named:
 - `student_code.py`
 - `student_code (1).py`
 - `student_code (2).py`
-- …
+- ...
 - `student_code (12).py`
 - `800189300.py`
 

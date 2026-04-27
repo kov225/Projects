@@ -1,6 +1,6 @@
 # AI Coursework : CSF 407 (Artificial Intelligence)
 
-This folder contains coursework completed as part of **CSF 407 – Artificial Intelligence**.  
+This folder contains coursework completed as part of **CSF 407, Artificial Intelligence**.  
 The primary focus of this work is the application of **Genetic Algorithms (GA)** to solve a real-world **engineering optimization problem**.
 
 The project integrates:
@@ -108,7 +108,7 @@ The implementation and cost formulation are based on the following peer-reviewed
 
 **Caputo, A. C., Pelagagge, P. M., & Salini, P. (2008)**  
 *Heat exchanger design based on economic optimisation*  
-Applied Thermal Engineering, 28, 1151–1159.
+Applied Thermal Engineering, 28, 1151 to 1159.
 
 The accompanying presentation summarizes:
 - Problem formulation
@@ -149,7 +149,7 @@ The accompanying presentation summarizes:
 
 ## 📖 Academic Context
 
-This work was completed as part of **CSF 407 – Artificial Intelligence**,  
+This work was completed as part of **CSF 407, Artificial Intelligence**,  
 demonstrating the practical application of **evolutionary computation and heuristic search** methods to an engineering optimization problem.
 
 

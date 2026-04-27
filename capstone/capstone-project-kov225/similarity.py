@@ -2,7 +2,7 @@
 """Similarity scoring between GT and HTR cases.
 
 This scoring uses defendants and place names. Medieval spellings
-vary a lot, so everything is fuzzy-matched. The score stays on a 0–100 scale.
+vary a lot, so everything is fuzzy-matched. The score stays on a 0 to 100 scale.
 """
 
 from __future__ import annotations

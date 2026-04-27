@@ -1,35 +1,70 @@
-# 🚀 Optimized Mistral Inference: Throughput & Memory Engineering
+# Mistral-7B Inference Optimisation
 
-This repository implements a high-performance execution engine for Mistral-7B, designed to maximize throughput and minimize latency on single-GPU hardware. It demonstrates advanced techniques in quantization, memory management (KV caching), and kernel optimization.
+**Stack:** PyTorch, Hugging Face Transformers, `bitsandbytes`,
+FlashAttention-2, Accelerate.
 
-## 🧠 Architectural Depth: The Engineering of Inference
+A small inference setup for Mistral-7B that wires together the standard
+single GPU optimization knobs (4-bit NF4 quantization, double quantization,
+FlashAttention-2) and a memory profiler that lets me reason about KV cache
+growth before launching a run.
 
-Optimizing LLM inference goes beyond simply running a model; it requires managing the interaction between GPU compute, VRAM bandwidth, and memory state.
+This is the project I am the most cautious about over claiming on. The
+codebase is **a working setup, not a benchmarking paper**. The goal was to
+internalize how each knob affects VRAM and throughput, not to publish
+production numbers.
 
-### 1. KV-Cache Scaling & Memory Profiling
-The Key-Value (KV) cache grows linearly with sequence length ($O(N)$), consuming significant VRAM in high-concurrency environments.
-- **Implementation**: Our `KVCacheSimulator` allows for point-in-time profiling of memory overhead before execution.
-- **Formula**: $Bytes = Batch \times Layers \times 2 \times Heads \times SeqLen \times HeadDim \times Precision$.
+## What the code actually does
 
-### 2. Quantization (NF4 & Double Quant)
-We utilize **4-bit NormalFloat (NF4)** quantization via `bitsandbytes`.
-- **Double Quantization**: Reducing memory footprint further by quantizing the quantization constants themselves.
-- **Impact**: Enables 7B parameter models to fit into < 6GB of VRAM, making them accessible on consumer-grade hardware or small T4 instances.
+### KV cache memory profiler
 
-### 3. FlashAttention-2 & SDPA
-By utilizing `attn_implementation="flash_attention_2"`, we leverage IO-aware attention kernels that significantly reduce memory reads/writes, leading to a 2.5x speedup in long-context scenarios.
+A `KVCacheSimulator` class computes the bytes consumed by the K and V
+tensors for a given batch, sequence length, and attention head configuration
+before the model is loaded:
 
-## 🛠️ Project Structure
-
-```text
-├── inference_mistral.py # Core Inference Engine + KV Cache Profiler
-├── generate_plot.py     # Benchmarking & Visualization (TPS vs. Batch Size)
-└── requirements.txt     # BitsAndBytes, Transformers, Accelerate
+```
+bytes = batch * layers * 2 * heads * seq_len * head_dim * dtype_size
 ```
 
-## 🚀 Usage & Benchmarking
+This makes it cheap to check whether a target context length will fit on a
+given GPU before paying the model load cost.
 
-### 1. High-Throughput Inference (4-bit)
+### 4-bit NF4 quantization
+
+```
+BitsAndBytesConfig(
+    load_in_4bit=True,
+    bnb_4bit_quant_type="nf4",
+    bnb_4bit_use_double_quant=True,
+    bnb_4bit_compute_dtype=torch.float16,
+)
+```
+
+NF4 is the data dependent 4-bit format from QLoRA (Dettmers et al., 2023).
+Double quantization halves the overhead from the per block constants.
+Together these put a 7B parameter model comfortably under about 6 GB of
+VRAM, which is what makes the experiment runnable on consumer hardware or
+T4 class cloud instances.
+
+### FlashAttention-2
+
+When the host environment supports it, the model is loaded with
+`attn_implementation="flash_attention_2"`. FlashAttention recomputes
+attention in tiled passes that fit in SRAM, trading FLOPs for far fewer
+memory reads. The benefit is largest at long context lengths.
+
+## Repository layout
+
+```
+inference_mistral.py    Loader, generation loop, KVCacheSimulator
+generate_plot.py        Plotting helpers for tokens/sec vs. batch size
+assets/                 Saved figures
+requirements.txt
+```
+
+## Reproduction
+
+4-bit plus double quant:
+
 ```bash
 python inference_mistral.py \
   --model_id mistralai/Mistral-7B-v0.1 \
@@ -37,7 +72,8 @@ python inference_mistral.py \
   --concurrency 16
 ```
 
-### 2. Low-Latency Inference (FP16 + FlashAttention)
+FP16 plus FlashAttention-2:
+
 ```bash
 python inference_mistral.py \
   --model_id mistralai/Mistral-7B-v0.1 \
@@ -45,9 +81,25 @@ python inference_mistral.py \
   --use_flash_attn
 ```
 
-## 📊 Performance Targets
-- **Throughput**: > 200 Tokens/Sec (Aggregate) on a single high-bandwidth GPU.
-- **Efficiency**: < 100ms per-token latency for interactive applications.
+## Honest framing
 
----
-*Developed as part of my Applied Data Science & ML Engineering Portfolio.*
+- The README originally listed throughput targets ("> 200 tokens/sec",
+  "< 100 ms per token"). Those are reasonable expectations on an A100 or
+  H100 with batched generation, but I have not yet measured them on
+  hardware I control. The numbers I do trust come from my consumer GPU and
+  are too hardware specific to advertise as a project metric. I would
+  rather report no number than a misleading one.
+- This project is paired with [credit-intelligence-platform](../credit-intelligence-platform),
+  which uses Mistral-7B (via Ollama) for adverse action notices. Closing
+  that loop is part of why the experiment was worth doing.
+- The next step is to run a structured sweep (batch size by sequence
+  length) on a fixed cloud instance and record both throughput and end to
+  end latency.
+
+## References
+
+- Dao, T. (2023). *FlashAttention-2: Faster Attention with Better
+  Parallelism and Work Partitioning.*
+- Dettmers, T. et al. (2023). *QLoRA: Efficient Finetuning of Quantized
+  LLMs.*
+- Mistral AI (2023). *Mistral 7B.* arXiv:2310.06825.

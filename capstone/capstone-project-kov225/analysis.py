@@ -1,5 +1,5 @@
 # analysis.py
-"""Evaluate GT–HTR reconciliation, compute strict and fuzzy metrics, and visualize networks."""
+"""Evaluate GT vs. HTR reconciliation, compute strict and fuzzy metrics, and visualize networks."""
 
 from __future__ import annotations
 
