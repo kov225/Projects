@@ -202,7 +202,7 @@ NLP Reconciliation, Netflix QoS, Media Mix Model, TV Attribution) include a
 ## 📫 Let's Connect
 
 * **Email:** [kov225@lehigh.edu](mailto:kov225@lehigh.edu)
-* **Personal:** [vennelakantiavinash@gmail.com](mailto:vennelakantiavinash@gmail.com)
+* **Personal:** [koushik15211@gmail.com](mailto:koushik15211@gmail.com)
 * **LinkedIn:** [linkedin.com/in/koushik-vennalakanti-895abb240](https://www.linkedin.com/in/koushik-vennalakanti-895abb240)
 * **GitHub:** [github.com/kov225/Projects](https://github.com/kov225/Projects)
 * **Mobile:** 484-935-7840
