@@ -1,6 +1,6 @@
 # 📊 Koushik Vennalakanti | Applied Data Science & ML Engineering Portfolio
 
-[![CI](https://github.com/kov225/Projects/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/kov225/Projects/actions/workflows/ci.yml)
+
 [![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white)](https://python.org)
 [![R](https://img.shields.io/badge/R-276DC3?logo=r&logoColor=white)](https://r-project.org)
 [![FastAPI](https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
