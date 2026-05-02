@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.pytest_cache/
+.venv/
+.env
+
+data/raw/*.parquet
+data/processed/*.parquet
+figures/*.png
+!figures/.gitkeep

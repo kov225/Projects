@@ -1,5 +1,6 @@
 # 📊 Koushik Vennalakanti | Applied Data Science & ML Engineering Portfolio
 
+[![CI](https://github.com/kov225/Projects/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/kov225/Projects/actions/workflows/ci.yml)
 [![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white)](https://python.org)
 [![R](https://img.shields.io/badge/R-276DC3?logo=r&logoColor=white)](https://r-project.org)
 [![FastAPI](https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
@@ -60,7 +61,27 @@ honest README that says exactly what is built and what is still in progress.
 * **Tech stack:** Python, NumPy, SciPy, Statsmodels, Pandas, Plotly Dash,
   Pytest.
 
-### 3. [Bayesian Media Mix Modeling](./media_mix_model)
+### 3. [Product Analytics Dashboard with A/B Testing](./product_analytics_dashboard)
+* **Business problem:** Product teams need cohort retention, behavioural
+  segmentation, and A/B test verdicts on a single screen, grounded in
+  real user behaviour rather than fabricated data, and reproducible
+  without privileged dataset access.
+* **Key results:** Pulls real GA4 data from the
+  `bigquery-public-data.ga4_obfuscated_sample_ecommerce` public dataset
+  (92 days, Google Merchandise Store) with a documented parquet fallback
+  for reviewers without GCP access, then extends to 156 weeks via
+  statistical resampling that preserves the original event mix, device
+  share, and conversion rates with a `source` flag on every row. Ships
+  five executed Jupyter notebooks (data acquisition, cohorts,
+  segmentation, A/B and multivariate testing, product metrics), a four
+  tab Streamlit dashboard, and 27 passing pytest tests. Experiment
+  analysis runs chi squared tests, Wilson confidence intervals, Cohen's
+  h, and observed power, then maps each experiment to a ship, kill, or
+  iterate verdict.
+* **Tech stack:** Python, pandas, scikit-learn, scipy, plotly,
+  streamlit, google-cloud-bigquery, pyarrow, pytest.
+
+### 4. [Bayesian Media Mix Modeling](./media_mix_model)
 * **Business problem:** Brands struggle to quantify the causal contribution
   of marketing channels to conversions because of carryover effects,
   diminishing returns, and channel multicollinearity.
@@ -72,7 +93,7 @@ honest README that says exactly what is built and what is still in progress.
   budget allocation prototype using SciPy SLSQP.
 * **Tech stack:** PyMC-Marketing, PyMC, ArviZ, NumPy, Pandas, SciPy.
 
-### 4. [TV Ad Attribution Engine](./tv_attribution)
+### 5. [TV Ad Attribution Engine](./tv_attribution)
 * **Business problem:** Linear TV airings have no click through data, so
   measuring their incremental impact on web traffic requires
   high resolution counterfactual estimation.
@@ -87,7 +108,7 @@ honest README that says exactly what is built and what is still in progress.
 * **Tech stack:** Python, NumPy, SciPy (curve_fit, bootstrap), Pandas,
   tfcausalimpact.
 
-### 5. [Dataset Shift & Model Robustness](./dataset-shift-analysis)
+### 6. [Dataset Shift & Model Robustness](./dataset-shift-analysis)
 * **Business problem:** Models trained on historical data degrade silently
   in production under covariate, label, and concept shift, and teams
   rarely have a principled way to compare candidate model architectures
@@ -102,7 +123,7 @@ honest README that says exactly what is built and what is still in progress.
 * **Tech stack:** Python, scikit-learn, XGBoost, Streamlit, NumPy, SciPy,
   Pandas, Matplotlib.
 
-### 6. [Historical NLP Reconciliation](./historical-nlp-reconciliation)
+### 7. [Historical NLP Reconciliation](./historical-nlp-reconciliation)
 * **Business problem:** Manually reconciling AI extracted records against
   human curated archives is the bottleneck for digitizing historical legal
   collections at scale.
@@ -153,6 +174,7 @@ honest README that says exactly what is built and what is still in progress.
 .
 ├── credit-intelligence-platform/     # Production ML stack (FastAPI, Kafka, Redis, MLflow, SHAP)
 ├── bing-experimentation-suite/       # CUPED, post-stratification, novelty detection
+├── product_analytics_dashboard/      # GA4 BigQuery + cohort, segmentation, A/B testing, Streamlit
 ├── media_mix_model/                  # Bayesian MMM (adstock, saturation, R-hat checks)
 ├── tv_attribution/                   # Per spot lift, response curves, CausalImpact
 ├── dataset-shift-analysis/           # 9 models x 8 shifts x 10 intensities, robustness scoring
