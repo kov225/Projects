@@ -208,4 +208,4 @@ NLP Reconciliation, Netflix QoS, Media Mix Model, TV Attribution) include a
 * **Mobile:** 484-935-7840
 * **Location:** Bethlehem, PA. Open to relocation.
 
-Open to full time roles in Data Science, Applied ML, and ML Engineering.
+Open to full time roles in Data Science, Applied ML, Data Analyst, Business Analyst, and ML Engineering.
